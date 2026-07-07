@@ -1,0 +1,107 @@
+import { useForm } from "@inertiajs/react";
+import { Loader2 } from "lucide-react";
+import ErrorMessage from "@/components/admin/form/ErrorMessage";
+import FormLabel from "@/components/admin/form/FormLabel";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import type { User } from "@/types";
+
+interface Props { user?: User;}
+
+export default function UserForm({ user }: Props) {
+
+const { data, setData, post, processing, errors } = useForm({
+name: user?.name || "",
+email: user?.email || "",
+phone: user?.phone || "",
+designation: user?.designation || "",
+role: user?.role || "user",
+password: "",
+_method: user ? "put" : undefined,
+});
+
+// --- Handlers ---
+
+const submit = (e: React.FormEvent) => {
+e.preventDefault();
+if (user) {
+post(route("users.update", user.id), {
+forceFormData: true,
+});
+} else {
+post(route("users.store"));
+}
+};
+
+return (
+<form onSubmit={submit} className="space-y-8 p-6 rounded-xl border shadow-sm w-1/2 max-w-125">
+
+    {/* Section 1: Basic Information */}
+    <div className="grid grid-cols-1 gap-6">
+        <div className="space-y-4">
+            <div className="space-y-1">
+                <FormLabel required>User Role</FormLabel>
+                <Select value={data.role} onValueChange={val=> setData("role", val as "user" | "super_admin")}>
+                    <SelectTrigger className={errors.role ? "border-destructive" : "" }>
+                        <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="user">User</SelectItem>
+                        <SelectItem value="super_admin">Super Admin</SelectItem>
+                    </SelectContent>
+                </Select>
+                <ErrorMessage message={errors.role} />
+            </div>
+            <div className="space-y-1">
+                <FormLabel required>Full Name</FormLabel>
+                <Input value={data.name} onChange={e=> setData("name", e.target.value)} placeholder="John Doe" />
+                <ErrorMessage message={errors.name} />
+            </div>
+
+            <div className="space-y-1">
+                <FormLabel>Phone</FormLabel>
+                <Input value={data.phone} onChange={e=> setData("phone", e.target.value)} placeholder="01XXXXXXXXX" />
+                <ErrorMessage message={errors.phone} />
+            </div>
+
+            <div className="space-y-1">
+                <FormLabel>Designation</FormLabel>
+                <Input value={data.designation} onChange={e=> setData("designation", e.target.value)}
+                placeholder="Software Engineer" />
+                <ErrorMessage message={errors.designation} />
+            </div>
+
+            <div className="space-y-1">
+                <FormLabel required>Email Address</FormLabel>
+                <Input type="email" value={data.email} onChange={e=> setData("email", e.target.value)}
+                placeholder="john@example.com" />
+                <ErrorMessage message={errors.email} />
+            </div>
+
+
+            <div className="space-y-1">
+                <FormLabel required={!user}>Password</FormLabel>
+                <Input type="password" value={data.password} onChange={e=> setData("password", e.target.value)}
+                placeholder="" />
+                <ErrorMessage message={errors.password} />
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    {/* Submit */}
+    <div className="flex justify-end gap-3 pt-6 border-t">
+        <Button variant="ghost" type="button" onClick={()=> window.history.back()}>Cancel</Button>
+        <Button type="submit" disabled={processing} className="px-8">
+            {processing ?
+            <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+            {user ? "Save Changes" : "Create User"}
+        </Button>
+    </div>
+</form>
+);
+}

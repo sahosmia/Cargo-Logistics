@@ -1,0 +1,244 @@
+@extends('layouts.frontend')
+
+@section('title', 'Home - Best Product Service')
+@section('meta_description', 'This is the SEO optimized home page description.')
+
+@section('content')
+<div class="bg-gray-50 py-5">
+    <div class="container mx-auto px-4 max-w-7xl">
+
+        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 mb-6 flex items-center gap-2">
+            <span
+                class="flex h-6 w-6 items-center justify-center rounded-full border-2 border-gray-700 text-gray-700 font-bold text-xs">
+                &larr;
+            </span>
+            <h1 class="text-lg font-bold text-gray-800">Create Booking</h1>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+
+            <div class="lg:col-span-2 space-y-6">
+
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h2 class="text-sm font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">Booking Info</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
+                                    class="text-red-500 mr-0.5">*</span>Method</label>
+                            <select
+                                class="w-full text-sm bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                <option>Air</option>
+                                <option>Sea</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1.5">Shipping Mark</label>
+                            <div class="relative">
+                                <input type="text" value="SS19399" readonly
+                                    class="w-full text-sm bg-gray-50 border border-gray-200 rounded-lg pl-3 pr-10 py-2 text-gray-700 font-medium focus:outline-none">
+                                <span class="absolute inset-y-0 right-3 flex items-center text-green-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-2 space-y-3">
+                        <label class="block text-xs font-semibold text-gray-600 mb-0.5"><span
+                                class="text-red-500 mr-0.5">*</span>Tracking</label>
+
+                        <div>
+                            <input type="text" name="tracking[]" placeholder="Tracking"
+                                class="w-full text-sm bg-white border border-red-300 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/10 focus:border-red-400">
+                            {{-- <p class="text-[11px] text-red-500 mt-1">Please insert tracking number</p> --}}
+                        </div>
+
+                        <div id="dynamic-tracking-container" class="space-y-3"></div>
+                    </div>
+
+                    <button type="button" id="add-tracking-btn"
+                        class="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-gray-700 hover:text-blue-600 transition-colors">
+                        <span class="text-sm">+</span> Add More Tracking
+                    </button>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-sm font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">Item Details</h2>
+
+                    <div class="mb-4">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
+                                class="text-red-500 mr-0.5">*</span>Item Name</label>
+                        <input type="text" placeholder="Item Name"
+                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
+                                class="text-red-500 mr-0.5">*</span>Category</label>
+                        <input type="text" placeholder="Search By category Name"
+                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
+                                class="text-red-500 mr-0.5">*</span>Total Carton</label>
+                        <input type="number" placeholder="Carton"
+                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
+                                    class="text-red-500 mr-0.5">*</span>Total Quantity</label>
+                            <input type="number" placeholder="Quantity"
+                                class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
+                                    class="text-red-500 mr-0.5">*</span>Total Weight</label>
+                            <input type="number" placeholder="Weight"
+                                class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-2 mt-4">
+                        <input type="checkbox" id="sensitive-goods"
+                            class="mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        <label for="sensitive-goods" class="text-xs font-medium text-gray-600 select-none">এই পণ্য টি
+                            ব্যাটারি, লিকুইড বা কসমেটিক্স জাতীয়।</label>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-sm font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">Delivery Information
+                    </h2>
+
+
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
+                                    class="text-red-500 mr-0.5">*</span>Delivery Method</label>
+                            <select
+                                class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                <option>Select Delivery Method</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
+                                    class="text-red-500 mr-0.5">*</span>District</label>
+                            <select
+                                class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                <option>Select District</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1.5">Address <span
+                                class="text-red-500 mr-0.5">*</span></label>
+                        <textarea rows="3" placeholder="Address"
+                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1.5">Note</label>
+                        <textarea rows="3" placeholder="Note"
+                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="space-y-4 lg:sticky lg:top-24">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-sm font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">Summary</h2>
+
+                    <div class="space-y-3 text-xs font-medium text-gray-600 mb-6">
+                        <div class="flex justify-between">
+                            <span>Weight</span>
+                            <span class="font-bold text-gray-800">0 Kg</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Rate</span>
+                            <span class="font-bold text-gray-800">0 Tk</span>
+                        </div>
+                        <div
+                            class="flex justify-between text-sm font-bold text-gray-800 pt-2 border-t border-dashed border-gray-100">
+                            <span>Total Shipping Charge</span>
+                            <span>0 Tk</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50/60 border border-blue-100 rounded-xl p-4 text-center mb-4">
+                        <h3 class="text-xs font-bold text-blue-900 tracking-wider mb-1">WAREHOUSE ADDRESS</h3>
+                        <p class="text-xs font-medium text-gray-700 leading-relaxed mb-1">广东省广州市白云区龙归街道南岭南辅路三街2号厂房一楼</p>
+                        <p class="text-xs font-bold text-blue-700">SKYBUY 18320726335</p>
+                    </div>
+
+                    <div class="bg-red-50/60 border border-red-100 rounded-xl p-4 text-center mb-4">
+                        <h3 class="text-xs font-bold text-red-900 mb-1">নির্দেশনা</h3>
+                        <p class="text-[11px] font-medium text-red-700 leading-relaxed">বুকিং দেওয়ার ৭ দিনের মধ্যে
+                            আমাদের ওয়ারহাউসের ঠিকানায় প্যাকেজ পাঠিয়ে দিন।</p>
+                    </div>
+
+                    <div class="flex items-start gap-2 mb-4">
+                        <input type="checkbox" id="terms"
+                            class="mt-0.5 h-3.5 w-3.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        <label for="terms" class="text-[11px] text-gray-500 leading-tight select-none">
+                            I have read and agreed to the <a href="#" class="text-blue-600 hover:underline">Terms &
+                                Conditions</a> and <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>.
+                        </label>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm py-2.5 rounded-lg transition-colors duration-200 shadow-lg shadow-blue-600/10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Place Booking
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('add-tracking-btn').addEventListener('click', function() {
+        const container = document.getElementById('dynamic-tracking-container');
+
+        // নতুন একটি রো (Row) তৈরি করা হচ্ছে
+        const fieldRow = document.createElement('div');
+        fieldRow.className = 'flex items-center gap-2 animate-fade-in'; // সুন্দর অ্যানিমেশনের জন্য ক্লাস
+
+        // ইনপুট এবং রিমুভ বাটনের HTML স্ট্রাকচার
+        fieldRow.innerHTML = `
+            <div class="flex-1">
+                <input type="text" name="tracking[]" placeholder="Tracking" class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+            </div>
+            <button type="button" class="remove-tracking-btn flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:bg-red-50 hover:text-red-500 hover:border-red-100 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.34 6.6m-2.57 0L11.34 9m4.86-2.51L16.5 6a2.25 2.25 0 0 0-2.25-2.25h-4.5A2.25 2.25 0 0 0 7.5 6l.16 1.49M20.25 7.5c-.71 1.96-2.14 3.75-4.25 4.95M3.75 7.5c.71 1.96 2.14 3.75 4.25 4.95M12 12v6" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h12M9 3h6" />
+                </svg>
+            </button>
+        `;
+
+        // কন্টেনারে নতুন রো-টি পুশ করা
+        container.appendChild(fieldRow);
+
+        // রিমুভ বাটনে ক্লিক করলে যেন ওই নির্দিষ্ট রো-টি ডিলিট হয়ে যায় তার লজিক
+        fieldRow.querySelector('.remove-tracking-btn').addEventListener('click', function() {
+            fieldRow.remove();
+        });
+    });
+</script>
+@endsection

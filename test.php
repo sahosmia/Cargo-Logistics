@@ -20,3 +20,8 @@ address,
 note,
 auto calculate Total Shipping Charge (weight * rate (category price like weight 2.5kg and category price is 100 - 500 so Total Shipping Charge is 100 * 2.5 - 500 * 2.5))
 
+
+
+work by jules:
+1. Home page hero section banner make daynamic in settings table like logo. and update the daynamic image in hero banner section.
+

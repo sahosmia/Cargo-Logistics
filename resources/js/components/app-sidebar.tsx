@@ -1,41 +1,77 @@
-import { NavFooter } from '@/components/nav-footer';
+import { Link, usePage } from '@inertiajs/react';
+import {
+    LayoutDashboard,
+    Users,
+    Package,
+    PhoneCall,
+    CalendarDays,
+    FileText,
+    ClipboardList,
+    ChartBar,
+    UserCog,
+    BadgeDollarSign,
+    Building2,
+    Ruler,
+    Settings
+} from 'lucide-react';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+} from '@/components/ui/sidebar';
+import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        url: '/dashboard',
-        icon: LayoutGrid,
-    },
-];
-
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        url: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        url: 'https://laravel.com/docs/starter-kits',
-        icon: BookOpen,
-    },
-];
 
 export function AppSidebar() {
+
+    const { auth } = usePage().props;
+    const userRole = auth.user.role;
+
+
+
+    const mainNavItems: NavItem[] = [
+        { title: 'Dashboard', href: route('dashboard'), icon: LayoutDashboard },
+        // { title: 'Requirements', href: route('requirements.index'), icon: ClipboardList },
+        // { title: 'Follow-ups', href: route('follow-ups.index'), icon: PhoneCall },
+        // { title: 'Meetings', href: route('meetings.index'), icon: CalendarDays },
+        // { title: 'Sales', href: route('sales.index'), icon: BadgeDollarSign },
+        // { title: 'Reports', href: route('reports.index'), icon: ChartBar },
+        // { title: 'Products', href: route('products.index'), icon: Package },
+        // { title: 'Units', href: route('units.index'), icon: Ruler },
+        // { title: 'Customers', href: route('customers.index'), icon: Users },
+        // { title: 'Companies', href: route('companies.index'), icon: Building2 },
+        {
+            title: 'Users',
+            href: route('users.index'),
+            icon: UserCog,
+            // hidden: userRole !== 'super_admin'
+        },
+        {
+            title: 'Global Settings',
+            href: route('admin.settings.index'),
+            icon: Settings,
+            // hidden: userRole !== 'super_admin'
+        },
+
+
+    ];
+
+    const visibleNavItems = mainNavItems.filter(item => !item.hidden);
+
     return (
-        <Sidebar collapsible="icon" variant="inset">
+        <Sidebar collapsible="icon" variant="sidebar">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/dashboard" prefetch>
+                            <Link href={route('dashboard')} prefetch={false}>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
@@ -44,11 +80,10 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={visibleNavItems} />
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
