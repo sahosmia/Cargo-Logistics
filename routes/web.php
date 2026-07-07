@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -128,6 +129,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
     Route::resource('categories', CategoryController::class);
+
+    // --- Districts ---
+    Route::prefix('districts')->name('districts.')->group(function () {
+        Route::controller(DistrictController::class)->group(function () {
+            Route::delete('bulk-destroy', 'bulkDestroy')->name('bulkDestroy');
+        });
+    });
+    Route::resource('districts', DistrictController::class);
 
     // Global Settings
     Route::get('admin-settings', [SettingsController::class, 'index'])->name('admin.settings.index');
