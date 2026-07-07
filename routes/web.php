@@ -1,19 +1,18 @@
 <?php
 
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Admin\SettingsController;
-use Illuminate\Support\Facades\Artisan;
-
 
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 });
-
 
 // =============================  Fronted Pert ===============================
 
@@ -22,8 +21,6 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/booking', [BookingController::class, 'index'])->name('customer.booking');
-
-
 
 // ================================ Coustomer Panel =========================
 
@@ -81,8 +78,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // });
     // Route::resource('meetings', MeetingController::class);
 
-
-
     // // --- Requirements ---
     // Route::prefix('requirements')->name('requirements.')->group(function () {
     //     Route::controller(RequirementController::class)->group(function () {
@@ -101,8 +96,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //     Route::get('follow-ups', 'followUps')->name('follow-ups');
     //     Route::get('customers', 'customers')->name('customers');
     // });
-
-
 
     // // --- Limited Resources ---
     // Route::prefix('companies')->name('companies.')->group(function () {
@@ -128,18 +121,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
     Route::resource('users', UserController::class);
 
+    // --- Categories ---
+    Route::prefix('categories')->name('categories.')->group(function () {
+        Route::controller(CategoryController::class)->group(function () {
+            Route::delete('bulk-destroy', 'bulkDestroy')->name('bulkDestroy');
+        });
+    });
+    Route::resource('categories', CategoryController::class);
+
     // Global Settings
     Route::get('admin-settings', [SettingsController::class, 'index'])->name('admin.settings.index');
     Route::post('admin-settings', [SettingsController::class, 'update'])->name('admin.settings.update');
     // });
 });
 
-
 Route::get('/run-command/{command}', function ($command) {
     Artisan::call($command);
+
     return Artisan::output();
 })->name('run-command.dynamic');
 
-
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';
