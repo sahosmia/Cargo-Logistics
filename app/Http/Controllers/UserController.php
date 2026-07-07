@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Users\BulkDeleteUserAction;
+use App\Actions\Users\DeleteUserAction;
+use App\Actions\Users\GetUsersForSelectAction;
+use App\Actions\Users\ListUserAction;
+use App\Actions\Users\StoreUserAction;
+use App\Actions\Users\UpdateUserAction;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
@@ -10,48 +16,25 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function __construct(
+    public function __construct() {}
 
-    ) {}
-
-    public function index(Request $request)
+    public function index(Request $request, ListUserAction $listUserAction)
     {
+        $users = $listUserAction->execute($request);
 
-     $perPage = $request['per_page'] ?? settings('paginated_quantity', 10);
-
-        $users =  User::query()
-            ->when($request['search'] ?? null, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%")
-                        ->orWhere('email', 'like', "%{$search}%");
-                });
-            })
-            ->when($request['role'] ?? null, function ($query, $role) {
-                $query->where('role', $role);
-            })
-            ->when(isset($request['sort']), function ($query) use ($request) {
-                $query->orderBy($request['sort'], $request['direction'] ?? 'desc');
-            }, function ($query) {
-                $query->latest();
-            })
-            ->paginate($perPage)
-            ->withQueryString($request);
         return Inertia::render('Users/Index', [
             'users' => $users,
-
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Users/Create', [
-            // 'users' => $this->lookupService->getUsersForSelect(),
-        ]);
+        return Inertia::render('Users/Create');
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request, StoreUserAction $storeUserAction)
     {
-        User::create($request->validated());
+        $storeUserAction->execute($request->validated());
 
         return redirect()->route('users.index')
             ->with('success', 'User created successfully');
@@ -64,31 +47,32 @@ class UserController extends Controller
         ]);
     }
 
-    public function edit(User $user)
+    public function edit(User $user, GetUsersForSelectAction $getUsersForSelectAction)
     {
         return Inertia::render('Users/Edit', [
             'user' => $user,
-            'users' => $this->lookupService->getUsersForSelect(),
+            'users' => $getUsersForSelectAction->execute(),
         ]);
     }
 
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user, UpdateUserAction $updateUserAction)
     {
-        $this->userService->update($user, $request->validated());
+        $updateUserAction->execute($user, $request->validated());
 
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');
     }
 
-    public function destroy(User $user)
+    public function destroy(User $user, DeleteUserAction $deleteUserAction)
     {
-        $user->delete();
+        $deleteUserAction->execute($user);
+
         return back()->with('success', 'User deleted successfully!');
     }
 
-    public function bulkDestroy(Request $request)
+    public function bulkDestroy(Request $request, BulkDeleteUserAction $bulkDeleteUserAction)
     {
-        $this->userService->bulkDelete($request->input('ids', []));
+        $bulkDeleteUserAction->execute($request->input('ids', []));
 
         return back()->with('success', 'Users deleted successfully');
     }
