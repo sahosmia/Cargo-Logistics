@@ -11,6 +11,7 @@
     <meta name="description" content="@yield('meta_description', 'Default description for SEO')">
 
     @vite(['resources/css/app.css'])
+    @stack('styles')
 </head>
 
 <body class="bg-gray-50 font-sans antialiased">

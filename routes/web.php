@@ -3,16 +3,15 @@
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+Route::middleware(['auth:web,customer'])->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 // =============================  Fronted Pert ===============================
@@ -21,7 +20,8 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/booking', [BookingController::class, 'index'])->name('customer.booking');
+Route::get('/api/search-categories', [BookingController::class, 'getCategories'])->name('api.search-categories');
+Route::get('/api/search-districts', [BookingController::class, 'getDistricts'])->name('api.search-districts');
 
 // ================================ Coustomer Panel =========================
 use App\Http\Controllers\Auth\CustomerLoginController;
@@ -33,9 +33,11 @@ Route::middleware('guest:customer')->group(function () {
 });
 
 Route::middleware('auth:customer')->group(function () {
-    Route::get('customer/dashboard', function () {
-        return Inertia::render('dashboard'); // Or a customer specific dashboard
-    })->name('customer.dashboard');
+    Route::get('/booking', [BookingController::class, 'index'])->name('customer.booking');
+    Route::post('/booking', [BookingController::class, 'store'])->name('customer.booking.store');
+
+    Route::get('customer/dashboard', [DashboardController::class, 'index'])->name('customer.dashboard');
+    Route::post('customer/logout', [CustomerLoginController::class, 'destroy'])->name('customer.logout');
 });
 
 // =============================== Admin Panel =-===========================

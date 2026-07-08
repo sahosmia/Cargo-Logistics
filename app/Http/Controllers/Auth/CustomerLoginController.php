@@ -53,8 +53,9 @@ class CustomerLoginController extends Controller
         $otp = $generateOTPAction->execute();
         $sendOTPAction->execute($phone, $otp);
 
-        return response()->json([
+        return back()->with([
             'message' => 'OTP sent successfully.',
+            'otp' => $otp 
         ]);
     }
 
@@ -120,6 +121,19 @@ class CustomerLoginController extends Controller
                 'otp' => "Too many failed attempts. Please try again in {$hours} hour(s).",
             ]);
         }
+    }
+
+    /**
+     * Log the customer out of the application.
+     */
+    public function destroy(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        Auth::guard('customer')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 
     protected function otpVerificationThrottleKey(Request $request): string

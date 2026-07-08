@@ -47,7 +47,7 @@ export function UserMenuContent({ user }: Props) {
             <DropdownMenuItem asChild>
                 <Link
                     className="block w-full cursor-pointer"
-                    href={route('logout')}
+                    href={user.role === 'customer' ? route('customer.logout') : route('logout')}
                     method="post"
                     as="button"
                     onClick={handleLogout}
