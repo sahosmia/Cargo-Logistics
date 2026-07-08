@@ -1,18 +1,10 @@
 import { Link, usePage } from '@inertiajs/react';
 import {
     LayoutDashboard,
-    Users,
-    Package,
-    PhoneCall,
-    CalendarDays,
-    FileText,
-    ClipboardList,
-    ChartBar,
     UserCog,
-    BadgeDollarSign,
-    Building2,
-    Ruler,
-    Settings
+    Settings,
+    Grid2X2,
+    MapPin
 } from 'lucide-react';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -38,15 +30,16 @@ export function AppSidebar() {
 
     const mainNavItems: NavItem[] = [
         { title: 'Dashboard', href: route('dashboard'), icon: LayoutDashboard },
-        // { title: 'Requirements', href: route('requirements.index'), icon: ClipboardList },
-        // { title: 'Follow-ups', href: route('follow-ups.index'), icon: PhoneCall },
-        // { title: 'Meetings', href: route('meetings.index'), icon: CalendarDays },
-        // { title: 'Sales', href: route('sales.index'), icon: BadgeDollarSign },
-        // { title: 'Reports', href: route('reports.index'), icon: ChartBar },
-        // { title: 'Products', href: route('products.index'), icon: Package },
-        // { title: 'Units', href: route('units.index'), icon: Ruler },
-        // { title: 'Customers', href: route('customers.index'), icon: Users },
-        // { title: 'Companies', href: route('companies.index'), icon: Building2 },
+        {
+            title: 'Categories',
+            href: route('categories.index'),
+            icon: Grid2X2,
+        },
+        {
+            title: 'Districts',
+            href: route('districts.index'),
+            icon: MapPin,
+        },
         {
             title: 'Users',
             href: route('users.index'),
