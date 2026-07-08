@@ -314,6 +314,7 @@
         valueField: 'id',
         labelField: 'name',
         searchField: 'name',
+        preload: true,
         load: function(query, callback) {
             var url = '/api/search-categories?q=' + encodeURIComponent(query);
             fetch(url)
@@ -332,10 +333,13 @@
         },
         render: {
             option: function(item, escape) {
-                return '<div>' + escape(item.name) + '</div>';
+                return '<div class="py-1 px-2">' +
+                            '<span class="font-medium">' + escape(item.name) + '</span>' +
+                            '<span class="text-xs text-gray-500 ml-2">(' + escape(item.price_start) + ' - ' + escape(item.price_end) + ' Tk)</span>' +
+                        '</div>';
             },
             item: function(item, escape) {
-                return '<div>' + escape(item.name) + '</div>';
+                return '<div>' + escape(item.name) + ' (' + escape(item.price_start) + ' - ' + escape(item.price_end) + ')</div>';
             }
         }
     });
@@ -345,6 +349,7 @@
         valueField: 'id',
         labelField: 'name',
         searchField: 'name',
+        preload: true,
         load: function(query, callback) {
             var url = '/api/search-districts?q=' + encodeURIComponent(query);
             fetch(url)

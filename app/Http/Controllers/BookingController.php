@@ -32,7 +32,6 @@ class BookingController extends Controller
         $query = $request->get('q');
 
         $districts = District::where('name', 'LIKE', "%{$query}%")
-            ->limit(15)
             ->get(['id', 'name']);
 
         return response()->json($districts);
