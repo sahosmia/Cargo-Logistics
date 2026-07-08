@@ -24,6 +24,19 @@ Route::get('/', function () {
 Route::get('/booking', [BookingController::class, 'index'])->name('customer.booking');
 
 // ================================ Coustomer Panel =========================
+use App\Http\Controllers\Auth\CustomerLoginController;
+
+Route::middleware('guest:customer')->group(function () {
+    Route::get('customer-login', [CustomerLoginController::class, 'showLoginForm'])->name('customer.login');
+    Route::post('customer-login/otp', [CustomerLoginController::class, 'requestOTP'])->name('customer.login.otp');
+    Route::post('customer-login/verify', [CustomerLoginController::class, 'verifyOTP'])->name('customer.login.verify');
+});
+
+Route::middleware('auth:customer')->group(function () {
+    Route::get('customer/dashboard', function () {
+        return Inertia::render('dashboard'); // Or a customer specific dashboard
+    })->name('customer.dashboard');
+});
 
 // =============================== Admin Panel =-===========================
 
@@ -150,5 +163,5 @@ Route::get('/run-command/{command}', function ($command) {
     return Artisan::output();
 })->name('run-command.dynamic');
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

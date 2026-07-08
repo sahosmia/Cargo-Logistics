@@ -38,26 +38,26 @@ export function AppSidebar() {
 
     const mainNavItems: NavItem[] = [
         { title: 'Dashboard', href: route('dashboard'), icon: LayoutDashboard },
-        // { title: 'Requirements', href: route('requirements.index'), icon: ClipboardList },
-        // { title: 'Follow-ups', href: route('follow-ups.index'), icon: PhoneCall },
-        // { title: 'Meetings', href: route('meetings.index'), icon: CalendarDays },
-        // { title: 'Sales', href: route('sales.index'), icon: BadgeDollarSign },
-        // { title: 'Reports', href: route('reports.index'), icon: ChartBar },
-        // { title: 'Products', href: route('products.index'), icon: Package },
-        // { title: 'Units', href: route('units.index'), icon: Ruler },
-        { title: 'Districts', href: route('districts.index'), icon: Users },
-        { title: 'Categories', href: route('categories.index'), icon: Building2 },
+        { title: 'Requirements', href: route('requirements.index'), icon: ClipboardList },
+        { title: 'Follow-ups', href: route('follow-ups.index'), icon: PhoneCall },
+        { title: 'Meetings', href: route('meetings.index'), icon: CalendarDays },
+        { title: 'Sales', href: route('sales.index'), icon: BadgeDollarSign },
+        { title: 'Reports', href: route('reports.index'), icon: ChartBar },
+        { title: 'Products', href: route('products.index'), icon: Package },
+        { title: 'Units', href: route('units.index'), icon: Ruler },
+        { title: 'Customers', href: route('customers.index'), icon: Users },
+        { title: 'Companies', href: route('companies.index'), icon: Building2 },
         {
             title: 'Users',
             href: route('users.index'),
             icon: UserCog,
-            // hidden: userRole !== 'super_admin'
+            hidden: userRole !== 'super_admin'
         },
         {
             title: 'Global Settings',
             href: route('admin.settings.index'),
             icon: Settings,
-            // hidden: userRole !== 'super_admin'
+            hidden: userRole !== 'super_admin'
         },
 
 
