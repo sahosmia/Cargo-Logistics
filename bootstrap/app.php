@@ -17,6 +17,21 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
+
+        $middleware->redirectTo(
+            guests: function ($request) {
+                if ($request->is('customer/*') || $request->is('booking')) {
+                    return route('customer.login');
+                }
+                return route('login');
+            },
+            users: function ($request) {
+                if (auth()->guard('customer')->check()) {
+                    return route('customer.dashboard');
+                }
+                return route('dashboard');
+            }
+        );
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

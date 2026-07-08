@@ -49,7 +49,7 @@ class HandleInertiaRequests extends Middleware
                 'quotation_thanks_text' => settings('quotation_thanks_text'),
             ],
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user() ?: $request->user('customer'),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'flash' => [
