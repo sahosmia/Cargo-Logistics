@@ -36,4 +36,24 @@ class BookingController extends Controller
 
         return response()->json($districts);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'method' => 'required',
+            'tracking.*' => 'required',
+            'item_name' => 'required',
+            'category_id' => 'required',
+            'total_carton' => 'required|numeric',
+            'total_quantity' => 'required|numeric',
+            'total_weight' => 'required|numeric',
+            'delivery_method' => 'required',
+            'district_id' => 'required',
+            'address' => 'required',
+        ]);
+
+        // Logic to save booking would go here
+
+        return back()->with('success', 'Booking placed successfully!');
+    }
 }

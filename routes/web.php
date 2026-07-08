@@ -22,6 +22,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/booking', [BookingController::class, 'index'])->name('customer.booking');
+Route::post('/booking', [BookingController::class, 'store'])->name('customer.booking.store');
 Route::get('/api/search-categories', [BookingController::class, 'getCategories'])->name('api.search-categories');
 Route::get('/api/search-districts', [BookingController::class, 'getDistricts'])->name('api.search-districts');
 

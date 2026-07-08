@@ -21,7 +21,8 @@
 @endpush
 
 @section('content')
-<div class="bg-gray-50 py-5">
+<form action="{{ route('customer.booking.store') }}" method="POST" class="bg-gray-50 py-5">
+    @csrf
     <div class="container mx-auto px-4 max-w-7xl">
 
         <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 mb-6 flex items-center gap-2">
@@ -43,11 +44,14 @@
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                     class="text-red-500 mr-0.5">*</span>Method</label>
-                            <select
-                                class="w-full text-sm bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
-                                <option>Air</option>
-                                <option>Sea</option>
+                            <select name="method"
+                                class="w-full text-sm bg-gray-50 border @error('method') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                <option value="Air" {{ old('method') == 'Air' ? 'selected' : '' }}>Air</option>
+                                <option value="Sea" {{ old('method') == 'Sea' ? 'selected' : '' }}>Sea</option>
                             </select>
+                            @error('method')
+                                <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Shipping Mark</label>
@@ -70,12 +74,32 @@
                                 class="text-red-500 mr-0.5">*</span>Tracking</label>
 
                         <div>
-                            <input type="text" name="tracking[]" placeholder="Tracking"
-                                class="w-full text-sm bg-white border border-red-300 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/10 focus:border-red-400">
-                            {{-- <p class="text-[11px] text-red-500 mt-1">Please insert tracking number</p> --}}
+                            <input type="text" name="tracking[]" placeholder="Tracking" value="{{ old('tracking.0') }}"
+                                class="w-full text-sm bg-white border @error('tracking.0') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                            @error('tracking.0')
+                                <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
-                        <div id="dynamic-tracking-container" class="space-y-3"></div>
+                        <div id="dynamic-tracking-container" class="space-y-3">
+                            @if(old('tracking'))
+                                @foreach(old('tracking') as $index => $value)
+                                    @if($index > 0)
+                                        <div class="flex items-center gap-2 animate-fade-in">
+                                            <div class="flex-1">
+                                                <input type="text" name="tracking[]" placeholder="Tracking" value="{{ $value }}" class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                            </div>
+                                            <button type="button" class="remove-tracking-btn flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:bg-red-50 hover:text-red-500 hover:border-red-100 transition-colors">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.34 6.6m-2.57 0L11.34 9m4.86-2.51L16.5 6a2.25 2.25 0 0 0-2.25-2.25h-4.5A2.25 2.25 0 0 0 7.5 6l.16 1.49M20.25 7.5c-.71 1.96-2.14 3.75-4.25 4.95M3.75 7.5c.71 1.96 2.14 3.75 4.25 4.95M12 12v6" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h12M9 3h6" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endif
+                        </div>
                     </div>
 
                     <button type="button" id="add-tracking-btn"
@@ -90,41 +114,61 @@
                     <div class="mb-4">
                         <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                 class="text-red-500 mr-0.5">*</span>Item Name</label>
-                        <input type="text" placeholder="Item Name"
-                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                        <input type="text" name="item_name" placeholder="Item Name" value="{{ old('item_name') }}"
+                            class="w-full text-sm bg-white border @error('item_name') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                        @error('item_name')
+                            <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="mb-4">
                         <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                 class="text-red-500 mr-0.5">*</span>Category</label>
-                        <select id="category-select" placeholder="Search By category Name" autocomplete="off"
-                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"></select>
+                        <select id="category-select" name="category_id" placeholder="Search By category Name" autocomplete="off"
+                            class="w-full text-sm bg-white border @error('category_id') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                            @if(old('category_id'))
+                                <option value="{{ old('category_id') }}" selected>{{ old('category_name') }}</option>
+                            @endif
+                        </select>
+                        <input type="hidden" name="category_name" id="category_name" value="{{ old('category_name') }}">
+                        @error('category_id')
+                            <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="mb-4">
                         <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                 class="text-red-500 mr-0.5">*</span>Total Carton</label>
-                        <input type="number" placeholder="Carton"
-                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                        <input type="number" name="total_carton" placeholder="Carton" value="{{ old('total_carton') }}"
+                            class="w-full text-sm bg-white border @error('total_carton') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                        @error('total_carton')
+                            <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                     class="text-red-500 mr-0.5">*</span>Total Quantity</label>
-                            <input type="number" placeholder="Quantity"
-                                class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                            <input type="number" name="total_quantity" placeholder="Quantity" value="{{ old('total_quantity') }}"
+                                class="w-full text-sm bg-white border @error('total_quantity') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                            @error('total_quantity')
+                                <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                     class="text-red-500 mr-0.5">*</span>Total Weight</label>
-                            <input type="number" placeholder="Weight"
-                                class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                            <input type="number" name="total_weight" placeholder="Weight" value="{{ old('total_weight') }}"
+                                class="w-full text-sm bg-white border @error('total_weight') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                            @error('total_weight')
+                                <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="flex items-start gap-2 mt-4">
-                        <input type="checkbox" id="sensitive-goods"
+                        <input type="checkbox" name="sensitive_goods" id="sensitive-goods" value="1" {{ old('sensitive_goods') ? 'checked' : '' }}
                             class="mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                         <label for="sensitive-goods" class="text-xs font-medium text-gray-600 select-none">এই পণ্য টি
                             ব্যাটারি, লিকুইড বা কসমেটিক্স জাতীয়।</label>
@@ -142,17 +186,29 @@
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                     class="text-red-500 mr-0.5">*</span>Delivery Method</label>
-                            <select
-                                class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
-                                <option>Select Delivery Method</option>
+                            <select name="delivery_method"
+                                class="w-full text-sm bg-white border @error('delivery_method') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                <option value="">Select Delivery Method</option>
+                                <option value="Home Delivery" {{ old('delivery_method') == 'Home Delivery' ? 'selected' : '' }}>Home Delivery</option>
+                                <option value="Office Pickup" {{ old('delivery_method') == 'Office Pickup' ? 'selected' : '' }}>Office Pickup</option>
                             </select>
+                            @error('delivery_method')
+                                <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                     class="text-red-500 mr-0.5">*</span>District</label>
-                            <select id="district-select" placeholder="Select District" autocomplete="off"
-                                class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                            <select id="district-select" name="district_id" placeholder="Select District" autocomplete="off"
+                                class="w-full text-sm bg-white border @error('district_id') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                @if(old('district_id'))
+                                    <option value="{{ old('district_id') }}" selected>{{ old('district_name') }}</option>
+                                @endif
                             </select>
+                            <input type="hidden" name="district_name" id="district_name" value="{{ old('district_name') }}">
+                            @error('district_id')
+                                <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                     </div>
@@ -162,14 +218,17 @@
                     <div>
                         <label class="block text-xs font-semibold text-gray-600 mb-1.5">Address <span
                                 class="text-red-500 mr-0.5">*</span></label>
-                        <textarea rows="3" placeholder="Address"
-                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none"></textarea>
+                        <textarea name="address" rows="3" placeholder="Address"
+                            class="w-full text-sm bg-white border @error('address') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none">{{ old('address') }}</textarea>
+                        @error('address')
+                            <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
                         <label class="block text-xs font-semibold text-gray-600 mb-1.5">Note</label>
-                        <textarea rows="3" placeholder="Note"
-                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none"></textarea>
+                        <textarea name="note" rows="3" placeholder="Note"
+                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none">{{ old('note') }}</textarea>
                     </div>
                 </div>
 
@@ -225,12 +284,12 @@
 
         </div>
     </div>
-</div>
+</form>
 
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script>
     // Initialize Tom Select for Category
-    new TomSelect("#category-select", {
+    var categorySelect = new TomSelect("#category-select", {
         valueField: 'id',
         labelField: 'name',
         searchField: 'name',
@@ -244,6 +303,10 @@
                     callback();
                 });
         },
+        onChange: function(value) {
+            var item = this.options[value];
+            document.getElementById('category_name').value = item ? item.name : '';
+        },
         render: {
             option: function(item, escape) {
                 return '<div>' + escape(item.name) + '</div>';
@@ -255,7 +318,7 @@
     });
 
     // Initialize Tom Select for District
-    new TomSelect("#district-select", {
+    var districtSelect = new TomSelect("#district-select", {
         valueField: 'id',
         labelField: 'name',
         searchField: 'name',
@@ -269,6 +332,10 @@
                     callback();
                 });
         },
+        onChange: function(value) {
+            var item = this.options[value];
+            document.getElementById('district_name').value = item ? item.name : '';
+        },
         render: {
             option: function(item, escape) {
                 return '<div>' + escape(item.name) + '</div>';
@@ -277,6 +344,13 @@
                 return '<div>' + escape(item.name) + '</div>';
             }
         }
+    });
+
+    // Handle removal of initial tracking fields from old data
+    document.querySelectorAll('.remove-tracking-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.closest('.flex').remove();
+        });
     });
 
     document.getElementById('add-tracking-btn').addEventListener('click', function() {
