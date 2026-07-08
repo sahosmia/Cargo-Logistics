@@ -33,6 +33,7 @@ const columns: Column<DistrictType>[] = [
                 item={item}
                 resource="districts"
                 label="District"
+                hideView
             />
         ),
         className: 'w-[7%]',

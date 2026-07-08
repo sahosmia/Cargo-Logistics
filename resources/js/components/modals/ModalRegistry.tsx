@@ -2,7 +2,6 @@ import React from 'react';
 import { useModal } from '@/contexts/ModalContext';
 import CreateCompanyModal from './CreateCompanyModal';
 import CreateCustomerModal from './CreateCustomerModal';
-import CreateFollowUpModal from './CreateFollowUpModal';
 import CreateMeetingModal from './CreateMeetingModal';
 import CreateProductModal from './CreateProductModal';
 import CreateUnitModal from './CreateUnitModal';
@@ -13,7 +12,6 @@ const MODAL_COMPONENTS: Record<string, React.ComponentType<any>> = {
     CREATE_PRODUCT: CreateProductModal,
     CREATE_COMPANY: CreateCompanyModal,
     CREATE_MEETING: CreateMeetingModal,
-    CREATE_FOLLOW_UP: CreateFollowUpModal,
 };
 
 export function ModalRegistry() {

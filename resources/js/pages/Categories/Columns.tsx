@@ -28,6 +28,7 @@ const columns: Column<CategoryType>[] = [
                 item={item}
                 resource="categories"
                 label="Category"
+                hideView
             />
         ),
         className: 'w-[7%]',

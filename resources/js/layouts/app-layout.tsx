@@ -1,13 +1,17 @@
+import { FlashMessage } from '@/components/flash-message';
+// import { ModalRegistry } from '@/components/modals/ModalRegistry';
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
-import { type BreadcrumbItem } from '@/types';
+import type { AppLayoutProps } from '@/types';
 
-interface AppLayoutProps {
-    children: React.ReactNode;
-    breadcrumbs?: BreadcrumbItem[];
+export default function AppLayout({ children, breadcrumbs, ...props }: AppLayoutProps) {
+
+    return (
+        <>
+            <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
+                <FlashMessage/>
+                {children}
+                {/* <ModalRegistry /> */}
+            </AppLayoutTemplate>
+        </>
+    );
 }
-
-export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => (
-    <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
-        {children}
-    </AppLayoutTemplate>
-);
