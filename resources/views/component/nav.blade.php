@@ -24,7 +24,7 @@
                 @endguest
 
                 @auth('customer')
-                <div class="flex items-center gap-3 p-2">
+                <a href="{{ route('customer.dashboard') }}" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-xl transition-colors duration-200">
                     <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="h-5 w-5">
@@ -41,11 +41,11 @@
                             {{ auth('customer')->user()->phone_number ?? 'ID: ' . auth('customer')->user()->id }}
                         </span>
                     </div>
-                </div>
+                </a>
                 @endauth
 
                 @auth('web')
-                <div class="flex items-center gap-3 p-2">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-xl transition-colors duration-200">
                     <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="h-5 w-5">
@@ -62,7 +62,7 @@
                             {{ auth('web')->user()->email ?? 'ID: ' . auth('web')->user()->id }}
                         </span>
                     </div>
-                </div>
+                </a>
                 @endauth
             </div>
         </div>

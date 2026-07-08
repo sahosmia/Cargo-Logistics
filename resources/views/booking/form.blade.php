@@ -170,8 +170,7 @@
                     <div class="flex items-start gap-2 mt-4">
                         <input type="checkbox" name="sensitive_goods" id="sensitive-goods" value="1" {{ old('sensitive_goods') ? 'checked' : '' }}
                             class="mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                        <label for="sensitive-goods" class="text-xs font-medium text-gray-600 select-none">এই পণ্য টি
-                            ব্যাটারি, লিকুইড বা কসমেটিক্স জাতীয়।</label>
+                        <label for="sensitive-goods" class="text-xs font-medium text-gray-600 select-none">This product is a battery, liquid, or cosmetic type.</label>
                     </div>
                 </div>
 
@@ -261,9 +260,8 @@
                     </div>
 
                     <div class="bg-red-50/60 border border-red-100 rounded-xl p-4 text-center mb-4">
-                        <h3 class="text-xs font-bold text-red-900 mb-1">নির্দেশনা</h3>
-                        <p class="text-[11px] font-medium text-red-700 leading-relaxed">বুকিং দেওয়ার ৭ দিনের মধ্যে
-                            আমাদের ওয়ারহাউসের ঠিকানায় প্যাকেজ পাঠিয়ে দিন।</p>
+                        <h3 class="text-xs font-bold text-red-900 mb-1">Instructions</h3>
+                        <p class="text-[11px] font-medium text-red-700 leading-relaxed">Please send the package to our warehouse address within 7 days of booking.</p>
                     </div>
 
                     <div class="flex items-start gap-2 mb-4">
@@ -391,11 +389,11 @@
     document.getElementById('add-tracking-btn').addEventListener('click', function() {
         const container = document.getElementById('dynamic-tracking-container');
 
-        // নতুন একটি রো (Row) তৈরি করা হচ্ছে
+        // Create a new row
         const fieldRow = document.createElement('div');
-        fieldRow.className = 'flex items-center gap-2 animate-fade-in'; // সুন্দর অ্যানিমেশনের জন্য ক্লাস
+        fieldRow.className = 'flex items-center gap-2 animate-fade-in';
 
-        // ইনপুট এবং রিমুভ বাটনের HTML স্ট্রাকচার
+        // Input and remove button structure
         fieldRow.innerHTML = `
             <div class="flex-1">
                 <input type="text" name="tracking[]" placeholder="Tracking" class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
@@ -408,10 +406,10 @@
             </button>
         `;
 
-        // কন্টেনারে নতুন রো-টি পুশ করা
+        // Append to container
         container.appendChild(fieldRow);
 
-        // রিমুভ বাটনে ক্লিক করলে যেন ওই নির্দিষ্ট রো-টি ডিলিট হয়ে যায় তার লজিক
+        // Remove row logic
         fieldRow.querySelector('.remove-tracking-btn').addEventListener('click', function() {
             fieldRow.remove();
         });
