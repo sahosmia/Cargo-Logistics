@@ -20,7 +20,7 @@ test('customer can request OTP and new user is created', function () {
         'phone_number' => $phone,
     ]);
 
-    $response->assertStatus(200);
+    $response->assertRedirect();
     $this->assertDatabaseHas('users', [
         'phone_number' => $phone,
         'role' => UserRole::Customer->value,
@@ -40,7 +40,7 @@ test('existing customer can request OTP', function () {
         'phone_number' => '9876543210',
     ]);
 
-    $response->assertStatus(200);
+    $response->assertRedirect();
     $this->assertCount(1, User::where('phone_number', '9876543210')->get());
 });
 
@@ -108,4 +108,20 @@ test('otp verification is rate limited', function () {
 
     $response->assertSessionHasErrors('otp');
     $this->assertStringContainsString('Too many failed attempts', session('errors')->get('otp')[0]);
+});
+
+test('customer can logout', function () {
+    $user = User::factory()->create([
+        'phone_number' => '1234567890',
+        'role' => UserRole::Customer,
+    ]);
+
+    Auth::guard('customer')->login($user);
+
+    $this->assertTrue(Auth::guard('customer')->check());
+
+    $response = $this->post(route('customer.logout'));
+
+    $response->assertRedirect('/');
+    $this->assertFalse(Auth::guard('customer')->check());
 });

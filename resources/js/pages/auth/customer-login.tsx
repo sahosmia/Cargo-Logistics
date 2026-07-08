@@ -1,6 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,8 @@ interface CustomerLoginForm {
 
 export default function CustomerLogin() {
     const [step, setStep] = useState<'phone' | 'otp'>('phone');
+    const [countdown, setCountdown] = useState(0);
+    const [isCounting, setIsCounting] = useState(false);
 
     const { data, setData, post, processing, errors, reset, clearErrors } = useForm<CustomerLoginForm>({
         phone_number: '',
@@ -23,13 +25,43 @@ export default function CustomerLogin() {
         remember: false,
     });
 
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (isCounting && countdown > 0) {
+            timer = setInterval(() => {
+                setCountdown((prev) => prev - 1);
+            }, 1000);
+        } else if (countdown === 0) {
+            setIsCounting(false);
+        }
+        return () => clearInterval(timer);
+    }, [isCounting, countdown]);
+
+    const startCountdown = () => {
+        setCountdown(60);
+        setIsCounting(true);
+    };
+
     const requestOTP: FormEventHandler = (e) => {
         e.preventDefault();
         clearErrors();
 
         post(route('customer.login.otp'), {
             preserveState: true,
-            onSuccess: () => setStep('otp'),
+            onSuccess: () => {
+                setStep('otp');
+                startCountdown();
+            },
+        });
+    };
+
+    const handleResend = () => {
+        if (isCounting) return;
+
+        clearErrors();
+        post(route('customer.login.otp'), {
+            preserveState: true,
+            onSuccess: () => startCountdown(),
         });
     };
 
@@ -90,13 +122,28 @@ export default function CustomerLogin() {
                             Verify & Login
                         </Button>
 
-                        <button
-                            type="button"
-                            className="text-sm text-center text-muted-foreground hover:underline"
-                            onClick={() => setStep('phone')}
-                        >
-                            Change phone number
-                        </button>
+                        <div className="flex flex-col gap-2">
+                            <button
+                                type="button"
+                                className="text-sm text-center text-muted-foreground hover:underline disabled:opacity-50 disabled:no-underline"
+                                onClick={handleResend}
+                                disabled={isCounting || processing}
+                            >
+                                {isCounting ? `Resend OTP in ${countdown}s` : 'Resend OTP'}
+                            </button>
+
+                            <button
+                                type="button"
+                                className="text-sm text-center text-muted-foreground hover:underline"
+                                onClick={() => {
+                                    setStep('phone');
+                                    setCountdown(0);
+                                    setIsCounting(false);
+                                }}
+                            >
+                                Change phone number
+                            </button>
+                        </div>
                     </div>
                 </form>
             )}

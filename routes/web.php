@@ -36,6 +36,8 @@ Route::middleware('auth:customer')->group(function () {
     Route::get('customer/dashboard', function () {
         return Inertia::render('dashboard'); // Or a customer specific dashboard
     })->name('customer.dashboard');
+
+    Route::post('customer/logout', [CustomerLoginController::class, 'destroy'])->name('customer.logout');
 });
 
 // =============================== Admin Panel =-===========================
