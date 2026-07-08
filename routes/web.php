@@ -16,9 +16,9 @@ Route::middleware(['auth:web,customer'])->group(function () {
 
 // =============================  Fronted Pert ===============================
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+use App\Http\Controllers\HomeController;
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/api/search-categories', [BookingController::class, 'getCategories'])->name('api.search-categories');
 Route::get('/api/search-districts', [BookingController::class, 'getDistricts'])->name('api.search-districts');
@@ -26,7 +26,7 @@ Route::get('/api/search-districts', [BookingController::class, 'getDistricts'])-
 // ================================ Coustomer Panel =========================
 use App\Http\Controllers\Auth\CustomerLoginController;
 
-Route::middleware('guest:customer')->group(function () {
+Route::middleware('guest:web,customer')->group(function () {
     Route::get('customer-login', [CustomerLoginController::class, 'showLoginForm'])->name('customer.login');
     Route::post('customer-login/otp', [CustomerLoginController::class, 'requestOTP'])->name('customer.login.otp');
     Route::post('customer-login/verify', [CustomerLoginController::class, 'verifyOTP'])->name('customer.login.verify');
