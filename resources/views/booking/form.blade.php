@@ -241,16 +241,16 @@
                     <div class="space-y-3 text-xs font-medium text-gray-600 mb-6">
                         <div class="flex justify-between">
                             <span>Weight</span>
-                            <span class="font-bold text-gray-800">0 Kg</span>
+                            <span class="font-bold text-gray-800"><span id="summary-weight">0</span> Kg</span>
                         </div>
                         <div class="flex justify-between">
                             <span>Rate</span>
-                            <span class="font-bold text-gray-800">0 Tk</span>
+                            <span class="font-bold text-gray-800"><span id="summary-rate">0</span> Tk</span>
                         </div>
                         <div
                             class="flex justify-between text-sm font-bold text-gray-800 pt-2 border-t border-dashed border-gray-100">
                             <span>Total Shipping Charge</span>
-                            <span>0 Tk</span>
+                            <span><span id="summary-total">0</span> Tk</span>
                         </div>
                     </div>
 
@@ -288,6 +288,27 @@
 
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script>
+    let selectedCategory = null;
+
+    function updateSummary() {
+        const weight = parseFloat(document.querySelector('input[name="total_weight"]').value) || 0;
+        document.getElementById('summary-weight').innerText = weight;
+
+        if (selectedCategory) {
+            const rateStr = `${selectedCategory.price_start} - ${selectedCategory.price_end}`;
+            document.getElementById('summary-rate').innerText = rateStr;
+
+            const totalStart = selectedCategory.price_start * weight;
+            const totalEnd = selectedCategory.price_end * weight;
+            document.getElementById('summary-total').innerText = `${totalStart.toFixed(2)} - ${totalEnd.toFixed(2)}`;
+        } else {
+            document.getElementById('summary-rate').innerText = '0';
+            document.getElementById('summary-total').innerText = '0';
+        }
+    }
+
+    document.querySelector('input[name="total_weight"]').addEventListener('input', updateSummary);
+
     // Initialize Tom Select for Category
     var categorySelect = new TomSelect("#category-select", {
         valueField: 'id',
@@ -306,6 +327,8 @@
         onChange: function(value) {
             var item = this.options[value];
             document.getElementById('category_name').value = item ? item.name : '';
+            selectedCategory = item;
+            updateSummary();
         },
         render: {
             option: function(item, escape) {

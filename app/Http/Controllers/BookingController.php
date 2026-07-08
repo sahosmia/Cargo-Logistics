@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Category;
 use App\Models\District;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class BookingController extends Controller
 
         $categories = Category::where('name', 'LIKE', "%{$query}%")
             ->limit(15)
-            ->get(['id', 'name']);
+            ->get(['id', 'name', 'price_start', 'price_end']);
 
         return response()->json($categories);
     }
@@ -39,8 +40,9 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'method' => 'required',
+            'tracking' => 'required|array',
             'tracking.*' => 'required',
             'item_name' => 'required',
             'category_id' => 'required',
@@ -50,9 +52,25 @@ class BookingController extends Controller
             'delivery_method' => 'required',
             'district_id' => 'required',
             'address' => 'required',
+            'sensitive_goods' => 'nullable|boolean',
+            'note' => 'nullable|string',
         ]);
 
-        // Logic to save booking would go here
+        Booking::create([
+            'user_id' => auth()->id(),
+            'item_name' => $validated['item_name'],
+            'category_id' => $validated['category_id'],
+            'method' => $validated['method'],
+            'tracking' => $validated['tracking'],
+            'total_carton' => $validated['total_carton'],
+            'total_quantity' => $validated['total_quantity'],
+            'total_weight' => $validated['total_weight'],
+            'sensitive_goods' => $request->boolean('sensitive_goods'),
+            'delivery_method' => $validated['delivery_method'],
+            'district_id' => $validated['district_id'],
+            'address' => $validated['address'],
+            'note' => $validated['note'] ?? null,
+        ]);
 
         return back()->with('success', 'Booking placed successfully!');
     }
