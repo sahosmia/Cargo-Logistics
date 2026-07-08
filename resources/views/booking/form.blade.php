@@ -381,6 +381,13 @@
         });
     });
 
+    // Prevent scroll on number inputs
+    document.addEventListener('wheel', function(event) {
+        if (document.activeElement.type === 'number') {
+            document.activeElement.blur();
+        }
+    });
+
     document.getElementById('add-tracking-btn').addEventListener('click', function() {
         const container = document.getElementById('dynamic-tracking-container');
 
