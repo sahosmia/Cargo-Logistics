@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesCategoryAttributes;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCategoryRequest extends FormRequest
 {
+    use ValidatesCategoryAttributes;
+
     public function authorize(): bool
     {
         return true;
@@ -13,10 +16,11 @@ class UpdateCategoryRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
-            'name' => 'required|string|max:255',
-            'price_start' => 'required|numeric|min:0',
-            'price_end' => 'required|numeric|gt:price_start',
-        ];
+        return $this->categoryAttributeRules();
+    }
+
+    public function messages(): array
+    {
+        return $this->categoryAttributeMessages();
     }
 }

@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesDistrictAttributes;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateDistrictRequest extends FormRequest
 {
+    use ValidatesDistrictAttributes;
+
     public function authorize(): bool
     {
         return true;
@@ -13,12 +16,11 @@ class UpdateDistrictRequest extends FormRequest
 
     public function rules(): array
     {
-        $districtId = $this->route('district') ? $this->route('district')->id : null;
+        return $this->districtAttributeRules();
+    }
 
-        return [
-            'name' => "required|string|max:255|unique:districts,name,{$districtId}",
-            'code' => 'nullable|string|max:10',
-            'status' => 'boolean',
-        ];
+    public function messages(): array
+    {
+        return $this->districtAttributeMessages();
     }
 }
