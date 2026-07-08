@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
+
 use App\Models\Category;
 use App\Models\District;
 use Illuminate\Http\Request;
@@ -39,20 +41,26 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'method' => 'required',
-            'tracking.*' => 'required',
-            'item_name' => 'required',
-            'category_id' => 'required',
-            'total_carton' => 'required|numeric',
-            'total_quantity' => 'required|numeric',
+        $validated = $request->validate([
+            'method' => 'required|string',
+            'tracking' => 'required|array',
+            'tracking.*' => 'required|string',
+            'item_name' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'total_carton' => 'required|integer',
+            'total_quantity' => 'required|integer',
             'total_weight' => 'required|numeric',
-            'delivery_method' => 'required',
-            'district_id' => 'required',
-            'address' => 'required',
+            'sensitive_goods' => 'nullable|boolean',
+            'delivery_method' => 'required|string',
+            'district_id' => 'required|exists:districts,id',
+            'address' => 'required|string',
+            'note' => 'nullable|string',
         ]);
 
-        // Logic to save booking would go here
+        $validated['user_id'] = auth()->id();
+        $validated['sensitive_goods'] = $request->boolean('sensitive_goods');
+
+        Booking::create($validated);
 
         return back()->with('success', 'Booking placed successfully!');
     }

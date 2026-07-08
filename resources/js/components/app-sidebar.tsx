@@ -31,29 +31,35 @@ export function AppSidebar() {
     const mainNavItems: NavItem[] = [
         { title: 'Dashboard', href: route('dashboard'), icon: LayoutDashboard },
         {
+            title: 'New Booking',
+            href: route('customer.booking'),
+            icon: Grid2X2,
+            hidden: userRole !== 'customer',
+        },
+        {
             title: 'Categories',
             href: route('categories.index'),
             icon: Grid2X2,
+            hidden: userRole === 'customer',
         },
         {
             title: 'Districts',
             href: route('districts.index'),
             icon: MapPin,
+            hidden: userRole === 'customer',
         },
         {
             title: 'Users',
             href: route('users.index'),
             icon: UserCog,
-            // hidden: userRole !== 'super_admin'
+            hidden: userRole === 'customer',
         },
         {
             title: 'Global Settings',
             href: route('admin.settings.index'),
             icon: Settings,
-            // hidden: userRole !== 'super_admin'
+            hidden: userRole === 'customer',
         },
-
-
     ];
 
     const visibleNavItems = mainNavItems.filter(item => !item.hidden);
