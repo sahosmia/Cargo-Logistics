@@ -3,6 +3,23 @@
 @section('title', 'Home - Best Product Service')
 @section('meta_description', 'This is the SEO optimized home page description.')
 
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+    <style>
+        .ts-control {
+            border-radius: 0.5rem !important;
+            padding: 0.5rem 0.75rem !important;
+            font-size: 0.875rem !important;
+            line-height: 1.25rem !important;
+            border-color: #e5e7eb !important;
+        }
+        .ts-wrapper.focus .ts-control {
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+            border-color: #3b82f6 !important;
+        }
+    </style>
+@endpush
+
 @section('content')
 <div class="bg-gray-50 py-5">
     <div class="container mx-auto px-4 max-w-7xl">
@@ -80,8 +97,8 @@
                     <div class="mb-4">
                         <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                 class="text-red-500 mr-0.5">*</span>Category</label>
-                        <input type="text" placeholder="Search By category Name"
-                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                        <select id="category-select" placeholder="Search By category Name" autocomplete="off"
+                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"></select>
                     </div>
 
                     <div class="mb-4">
@@ -133,9 +150,8 @@
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                     class="text-red-500 mr-0.5">*</span>District</label>
-                            <select
+                            <select id="district-select" placeholder="Select District" autocomplete="off"
                                 class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
-                                <option>Select District</option>
                             </select>
                         </div>
 
@@ -211,7 +227,58 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script>
+    // Initialize Tom Select for Category
+    new TomSelect("#category-select", {
+        valueField: 'id',
+        labelField: 'name',
+        searchField: 'name',
+        load: function(query, callback) {
+            var url = '/api/search-categories?q=' + encodeURIComponent(query);
+            fetch(url)
+                .then(response => response.json())
+                .then(json => {
+                    callback(json);
+                }).catch(() => {
+                    callback();
+                });
+        },
+        render: {
+            option: function(item, escape) {
+                return '<div>' + escape(item.name) + '</div>';
+            },
+            item: function(item, escape) {
+                return '<div>' + escape(item.name) + '</div>';
+            }
+        }
+    });
+
+    // Initialize Tom Select for District
+    new TomSelect("#district-select", {
+        valueField: 'id',
+        labelField: 'name',
+        searchField: 'name',
+        load: function(query, callback) {
+            var url = '/api/search-districts?q=' + encodeURIComponent(query);
+            fetch(url)
+                .then(response => response.json())
+                .then(json => {
+                    callback(json);
+                }).catch(() => {
+                    callback();
+                });
+        },
+        render: {
+            option: function(item, escape) {
+                return '<div>' + escape(item.name) + '</div>';
+            },
+            item: function(item, escape) {
+                return '<div>' + escape(item.name) + '</div>';
+            }
+        }
+    });
+
     document.getElementById('add-tracking-btn').addEventListener('click', function() {
         const container = document.getElementById('dynamic-tracking-container');
 

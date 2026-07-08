@@ -22,6 +22,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/booking', [BookingController::class, 'index'])->name('customer.booking');
+Route::get('/api/search-categories', [BookingController::class, 'getCategories'])->name('api.search-categories');
+Route::get('/api/search-districts', [BookingController::class, 'getDistricts'])->name('api.search-districts');
 
 // ================================ Coustomer Panel =========================
 use App\Http\Controllers\Auth\CustomerLoginController;
