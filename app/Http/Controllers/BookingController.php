@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookingStoreRequest;
 use App\Models\Booking;
 use App\Models\Category;
 use App\Models\District;
@@ -37,23 +38,9 @@ class BookingController extends Controller
         return response()->json($districts);
     }
 
-    public function store(Request $request)
+    public function store(BookingStoreRequest $request)
     {
-        $validated = $request->validate([
-            'method' => 'required',
-            'tracking' => 'required|array',
-            'tracking.*' => 'required',
-            'item_name' => 'required',
-            'category_id' => 'required',
-            'total_carton' => 'required|numeric',
-            'total_quantity' => 'required|numeric',
-            'total_weight' => 'required|numeric',
-            'delivery_method' => 'required',
-            'district_id' => 'required',
-            'address' => 'required',
-            'sensitive_goods' => 'nullable|boolean',
-            'note' => 'nullable|string',
-        ]);
+        $validated = $request->validated();
 
         Booking::create([
             'user_id' => auth()->id(),

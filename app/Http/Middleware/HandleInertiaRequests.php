@@ -43,7 +43,7 @@ class HandleInertiaRequests extends Middleware
             'name' => settings('app_name', config('app.name')),
             'settings' => [
                 'app_name' => settings('app_name', config('app.name')),
-                'logo' => settings('logo'),
+                'logo' => settings('site_logo') ? \Illuminate\Support\Facades\Storage::disk('public')->url(settings('site_logo')) : asset('logo.png'),
                 'default_vat' => settings('default_vat', 0),
                 'default_ait' => settings('default_ait', 0),
                 'quotation_thanks_text' => settings('quotation_thanks_text'),

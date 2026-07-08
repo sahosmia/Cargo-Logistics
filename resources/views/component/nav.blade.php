@@ -7,8 +7,10 @@
             <nav class="flex items-center gap-4">
                 <a href="{{ url('/') }}"
                     class="text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-blue-600">Home</a>
-                <a href="{{ url('/about') }}"
+                <a href="{{ route('about') }}"
                     class="text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-blue-600">About</a>
+                <a href="{{ route('contact') }}"
+                    class="text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-blue-600">Contact</a>
             </nav>
 
             <div class="flex items-center">
