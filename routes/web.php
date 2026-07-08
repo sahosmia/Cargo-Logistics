@@ -25,6 +25,20 @@ Route::get('/booking', [BookingController::class, 'index'])->name('customer.book
 
 // ================================ Coustomer Panel =========================
 
+use App\Http\Controllers\Auth\CustomerLoginController;
+
+Route::middleware('guest:customer')->group(function () {
+    Route::get('customer-login', [CustomerLoginController::class, 'showLoginForm'])->name('customer.login');
+    Route::post('customer-login/otp', [CustomerLoginController::class, 'requestOTP'])->name('customer.login.otp');
+    Route::post('customer-login/verify', [CustomerLoginController::class, 'verifyOTP'])->name('customer.login.verify');
+});
+
+Route::middleware('auth:customer')->group(function () {
+    Route::get('customer/dashboard', function () {
+        return Inertia::render('dashboard'); // Or a customer specific dashboard
+    })->name('customer.dashboard');
+});
+
 // =============================== Admin Panel =-===========================
 
 Route::middleware(['auth', 'verified'])->group(function () {

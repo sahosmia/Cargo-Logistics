@@ -21,6 +21,11 @@ const mainNavItems: NavItem[] = [
         url: '/dashboard',
         icon: LayoutGrid,
     },
+    {
+        title: 'Customer Login',
+        url: '/customer-login',
+        icon: LayoutGrid,
+    },
 ];
 
 const rightNavItems: NavItem[] = [
