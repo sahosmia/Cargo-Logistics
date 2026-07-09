@@ -57,6 +57,13 @@ class BookingLifecycleTest extends TestCase
 
         $booking = $booking->fresh();
 
+        // Allowed
+        $this->actingAs($chinaManager)
+            ->patch(route('bookings.update-status', $booking), ['status' => 'in_transit'])
+            ->assertRedirect();
+
+        $booking = $booking->fresh();
+
         // Not Allowed (BD Status)
         $this->actingAs($chinaManager)
             ->patch(route('bookings.update-status', $booking), ['status' => 'arrived_in_bd'])

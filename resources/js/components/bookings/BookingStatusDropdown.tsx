@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm, usePage } from '@inertiajs/react';
+import { useForm, usePage, router } from '@inertiajs/react';
 import { Booking } from '@/types/cargo';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
@@ -87,8 +87,10 @@ export default function BookingStatusDropdown({ booking }: Props) {
     };
 
     const submitStatusChange = (status: string, additionalData = {}) => {
-        patch(route('bookings.update-status', booking.id), {
-            data: { status, ...additionalData },
+        router.patch(route('bookings.update-status', booking.id), {
+            status,
+            ...additionalData
+        }, {
             onSuccess: () => {
                 toast.success('Status updated successfully');
                 setIsModalOpen(false);
