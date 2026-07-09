@@ -2,6 +2,7 @@ import { Link, usePage } from '@inertiajs/react';
 import {
     LayoutDashboard,
     UserCog,
+    ShieldCheck,
     Settings,
     Grid2X2,
     MapPin,
@@ -59,6 +60,12 @@ export function AppSidebar() {
             title: 'Users',
             href: route('users.index'),
             icon: UserCog,
+            hidden: userRole === 'customer',
+        },
+        {
+            title: 'Roles & Permissions',
+            href: route('roles.index'),
+            icon: ShieldCheck,
             hidden: userRole === 'customer',
         },
         {

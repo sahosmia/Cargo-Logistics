@@ -4,7 +4,7 @@ import AppLogoIcon from './app-logo-icon';
 
 export default function AppLogo() {
     const { settings } = usePage<SharedData>().props;
-    const appName = (settings?.app_name as string) || 'Crystal Vision Solutions';
+    const appName = (settings?.app_name as string) || 'Techpickly';
     const logoUrl = settings?.logo as string;
 
     return (

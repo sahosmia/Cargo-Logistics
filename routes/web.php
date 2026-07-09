@@ -5,6 +5,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,8 @@ use Inertia\Inertia;
 
 Route::middleware(['auth:web,customer'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::patch('/dashboard/bookings/{booking}/status', [BookingController::class, 'updateStatus'])->name('bookings.update-status');
 });
 
 // =============================  Fronted Pert ===============================
@@ -42,7 +45,6 @@ Route::middleware('guest:customer,web')->group(function () {
 
 Route::middleware('auth:customer,web')->group(function () {
     Route::get('/booking', [BookingController::class, 'create'])->name('customer.booking');
-    Route::get('/dashboard/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::post('/booking', [BookingController::class, 'store'])->name('customer.booking.store');
 });
 
@@ -147,6 +149,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
     Route::resource('users', UserController::class);
+
+    // --- Roles ---
+    Route::resource('roles', RoleController::class);
 
     // --- Categories ---
     Route::prefix('categories')->name('categories.')->group(function () {

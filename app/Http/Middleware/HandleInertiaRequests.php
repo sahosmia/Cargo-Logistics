@@ -50,7 +50,11 @@ class HandleInertiaRequests extends Middleware
                 'quotation_thanks_text' => settings('quotation_thanks_text'),
             ],
             'auth' => [
-                'user' => $request->user() ?: $request->user('customer'),
+                'user' => $request->user() ? array_merge($request->user()->toArray(), [
+                    'roles' => $request->user()->getRoleNames(),
+                    'permissions' => $request->user()->getAllPermissions()->pluck('name'),
+                ]) : ($request->user('customer') ? $request->user('customer')->toArray() : null),
+                'guard' => $request->user() ? 'admin' : ($request->user('customer') ? 'customer' : null),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'flash' => [

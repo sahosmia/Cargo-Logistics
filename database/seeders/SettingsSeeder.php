@@ -13,11 +13,11 @@ class SettingsSeeder extends Seeder
     public function run(): void
     {
         $settings = [
-            'app_name' => 'Crystal Vision Solutions',
-            'email' => 'crystalsolutionsbd@gmail.com',
+            'app_name' => 'Techpickly',
+            'email' => 'techpickly@gmail.com',
             'phone' => '01730-495650',
             'address' => 'Tower 71, Level-8, Near ECB Circle, Dhaka Cantonment, Dhaka-1206',
-            'website_url' => 'http://www.crystalcomputers.com.bd',
+            'website_url' => 'http://www.techpickly.com.bd',
             'paginated_quantity' => '10',
         ];
 

@@ -31,15 +31,16 @@ work by jules:
 6. Frontend e dui ta page lagbe, About and contact
 7. login page ba dashboard e logo gulo pacche na.
 8. All Validation code gulo form request file e niye jao,
-9. booking form er category te title er sathe (price_start - price_end) ai vabe show korbe,
-10. ar category ar district er data dropdown e show kore na jotokhon na kono akta charechter na liki, category data gulo inital obosthai 15 ta show koro, ar district er data to fixed ai gulo change hoi na khub akta, ai gulo sob show korao
-11. number input er upor scroll korle value incremment deccreement hoye jai
 
-12. customer caile tar list dekte parbe
-13. Success message dekate hobe booking form submit er por
+
 14. conflit bettween http://localhost:8000/customer/dashboard and http://localhost:8000/dashboard
 
-15. Contact page ba full site e contact information gulo daynamic hobe, dorkar hole settings theke update korar bebstha korte hobe, ar age theke filed thke use korte hobe
+15. Contact page ba full site e contact information gulo daynamic hobe, dorkar hole settings theke update korar bebstha korte hobe, ar age theke filed thakle use korte hobe
+
+16. Crystal vision solutions er poriborte techpekly hobe,
+17. Contact form submit functionaly complete kora.
+18. /booking?method=sea thakle auto method theke sea select korbe, mane je ta jodi air thake tahole air assbe
+
 
 
 
