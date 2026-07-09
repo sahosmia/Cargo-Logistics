@@ -18,9 +18,8 @@ trait ValidatesUserAttributes
         return [
             'name' => 'required|string|max:255',
             'email' => "required|email|max:255|unique:users,email,{$userId}",
-            'phone' => 'nullable|string|max:20',
-            'designation' => 'nullable|string|max:255',
-            'role' => ['required', Rule::in(UserRole::values())],
+            'phone_number' => 'nullable|string|max:20',
+            'role' => ['required', 'string'],
             'password' => $this->isMethod('post')
                    ? 'required|string|min:6'
                 : 'nullable|string|min:6',
