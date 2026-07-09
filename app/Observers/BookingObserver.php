@@ -15,7 +15,7 @@ class BookingObserver
         if ($booking->isDirty('status')) {
             BookingHistory::create([
                 'booking_id' => $booking->id,
-                'status' => $booking->status,
+                'status' => $booking->status ?? 'pending',
                 'changed_by' => auth()->id(),
                 'comment' => request('comment') ?? 'Status updated',
             ]);
@@ -29,7 +29,7 @@ class BookingObserver
     {
         BookingHistory::create([
             'booking_id' => $booking->id,
-            'status' => $booking->status,
+            'status' => $booking->status ?? 'pending',
             'changed_by' => auth()->id(),
             'comment' => 'Booking created',
         ]);
