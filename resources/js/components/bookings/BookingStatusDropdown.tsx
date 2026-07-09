@@ -80,6 +80,19 @@ export default function BookingStatusDropdown({ booking }: Props) {
         if (newStatus === 'received_in_china' || (newStatus === 'delivered' && auth.user?.roles?.includes('Super Admin'))) {
             setPendingStatus(newStatus);
             setData('status', newStatus);
+
+            // Auto-fill unit price based on category and shipping method
+            if (booking.category) {
+                const method = booking.method?.toLowerCase();
+                const price = method === 'sea' ? booking.category.price_start : booking.category.price_end;
+                setData((prevData) => ({
+                    ...prevData,
+                    status: newStatus,
+                    unit_price: price,
+                    total_price: Number(price) * Number(booking.total_weight || 0)
+                }));
+            }
+
             setIsModalOpen(true);
         } else {
             submitStatusChange(newStatus);
@@ -155,18 +168,31 @@ export default function BookingStatusDropdown({ booking }: Props) {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="unit_price">Unit Price</Label>
+                                <Label htmlFor="unit_price">Unit Price (Category: {booking.category?.name})</Label>
+                                <div className="text-[10px] text-muted-foreground mb-1">
+                                    Sea: {booking.category?.price_start} | Air: {booking.category?.price_end}
+                                </div>
                                 <Input
                                     id="unit_price"
                                     type="number"
                                     step="0.01"
                                     value={data.unit_price}
-                                    onChange={(e) => setData('unit_price', e.target.value)}
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+                                        setData((prev) => ({
+                                            ...prev,
+                                            unit_price: val,
+                                            total_price: Number(val) * Number(booking.total_weight || 0)
+                                        }));
+                                    }}
                                     required
                                 />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="total_price">Total Price</Label>
+                                <div className="text-[10px] text-muted-foreground mb-1">
+                                    Calc: {data.unit_price} * {booking.total_weight}
+                                </div>
                                 <Input
                                     id="total_price"
                                     type="number"
