@@ -7,8 +7,8 @@
 
 
    <section class="relative bg-neutral-900 py-24 md:py-32 overflow-hidden">
-    
-    <div class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transform animate-hero-zoom" 
+
+    <div class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transform animate-hero-zoom"
          style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('{{ asset('images/banner-default.jpg') }}');">
     </div>
 
@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="inline-flex flex-wrap items-center gap-4 bg-neutral-900/90 backdrop-blur-md p-4 rounded-xl rounded-tl-none shadow-2xl border border-neutral-800 w-full sm:w-auto">
-                    
+
                     <div class="flex items-center gap-3">
                         <span class="text-sm font-medium text-gray-400 pl-2">From</span>
                         <div class="flex items-center gap-2 bg-white text-gray-900 px-4 py-2 rounded-lg border border-gray-200 select-none">
@@ -61,7 +61,6 @@
 
                 </div>
             </div>
-
         </div>
     </div>
 </section>
@@ -132,16 +131,18 @@
         0% {
             transform: scale(1);
         }
-        50% {
-            transform: scale(1.12); 
+
+        50%{
+            transform: scale(1.18)
         }
+
         100% {
-            transform: scale(1); 
+            transform: scale(1);
         }
     }
 
     .animate-hero-zoom {
-        animation: heroZoom 8s ease-in-out infinite; 
+        animation: heroZoom 7s ease-in-out infinite;
     }
 </style>
 
@@ -172,5 +173,5 @@
 
 @push('script')
 
-    
+
 @endpush

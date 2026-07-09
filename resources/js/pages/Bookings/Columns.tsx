@@ -1,5 +1,6 @@
 import type { Column } from '@/types';
 import BookingStatusDropdown from '@/components/bookings/BookingStatusDropdown';
+import BookingDetailsDialog from '@/components/bookings/BookingDetailsDialog';
 
 export const columns: Column<any>[] = [
     {
@@ -26,6 +27,10 @@ export const columns: Column<any>[] = [
     {
         header: 'Status',
         accessor: (item) => <BookingStatusDropdown booking={item} />,
+    },
+    {
+        header: 'Actions',
+        accessor: (item) => <BookingDetailsDialog booking={item} />,
     },
     {
         header: 'Date',
