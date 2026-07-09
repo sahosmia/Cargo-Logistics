@@ -1,6 +1,5 @@
 import type { Column } from '@/types';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import BookingStatusDropdown from '@/components/bookings/BookingStatusDropdown';
 
 export const columns: Column<any>[] = [
     {
@@ -26,20 +25,7 @@ export const columns: Column<any>[] = [
     },
     {
         header: 'Status',
-        accessor: (item) => (
-            <Badge
-                variant="secondary"
-                className={cn(
-                    "capitalize",
-                    item.status === 'pending' && "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
-                    item.status === 'received' && "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-                    item.status === 'shipped' && "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
-                    item.status === 'delivered' && "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
-                )}
-            >
-                {item.status}
-            </Badge>
-        ),
+        accessor: (item) => <BookingStatusDropdown booking={item} />,
     },
     {
         header: 'Date',

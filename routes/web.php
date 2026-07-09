@@ -44,6 +44,7 @@ Route::middleware('auth:customer,web')->group(function () {
     Route::get('/booking', [BookingController::class, 'create'])->name('customer.booking');
     Route::get('/dashboard/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::post('/booking', [BookingController::class, 'store'])->name('customer.booking.store');
+    Route::patch('/dashboard/bookings/{booking}/status', [BookingController::class, 'updateStatus'])->name('bookings.update-status');
 });
 
 Route::middleware('auth:customer')->group(function () {

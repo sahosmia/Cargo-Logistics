@@ -13,6 +13,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -29,7 +30,9 @@ class UserController extends Controller
 
     public function create()
     {
-        return Inertia::render('Users/Create');
+        return Inertia::render('Users/Create', [
+            'roles' => Role::all(),
+        ]);
     }
 
     public function store(StoreUserRequest $request, StoreUserAction $storeUserAction)
@@ -50,8 +53,9 @@ class UserController extends Controller
     public function edit(User $user, GetUsersForSelectAction $getUsersForSelectAction)
     {
         return Inertia::render('Users/Edit', [
-            'user' => $user,
+            'user' => $user->load('roles'),
             'users' => $getUsersForSelectAction->execute(),
+            'roles' => Role::all(),
         ]);
     }
 

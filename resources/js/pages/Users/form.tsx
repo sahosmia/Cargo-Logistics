@@ -5,18 +5,20 @@ import FormLabel from "@/components/admin/form/FormLabel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import type { User } from "@/types";
+import type { User, Role } from "@/types/cargo";
 
-interface Props { user?: User;}
+interface Props {
+    user?: User;
+    roles: Role[];
+}
 
-export default function UserForm({ user }: Props) {
+export default function UserForm({ user, roles }: Props) {
 
 const { data, setData, post, processing, errors } = useForm({
 name: user?.name || "",
 email: user?.email || "",
-phone: user?.phone || "",
-designation: user?.designation || "",
-role: user?.role || "user",
+phone_number: user?.phone_number || "",
+role: (user?.roles && user.roles.length > 0) ? user.roles[0].name : (user?.role || ""),
 password: "",
 _method: user ? "put" : undefined,
 });
@@ -42,13 +44,16 @@ return (
         <div className="space-y-4">
             <div className="space-y-1">
                 <FormLabel required>User Role</FormLabel>
-                <Select value={data.role} onValueChange={val=> setData("role", val as "user" | "super_admin")}>
+                <Select value={data.role} onValueChange={val=> setData("role", val)}>
                     <SelectTrigger className={errors.role ? "border-destructive" : "" }>
-                        <SelectValue />
+                        <SelectValue placeholder="Select a role" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="user">User</SelectItem>
-                        <SelectItem value="super_admin">Super Admin</SelectItem>
+                        {roles.map((role) => (
+                            <SelectItem key={role.id} value={role.name}>
+                                {role.name}
+                            </SelectItem>
+                        ))}
                     </SelectContent>
                 </Select>
                 <ErrorMessage message={errors.role} />
@@ -61,15 +66,8 @@ return (
 
             <div className="space-y-1">
                 <FormLabel>Phone</FormLabel>
-                <Input value={data.phone} onChange={e=> setData("phone", e.target.value)} placeholder="01XXXXXXXXX" />
-                <ErrorMessage message={errors.phone} />
-            </div>
-
-            <div className="space-y-1">
-                <FormLabel>Designation</FormLabel>
-                <Input value={data.designation} onChange={e=> setData("designation", e.target.value)}
-                placeholder="Software Engineer" />
-                <ErrorMessage message={errors.designation} />
+                <Input value={data.phone_number || ''} onChange={e=> setData("phone_number", e.target.value)} placeholder="01XXXXXXXXX" />
+                <ErrorMessage message={errors.phone_number} />
             </div>
 
             <div className="space-y-1">

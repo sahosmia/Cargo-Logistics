@@ -1,15 +1,16 @@
 import { Head } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
 import UserForm from "./form";
-import { User } from "@/types";
+import { User, Role } from "@/types/cargo";
 
 
 
 interface Props {
     user: User;
+    roles: Role[];
 }
 
-export default function Edit({ user }: Props) {
+export default function Edit({ user, roles }: Props) {
     return (
         <AppLayout
             breadcrumbs={[
@@ -23,7 +24,7 @@ export default function Edit({ user }: Props) {
             <div className="p-6">
                 <h1 className="text-xl font-bold tracking-tight mb-4">Edit User</h1>
 
-                <UserForm user={user} />
+                <UserForm user={user} roles={roles} />
             </div>
         </AppLayout>
     );

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Bookings\UpdateBookingStatusAction;
 use App\Http\Requests\BookingStoreRequest;
 use App\Models\Booking;
 use App\Models\Category;
@@ -77,5 +78,35 @@ class BookingController extends Controller
         ]);
 
         return back()->with('success', 'Booking placed successfully!');
+    }
+
+    public function updateStatus(Request $request, Booking $booking, UpdateBookingStatusAction $updateBookingStatusAction)
+    {
+        $validated = $request->validate([
+            'status' => 'required|string',
+            'comment' => 'nullable|string',
+            'total_weight' => 'nullable|numeric|min:0',
+            'cbm' => 'nullable|numeric|min:0',
+            'unit_price' => 'nullable|numeric|min:0',
+            'total_price' => 'nullable|numeric|min:0',
+            'payment_status' => 'nullable|string|in:pending,paid',
+        ]);
+
+        // Logic to trigger payment completion
+        if (isset($validated['status']) && $validated['status'] === 'delivered') {
+            $validated['payment_status'] = 'paid';
+        }
+
+        $booking->update(array_filter([
+            'total_weight' => $validated['total_weight'] ?? null,
+            'cbm' => $validated['cbm'] ?? null,
+            'unit_price' => $validated['unit_price'] ?? null,
+            'total_price' => $validated['total_price'] ?? null,
+            'payment_status' => $validated['payment_status'] ?? null,
+        ], fn($value) => !is_null($value)));
+
+        $updateBookingStatusAction->execute($booking, $validated['status'], $validated['comment'] ?? null);
+
+        return back()->with('success', 'Booking status updated successfully!');
     }
 }
