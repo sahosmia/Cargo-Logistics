@@ -15,15 +15,15 @@
             <div class="space-y-8">
                 <div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2">Our Office</h3>
-                    <p class="text-gray-600">广东省广州市白云区龙归街道南岭南辅路三街2号厂房一楼</p>
+                    <p class="text-gray-600">{{ settings('address') }}</p>
                 </div>
                 <div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2">Phone</h3>
-                    <p class="text-gray-600">SKYBUY 18320726335</p>
+                    <p class="text-gray-600">{{ settings('phone') }}</p>
                 </div>
                 <div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2">Email</h3>
-                    <p class="text-gray-600">support@bestproductservice.com</p>
+                    <p class="text-gray-600">{{ settings('email') }}</p>
                 </div>
             </div>
 

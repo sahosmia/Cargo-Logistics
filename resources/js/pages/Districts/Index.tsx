@@ -37,7 +37,7 @@ export default function DistrictIndex({ districts }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Districts" />
 
-            <div className="flex flex-col flex-1 h-full gap-4 p-4 overflow-x-auto rounded-xl">
+            <div className="flex flex-col flex-1 h-full gap-4 p-4 overflow-x-auto">
                 <Heading
                     title={`Districts (${districts.total})`}
                     description="Manage districts and regions."

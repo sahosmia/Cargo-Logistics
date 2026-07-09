@@ -25,6 +25,19 @@
     @csrf
     <div class="container mx-auto px-4 max-w-7xl">
 
+        @if(session('success'))
+            <div class="mb-6 p-4 rounded-lg bg-green-50 border border-green-200 flex items-center gap-3 animate-fade-in">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-green-800">{{ session('success') }}</p>
+                </div>
+            </div>
+        @endif
+
         <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 mb-6 flex items-center gap-2">
             <span
                 class="flex h-6 w-6 items-center justify-center rounded-full border-2 border-gray-700 text-gray-700 font-bold text-xs">
@@ -255,8 +268,8 @@
 
                     <div class="bg-blue-50/60 border border-blue-100 rounded-xl p-4 text-center mb-4">
                         <h3 class="text-xs font-bold text-blue-900 tracking-wider mb-1">WAREHOUSE ADDRESS</h3>
-                        <p class="text-xs font-medium text-gray-700 leading-relaxed mb-1">广东省广州市白云区龙归街道南岭南辅路三街2号厂房一楼</p>
-                        <p class="text-xs font-bold text-blue-700">SKYBUY 18320726335</p>
+                        <p class="text-xs font-medium text-gray-700 leading-relaxed mb-1">{{ settings('address') }}</p>
+                        <p class="text-xs font-bold text-blue-700">{{ settings('phone') }}</p>
                     </div>
 
                     <div class="bg-red-50/60 border border-red-100 rounded-xl p-4 text-center mb-4">

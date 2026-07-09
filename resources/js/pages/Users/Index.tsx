@@ -40,7 +40,7 @@ export default function UserIndex({ users }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Users" />
 
-            <div className="flex flex-col flex-1 h-full gap-4 p-4 overflow-x-auto rounded-xl">
+            <div className="flex flex-col flex-1 h-full gap-4 p-4 overflow-x-auto">
                 <Heading
                     title={`Users (${users.total})`}
                     description="Manage your client base, contact information, and account status."

@@ -397,4 +397,6 @@ export interface SettingsForm {
     default_vat: string | number;
     default_ait: string | number;
     quotation_thanks_text: string;
+    warehouses: string;
+    office_hours: string;
 }

@@ -36,6 +36,8 @@ class SettingsController extends Controller
             'phone' => ['nullable', 'string', 'max:50'],
             'address' => ['nullable', 'string'],
             'website_url' => ['nullable', 'url', 'max:255'],
+            'warehouses' => ['nullable', 'string', 'max:255'],
+            'office_hours' => ['nullable', 'string', 'max:255'],
             // 'office_name_1' => ['nullable', 'string', 'max:255'],
             // 'office_name_2' => ['nullable', 'string', 'max:255'],
             'paginated_quantity' => ['required', 'integer', 'min:1'],

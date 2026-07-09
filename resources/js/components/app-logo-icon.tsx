@@ -5,7 +5,7 @@ import type { SVGAttributes } from 'react';
 export default function AppLogoIcon(props: SVGAttributes<SVGElement>) {
     const { settings } = usePage<SharedData>().props;
     const appName = (settings?.app_name as string) || 'Crystal Vision Solutions';
-    const logoUrl = settings?.logo ? `/storage/${settings.logo}` : '/logo.png';
+    const logoUrl = (settings?.logo as string) || '/logo.svg';
     return (
         <img src={logoUrl} alt={appName} className="h-full w-full object-contain" />
 
