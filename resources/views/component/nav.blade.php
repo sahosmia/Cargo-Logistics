@@ -1,7 +1,7 @@
 <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm p-4 transition-all duration-200">
     <div class="container mx-auto flex justify-between items-center">
         <a href="{{ url('/') }}" class="inline-flex items-center justify-center">
-            <img src="{{ $siteLogoUrl }}" alt="{{ config('app.name') }} Logo" class="max-w-25">
+            <img src="{{ $siteLogoUrl }}" alt="{{ settings('app_name', config('app.name')) }} Logo" class="max-w-25">
         </a>
         <div class="flex items-center justify-between gap-6">
             <nav class="flex items-center gap-4">

@@ -4,7 +4,9 @@ import {
     UserCog,
     Settings,
     Grid2X2,
-    MapPin
+    MapPin,
+    Plus,
+    Package
 } from 'lucide-react';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -33,8 +35,13 @@ export function AppSidebar() {
         {
             title: 'New Booking',
             href: route('customer.booking'),
-            icon: Grid2X2,
+            icon: Plus,
             hidden: userRole !== 'customer',
+        },
+        {
+            title: 'Bookings',
+            href: route('bookings.index'),
+            icon: Package,
         },
         {
             title: 'Categories',

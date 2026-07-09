@@ -31,6 +31,8 @@ export default function Index({ settings }: Props) {
         phone: (settings.phone as string) || '',
         address: (settings.address as string) || '',
         website_url: (settings.website_url as string) || '',
+        warehouses: (settings.warehouses as string) || '',
+        office_hours: (settings.office_hours as string) || '',
 
         paginated_quantity: (settings.paginated_quantity as string) || '10',
     });
@@ -198,6 +200,36 @@ export default function Index({ settings }: Props) {
                                         placeholder="https://www.example.com"
                                     />
                                     <InputError message={errors.website_url} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>
+                                        <div className="flex items-center gap-1">
+                                            <Building2 className="h-3 w-3" />
+                                            Warehouses
+                                        </div>
+                                    </FormLabel>
+                                    <Input
+                                        value={data.warehouses}
+                                        onChange={(e) => setData('warehouses', e.target.value)}
+                                        placeholder="Guangzhou, Hongkong, Dubai"
+                                    />
+                                    <InputError message={errors.warehouses} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>
+                                        <div className="flex items-center gap-1">
+                                            <ShieldCheck className="h-3 w-3" />
+                                            Office Hours
+                                        </div>
+                                    </FormLabel>
+                                    <Input
+                                        value={data.office_hours}
+                                        onChange={(e) => setData('office_hours', e.target.value)}
+                                        placeholder="Sat - Thurs: 09.30 AM - 06.30 PM"
+                                    />
+                                    <InputError message={errors.office_hours} />
                                 </div>
 
                                 {/* <div className="space-y-2">

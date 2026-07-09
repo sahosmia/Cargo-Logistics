@@ -66,6 +66,67 @@
     </div>
 </section>
 
+<section class="bg-blue-600 py-8">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {{-- Call Center --}}
+            <div class="flex items-center gap-4 text-white">
+                <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.387a12.035 12.035 0 0 1-7.108-7.108c-.155-.441.012-.928.387-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Call Center</h3>
+                    <p class="text-blue-100 text-sm">Give us a free call</p>
+                    <p class="font-semibold">{{ settings('phone') }}</p>
+                </div>
+            </div>
+
+            {{-- Head Office --}}
+            <div class="flex items-center gap-4 text-white">
+                <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Head Office</h3>
+                    <p class="text-blue-100 text-sm">{{ settings('address') }}</p>
+                </div>
+            </div>
+
+            {{-- Warehouses --}}
+            <div class="flex items-center gap-4 text-white">
+                <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1M2.25 9v12m-1.5-12h1.5m18 0h1.5" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Warehouses</h3>
+                    <p class="text-blue-100 text-sm">See our other warehouses in other countries.</p>
+                    <p class="font-semibold">{{ settings('warehouses') }}</p>
+                </div>
+            </div>
+
+            {{-- Office Hours --}}
+            <div class="flex items-center gap-4 text-white">
+                <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Office Hours</h3>
+                    <p class="text-blue-100 text-sm">Visit us during our office hours.</p>
+                    <p class="font-semibold">{{ settings('office_hours') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <style>
     @keyframes heroZoom {
         0% {

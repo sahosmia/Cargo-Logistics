@@ -12,9 +12,27 @@ use Inertia\Inertia;
 
 class BookingController extends Controller
 {
-    public function index()
+    public function create()
     {
         return view('booking.form');
+    }
+
+    public function index(Request $request)
+    {
+        $user = auth()->user();
+        $query = Booking::query();
+
+        if ($user->role === 'customer') {
+            $query->where('user_id', $user->id);
+        }
+
+        $bookings = $query->with(['category', 'district', 'user'])
+            ->latest()
+            ->paginate(settings('paginated_quantity', 10));
+
+        return Inertia::render('Bookings/Index', [
+            'bookings' => $bookings
+        ]);
     }
 
     public function getCategories(Request $request)

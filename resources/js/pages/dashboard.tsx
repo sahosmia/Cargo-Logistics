@@ -47,25 +47,25 @@ export default function Dashboard() {
             <div className="flex h-full flex-1 flex-col gap-6 p-4">
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {cards.map((card) => (
-                        <div key={card.title} className="bg-white p-6 rounded-xl border border-neutral-200 shadow-sm flex items-center gap-4">
-                            <div className={`${card.bg} p-3 rounded-lg`}>
+                        <div key={card.title} className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
+                            <div className={`${card.bg.replace('bg-', 'bg-').replace('-100', '-100 dark:bg-opacity-10')} p-3 rounded-lg`}>
                                 <card.icon className={`size-6 ${card.color}`} />
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-neutral-500">{card.title}</p>
-                                <p className="text-2xl font-bold text-neutral-900">{card.value}</p>
+                                <p className="text-sm font-medium text-muted-foreground">{card.title}</p>
+                                <p className="text-2xl font-bold text-foreground">{card.value}</p>
                             </div>
                         </div>
                     ))}
                 </div>
 
-                <div className="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden">
-                    <div className="p-6 border-b border-neutral-200 flex items-center justify-between">
-                        <h3 className="font-bold text-neutral-900">Recent Bookings</h3>
+                <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+                    <div className="p-6 border-b border-border flex items-center justify-between">
+                        <h3 className="font-bold text-foreground">Recent Bookings</h3>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-left text-sm">
-                            <thead className="bg-neutral-50 text-neutral-500 font-medium">
+                            <thead className="bg-muted/50 text-muted-foreground font-medium">
                                 <tr>
                                     <th className="px-6 py-3">Item</th>
                                     {auth.user.role !== 'customer' && <th className="px-6 py-3">Customer</th>}
@@ -75,30 +75,30 @@ export default function Dashboard() {
                                     <th className="px-6 py-3">Date</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-neutral-200">
+                            <tbody className="divide-y divide-border text-foreground">
                                 {stats.recent_bookings.length > 0 ? (
                                     stats.recent_bookings.map((booking) => (
-                                        <tr key={booking.id} className="hover:bg-neutral-50 transition-colors">
-                                            <td className="px-6 py-4 font-medium text-neutral-900">{booking.item_name}</td>
+                                        <tr key={booking.id} className="hover:bg-muted/50 transition-colors">
+                                            <td className="px-6 py-4 font-medium text-foreground">{booking.item_name}</td>
                                             {auth.user.role !== 'customer' && <td className="px-6 py-4">{booking.user?.name}</td>}
                                             <td className="px-6 py-4">{booking.category?.name}</td>
                                             <td className="px-6 py-4">{booking.method}</td>
                                             <td className="px-6 py-4">
                                                 <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
-                                                    ${booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                                                      booking.status === 'delivered' ? 'bg-green-100 text-green-700' :
-                                                      'bg-blue-100 text-blue-700'}`}>
+                                                    ${booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                                                      booking.status === 'delivered' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
+                                                      'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'}`}>
                                                     {booking.status}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 text-neutral-500">
+                                            <td className="px-6 py-4 text-muted-foreground">
                                                 {new Date(booking.created_at).toLocaleDateString()}
                                             </td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={auth.user.role === 'customer' ? 5 : 6} className="px-6 py-10 text-center text-neutral-500">
+                                        <td colSpan={auth.user.role === 'customer' ? 5 : 6} className="px-6 py-10 text-center text-muted-foreground">
                                             No bookings found.
                                         </td>
                                     </tr>

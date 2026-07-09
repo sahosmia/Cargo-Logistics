@@ -39,11 +39,12 @@ class HandleInertiaRequests extends Middleware
         [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
 
         return array_merge(parent::share($request), [
-              ...parent::share($request),
             'name' => settings('app_name', config('app.name')),
             'settings' => [
                 'app_name' => settings('app_name', config('app.name')),
-                'logo' => settings('site_logo') ? \Illuminate\Support\Facades\Storage::disk('public')->url(settings('site_logo')) : asset('logo.png'),
+                'logo' => settings('site_logo') && \Illuminate\Support\Facades\Storage::disk('public')->exists(settings('site_logo'))
+                    ? \Illuminate\Support\Facades\Storage::disk('public')->url(settings('site_logo'))
+                    : asset('logo.svg'),
                 'default_vat' => settings('default_vat', 0),
                 'default_ait' => settings('default_ait', 0),
                 'quotation_thanks_text' => settings('quotation_thanks_text'),

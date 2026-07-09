@@ -7,12 +7,12 @@ type Props = React.ComponentProps<'main'> & {
 
 export function AppContent({ variant = 'header', children, ...props }: Props) {
     if (variant === 'sidebar') {
-        return <SidebarInset {...props}>{children}</SidebarInset>;
+        return <SidebarInset className="md:peer-data-[variant=inset]:m-0 md:peer-data-[variant=inset]:rounded-none" {...props}>{children}</SidebarInset>;
     }
 
     return (
         <main
-            className="mx-auto flex h-full w-full max-w-7xl flex-1 flex-col gap-4 rounded-xl"
+            className="mx-auto flex h-full w-full flex-1 flex-col gap-4"
             {...props}
         >
             {children}
