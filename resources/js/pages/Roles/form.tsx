@@ -41,6 +41,27 @@ export default function RoleForm({ role, permissions }: Props) {
         setData("permissions", current);
     };
 
+    const groupedPermissions = permissions.reduce((acc: Record<string, Permission[]>, permission) => {
+        let group = "Other";
+        const name = permission.name.toLowerCase();
+
+        if (name.includes("booking") || name.includes("status")) {
+            if (name.includes("china") || name.includes("measure") || name.includes("price")) group = "China Warehouse";
+            else if (name.includes("bd") || name.includes("payment") || name.includes("delivery")) group = "BD Warehouse";
+            else group = "Booking Management";
+        } else if (name.includes("user") || name.includes("role")) {
+            group = "User Management";
+        } else if (name.includes("setting")) {
+            group = "Settings";
+        }
+
+        if (!acc[group]) acc[group] = [];
+        acc[group].push(permission);
+        return acc;
+    }, {});
+
+    const groupOrder = ["Booking Management", "China Warehouse", "BD Warehouse", "User Management", "Settings", "Other"];
+
     return (
         <form onSubmit={submit} className="space-y-8 p-6 rounded-xl border shadow-sm max-w-4xl">
             <div className="space-y-4">
@@ -50,25 +71,41 @@ export default function RoleForm({ role, permissions }: Props) {
                     <ErrorMessage message={errors.name} />
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-6">
                     <FormLabel>Permissions</FormLabel>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border p-4 rounded-lg">
-                        {permissions.map((permission) => (
-                            <div key={permission.id} className="flex items-center space-x-2">
-                                <Checkbox
-                                    id={`permission-${permission.id}`}
-                                    checked={data.permissions.includes(permission.name)}
-                                    onCheckedChange={() => togglePermission(permission.name)}
-                                />
-                                <label
-                                    htmlFor={`permission-${permission.id}`}
-                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize"
-                                >
-                                    {permission.name}
-                                </label>
-                            </div>
-                        ))}
+
+                    <div className="space-y-6">
+                        {groupOrder.map((group) => {
+                            const groupPermissions = groupedPermissions[group];
+                            if (!groupPermissions || groupPermissions.length === 0) return null;
+
+                            return (
+                                <div key={group} className="space-y-3">
+                                    <h3 className="text-sm font-semibold text-muted-foreground border-b pb-1 uppercase tracking-wider">
+                                        {group}
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                        {groupPermissions.map((permission) => (
+                                            <div key={permission.id} className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    id={`permission-${permission.id}`}
+                                                    checked={data.permissions.includes(permission.name)}
+                                                    onCheckedChange={() => togglePermission(permission.name)}
+                                                />
+                                                <label
+                                                    htmlFor={`permission-${permission.id}`}
+                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize cursor-pointer"
+                                                >
+                                                    {permission.name}
+                                                </label>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
+
                     <ErrorMessage message={errors.permissions} />
                 </div>
             </div>

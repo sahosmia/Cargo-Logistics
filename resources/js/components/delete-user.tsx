@@ -1,7 +1,8 @@
-import { useForm } from '@inertiajs/react'; // Form-এর জায়গায় useForm ইম্পোর্ট করুন
+import { useForm, usePage } from '@inertiajs/react'; // Form-এর জায়গায় useForm ইম্পোর্ট করুন
 import { useRef } from 'react';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import { type SharedData } from '@/types';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -16,6 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 export default function DeleteUser() {
+    const { auth } = usePage<SharedData>().props;
     const passwordInput = useRef<HTMLInputElement>(null);
 
     // Inertia useForm হুক ব্যবহার করুন
@@ -72,34 +74,35 @@ export default function DeleteUser() {
                         </DialogTitle>
                         <DialogDescription>
                             Once your account is deleted, all of its resources
-                            and data will also be permanently deleted. Please
-                            enter your password to confirm you would like to
-                            permanently delete your account.
+                            and data will also be permanently deleted.
+                            {auth.guard !== 'customer' && " Please enter your password to confirm you would like to permanently delete your account."}
                         </DialogDescription>
 
                         {/* স্ট্যান্ডার্ড HTML Form এবং ওন-সাবমিট হ্যান্ডলার */}
                         <form onSubmit={deleteUser} className="space-y-6">
-                            <div className="grid gap-2">
-                                <Label
-                                    htmlFor="password"
-                                    className="sr-only"
-                                >
-                                    Password
-                                </Label>
+                            {auth.guard !== 'customer' && (
+                                <div className="grid gap-2">
+                                    <Label
+                                        htmlFor="password"
+                                        className="sr-only"
+                                    >
+                                        Password
+                                    </Label>
 
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    name="password"
-                                    ref={passwordInput}
-                                    value={data.password}
-                                    onChange={(e) => setData('password', e.target.value)}
-                                    placeholder="Password"
-                                    autoComplete="current-password"
-                                />
+                                    <Input
+                                        id="password"
+                                        type="password"
+                                        name="password"
+                                        ref={passwordInput}
+                                        value={data.password}
+                                        onChange={(e) => setData('password', e.target.value)}
+                                        placeholder="Password"
+                                        autoComplete="current-password"
+                                    />
 
-                                <InputError message={errors.password} />
-                            </div>
+                                    <InputError message={errors.password} />
+                                </div>
+                            )}
 
                             <DialogFooter className="gap-2">
                                 <DialogClose asChild>

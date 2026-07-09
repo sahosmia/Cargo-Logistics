@@ -39,7 +39,10 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
             <SettingsLayout>
                 <div className="space-y-6">
-                    <HeadingSmall title="Profile information" description="Update your name and email address" />
+                    <HeadingSmall
+                        title="Profile information"
+                        description={auth.guard === 'customer' ? 'Update your name' : 'Update your name and email address'}
+                    />
 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="grid gap-2">
@@ -58,24 +61,38 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             <InputError className="mt-2" message={errors.name} />
                         </div>
 
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email address</Label>
+                        {auth.guard !== 'customer' ? (
+                            <div className="grid gap-2">
+                                <Label htmlFor="email">Email address</Label>
 
-                            <Input
-                                id="email"
-                                type="email"
-                                className="mt-1 block w-full"
-                                value={data.email}
-                                onChange={(e) => setData('email', e.target.value)}
-                                required
-                                autoComplete="username"
-                                placeholder="Email address"
-                            />
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    className="mt-1 block w-full"
+                                    value={data.email}
+                                    onChange={(e) => setData('email', e.target.value)}
+                                    required
+                                    autoComplete="username"
+                                    placeholder="Email address"
+                                />
 
-                            <InputError className="mt-2" message={errors.email} />
-                        </div>
+                                <InputError className="mt-2" message={errors.email} />
+                            </div>
+                        ) : (
+                            <div className="grid gap-2">
+                                <Label htmlFor="phone_number">Phone Number</Label>
 
-                        {mustVerifyEmail && auth.user.email_verified_at === null && (
+                                <Input
+                                    id="phone_number"
+                                    className="mt-1 block w-full bg-muted"
+                                    value={auth.user.phone_number}
+                                    readOnly
+                                    placeholder="Phone Number"
+                                />
+                            </div>
+                        )}
+
+                        {auth.guard !== 'customer' && mustVerifyEmail && auth.user.email_verified_at === null && (
                             <div>
                                 <p className="mt-2 text-sm text-neutral-800">
                                     Your email address is unverified.

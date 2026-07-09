@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Enums\BookingStatus;
 use App\Models\Booking;
+use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

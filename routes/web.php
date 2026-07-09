@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DistrictController;
@@ -27,9 +29,8 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
+Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
 Route::get('/api/search-categories', [BookingController::class, 'getCategories'])->name('api.search-categories');
 Route::get('/api/search-districts', [BookingController::class, 'getDistricts'])->name('api.search-districts');
@@ -168,6 +169,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
     Route::resource('districts', DistrictController::class);
+
+    // Contacts
+    Route::get('contacts', [AdminContactController::class, 'index'])->name('admin.contacts.index');
 
     // Global Settings
     Route::get('admin-settings', [SettingsController::class, 'index'])->name('admin.settings.index');

@@ -59,8 +59,8 @@
                                     class="text-red-500 mr-0.5">*</span>Method</label>
                             <select name="method"
                                 class="w-full text-sm bg-gray-50 border @error('method') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
-                                <option value="Air" {{ old('method') == 'Air' ? 'selected' : '' }}>Air</option>
-                                <option value="Sea" {{ old('method') == 'Sea' ? 'selected' : '' }}>Sea</option>
+                                <option value="Air" {{ (old('method', request('method')) == 'Air' || old('method', request('method')) == 'air') ? 'selected' : '' }}>Air</option>
+                                <option value="Sea" {{ (old('method', request('method')) == 'Sea' || old('method', request('method')) == 'sea') ? 'selected' : '' }}>Sea</option>
                             </select>
                             @error('method')
                                 <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>

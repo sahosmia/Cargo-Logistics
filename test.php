@@ -28,7 +28,6 @@ work by jules:
 2. logout hole redirect hoye home page e jabe, ar jodi login hoi tahole je page theke asese login korte oi page e niye jabe.
 
 5.Make all page responsive, mobile friendly, make dash board all design theme mode wise
-6. Frontend e dui ta page lagbe, About and contact
 7. login page ba dashboard e logo gulo pacche na.
 8. All Validation code gulo form request file e niye jao,
 
@@ -37,9 +36,12 @@ work by jules:
 
 15. Contact page ba full site e contact information gulo daynamic hobe, dorkar hole settings theke update korar bebstha korte hobe, ar age theke filed thakle use korte hobe
 
-16. Crystal vision solutions er poriborte techpekly hobe,
+16. Crystal vision solutions er poriborte Techpickly hobe,
 17. Contact form submit functionaly complete kora.
 18. /booking?method=sea thakle auto method theke sea select korbe, mane je ta jodi air thake tahole air assbe
+
+19. View option lagbe booking er details er jonno
+20. Confirm price er data thik nai, akane data gulo category wise hobe, and
 
 
 

@@ -1,7 +1,8 @@
+import StatusBadge from '@/components/shared/StatusBadge';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
-import { LayoutDashboard, Package, Clock, CheckCircle2, Truck } from 'lucide-react';
+import { Package, Clock, CheckCircle2, Truck } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -37,15 +38,16 @@ export default function Dashboard() {
     const cards = [
         { title: 'Total Bookings', value: stats.total_bookings, icon: Package, color: 'text-blue-600', bg: 'bg-blue-100' },
         { title: 'Pending', value: stats.pending_bookings, icon: Clock, color: 'text-yellow-600', bg: 'bg-yellow-100' },
-        { title: 'Received', value: stats.received_bookings, icon: CheckCircle2, color: 'text-green-600', bg: 'bg-green-100' },
-        { title: 'Shipped', value: stats.shipped_bookings, icon: Truck, color: 'text-purple-600', bg: 'bg-purple-100' },
+        { title: 'Received in China', value: stats.received_bookings, icon: CheckCircle2, color: 'text-emerald-600', bg: 'bg-emerald-100' },
+        { title: 'In Transit', value: stats.shipped_bookings, icon: Truck, color: 'text-purple-600', bg: 'bg-purple-100' },
+        { title: 'Delivered', value: stats.delivered_bookings, icon: CheckCircle2, color: 'text-green-600', bg: 'bg-green-100' },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-6 p-4">
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
                     {cards.map((card) => (
                         <div key={card.title} className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
                             <div className={`${card.bg.replace('bg-', 'bg-').replace('-100', '-100 dark:bg-opacity-10')} p-3 rounded-lg`}>
@@ -84,12 +86,7 @@ export default function Dashboard() {
                                             <td className="px-6 py-4">{booking.category?.name}</td>
                                             <td className="px-6 py-4">{booking.method}</td>
                                             <td className="px-6 py-4">
-                                                <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
-                                                    ${booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                                                      booking.status === 'delivered' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                                                      'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'}`}>
-                                                    {booking.status}
-                                                </span>
+                                                <StatusBadge status={booking.status} />
                                             </td>
                                             <td className="px-6 py-4 text-muted-foreground">
                                                 {new Date(booking.created_at).toLocaleDateString()}

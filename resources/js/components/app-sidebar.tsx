@@ -7,7 +7,8 @@ import {
     Grid2X2,
     MapPin,
     Plus,
-    Package
+    Package,
+    Mail
 } from 'lucide-react';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -66,6 +67,12 @@ export function AppSidebar() {
             title: 'Roles & Permissions',
             href: route('roles.index'),
             icon: ShieldCheck,
+            hidden: userRole === 'customer',
+        },
+        {
+            title: 'Contact Submissions',
+            href: route('admin.contacts.index'),
+            icon: Mail,
             hidden: userRole === 'customer',
         },
         {
