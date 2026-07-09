@@ -16,8 +16,12 @@ class PasswordController extends Controller
     /**
      * Show the user's password settings page.
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request): Response|RedirectResponse
     {
+        if ($request->user('customer')) {
+            return redirect()->route('profile.edit');
+        }
+
         return Inertia::render('settings/password', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
@@ -29,6 +33,10 @@ class PasswordController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
+        if ($request->user('customer')) {
+            return redirect()->route('profile.edit');
+        }
+
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
             'password' => ['required', Password::defaults(), 'confirmed'],
