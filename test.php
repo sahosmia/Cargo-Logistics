@@ -27,6 +27,22 @@ work by jules:
 
 2. logout hole redirect hoye home page e jabe, ar jodi login hoi tahole je page theke asese login korte oi page e niye jabe.
 
-3. otp debar input to show kore na, Otp resend er button thakte hobe, count down dekabe,
+5.Make all page responsive, mobile friendly, make dash board all design theme mode wise
+6. Frontend e dui ta page lagbe, About and contact
+7. login page ba dashboard e logo gulo pacche na.
+8. All Validation code gulo form request file e niye jao,
+9. booking form er category te title er sathe (price_start - price_end) ai vabe show korbe,
+10. ar category ar district er data dropdown e show kore na jotokhon na kono akta charechter na liki, category data gulo inital obosthai 15 ta show koro, ar district er data to fixed ai gulo change hoi na khub akta, ai gulo sob show korao
+11. number input er upor scroll korle value incremment deccreement hoye jai
 
-4. booking form ta ready korte hobe 
+12. customer caile tar list dekte parbe
+13. Success message dekate hobe booking form submit er por
+14. conflit bettween http://localhost:8000/customer/dashboard and http://localhost:8000/dashboard
+
+15. Contact page ba full site e contact information gulo daynamic hobe, dorkar hole settings theke update korar bebstha korte hobe, ar age theke filed thke use korte hobe
+
+
+
+=> remove all bangla test,
+
+

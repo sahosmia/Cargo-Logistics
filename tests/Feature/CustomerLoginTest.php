@@ -60,7 +60,7 @@ test('customer can login with valid OTP', function () {
         'otp' => $otp,
     ]);
 
-    $response->assertRedirect(route('dashboard'));
+    $response->assertRedirect(route('customer.dashboard'));
     $this->assertTrue(Auth::guard('customer')->check());
     $this->assertEquals($user->id, Auth::guard('customer')->id());
 });

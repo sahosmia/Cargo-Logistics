@@ -20,22 +20,32 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
 Route::get('/api/search-categories', [BookingController::class, 'getCategories'])->name('api.search-categories');
 Route::get('/api/search-districts', [BookingController::class, 'getDistricts'])->name('api.search-districts');
 
 // ================================ Coustomer Panel =========================
 use App\Http\Controllers\Auth\CustomerLoginController;
 
-Route::middleware('guest:customer')->group(function () {
+Route::middleware('guest:customer,web')->group(function () {
     Route::get('customer-login', [CustomerLoginController::class, 'showLoginForm'])->name('customer.login');
     Route::post('customer-login/otp', [CustomerLoginController::class, 'requestOTP'])->name('customer.login.otp');
     Route::post('customer-login/verify', [CustomerLoginController::class, 'verifyOTP'])->name('customer.login.verify');
 });
 
-Route::middleware('auth:customer')->group(function () {
+Route::middleware('auth:customer,web')->group(function () {
     Route::get('/booking', [BookingController::class, 'index'])->name('customer.booking');
     Route::post('/booking', [BookingController::class, 'store'])->name('customer.booking.store');
+});
 
+Route::middleware('auth:customer')->group(function () {
     Route::get('customer/dashboard', [DashboardController::class, 'index'])->name('customer.dashboard');
     Route::post('customer/logout', [CustomerLoginController::class, 'destroy'])->name('customer.logout');
 });
