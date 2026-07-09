@@ -43,6 +43,21 @@ test('customer cannot access password settings', function () {
     $response->assertRedirect('/settings/profile');
 });
 
+test('customer can delete their account without password', function () {
+    $user = User::factory()->create();
+
+    $response = $this
+        ->actingAs($user, 'customer')
+        ->delete('/settings/profile');
+
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect('/');
+
+    $this->assertGuest('customer');
+    expect($user->fresh())->toBeNull();
+});
+
 test('customer cannot update password', function () {
     $user = User::factory()->create();
 

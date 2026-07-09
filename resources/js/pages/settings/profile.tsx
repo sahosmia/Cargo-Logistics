@@ -61,7 +61,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             <InputError className="mt-2" message={errors.name} />
                         </div>
 
-                        {auth.guard !== 'customer' && (
+                        {auth.guard !== 'customer' ? (
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email address</Label>
 
@@ -77,6 +77,18 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                 />
 
                                 <InputError className="mt-2" message={errors.email} />
+                            </div>
+                        ) : (
+                            <div className="grid gap-2">
+                                <Label htmlFor="phone_number">Phone Number</Label>
+
+                                <Input
+                                    id="phone_number"
+                                    className="mt-1 block w-full bg-muted"
+                                    value={auth.user.phone_number}
+                                    readOnly
+                                    placeholder="Phone Number"
+                                />
                             </div>
                         )}
 
