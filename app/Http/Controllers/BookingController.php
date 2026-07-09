@@ -86,7 +86,6 @@ class BookingController extends Controller
             'status' => 'required|string',
             'comment' => 'nullable|string',
             'total_weight' => 'nullable|numeric|min:0',
-            'cbm' => 'nullable|numeric|min:0',
             'unit_price' => 'nullable|numeric|min:0',
             'total_price' => 'nullable|numeric|min:0',
             'payment_status' => 'nullable|string|in:pending,paid',
@@ -99,7 +98,6 @@ class BookingController extends Controller
 
         $booking->update(array_filter([
             'total_weight' => $validated['total_weight'] ?? null,
-            'cbm' => $validated['cbm'] ?? null,
             'unit_price' => $validated['unit_price'] ?? null,
             'total_price' => $validated['total_price'] ?? null,
             'payment_status' => $validated['payment_status'] ?? null,

@@ -33,6 +33,9 @@ export interface Booking {
     total_carton: number;
     total_quantity: number;
     total_weight: string;
+    unit_price: string | number | null;
+    total_price: string | number | null;
+    payment_status: string;
     sensitive_goods: boolean;
     delivery_method: string;
     district_id: number;

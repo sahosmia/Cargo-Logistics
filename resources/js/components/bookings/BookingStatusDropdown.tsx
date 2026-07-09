@@ -62,9 +62,8 @@ export default function BookingStatusDropdown({ booking }: Props) {
     const { data, setData, patch, processing, reset } = useForm({
         status: '',
         total_weight: booking.total_weight || '',
-        cbm: (booking as any).cbm || '',
-        unit_price: (booking as any).unit_price || '',
-        total_price: (booking as any).total_price || '',
+        unit_price: booking.unit_price || '',
+        total_price: booking.total_price || '',
         comment: '',
     });
 
@@ -103,7 +102,6 @@ export default function BookingStatusDropdown({ booking }: Props) {
         e.preventDefault();
         submitStatusChange(data.status, {
             total_weight: data.total_weight,
-            cbm: data.cbm,
             unit_price: data.unit_price,
             total_price: data.total_price,
             comment: data.comment,
@@ -142,28 +140,16 @@ export default function BookingStatusDropdown({ booking }: Props) {
                         </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleModalSubmit} className="space-y-4 py-4">
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="total_weight">Total Weight (Kg)</Label>
-                                <Input
-                                    id="total_weight"
-                                    type="number"
-                                    step="0.01"
-                                    value={data.total_weight}
-                                    onChange={(e) => setData('total_weight', e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="cbm">CBM</Label>
-                                <Input
-                                    id="cbm"
-                                    type="number"
-                                    step="0.01"
-                                    value={data.cbm}
-                                    onChange={(e) => setData('cbm', e.target.value)}
-                                />
-                            </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="total_weight">Total Weight (Kg)</Label>
+                            <Input
+                                id="total_weight"
+                                type="number"
+                                step="0.01"
+                                value={data.total_weight}
+                                onChange={(e) => setData('total_weight', e.target.value)}
+                                required
+                            />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
