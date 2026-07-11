@@ -85,13 +85,33 @@ class CustomerLoginController extends Controller
             RateLimiter::clear($this->otpVerificationThrottleKey($request));
 
             $intendedUrl = redirect()->intended(route('customer.dashboard'))->getTargetUrl();
+            $path = parse_url($intendedUrl, PHP_URL_PATH) ?: '/';
 
-            // If the intended URL is a Blade page, return an Inertia::location response
-            $nonInertiaPaths = ['/booking', '/contact', '/about', 'http://localhost:8000/', 'http://localhost/'];
-            foreach ($nonInertiaPaths as $path) {
-                if ($intendedUrl === $path || str_ends_with($intendedUrl, $path) || $intendedUrl === url($path)) {
-                    return Inertia::location($intendedUrl);
+            // Define path prefixes for Inertia (SPA) routes.
+            // Any path not starting with these prefixes is a traditional Blade-rendered page.
+            $inertiaPrefixes = [
+                '/dashboard',
+                '/customer/dashboard',
+                '/settings',
+                '/bookings',
+                '/categories',
+                '/districts',
+                '/users',
+                '/roles',
+                '/contacts',
+                '/admin-settings',
+            ];
+
+            $isInertiaRoute = false;
+            foreach ($inertiaPrefixes as $prefix) {
+                if ($path === $prefix || str_starts_with($path, $prefix.'/')) {
+                    $isInertiaRoute = true;
+                    break;
                 }
+            }
+
+            if (! $isInertiaRoute) {
+                return Inertia::location($intendedUrl);
             }
 
             return redirect()->intended(route('customer.dashboard'));
