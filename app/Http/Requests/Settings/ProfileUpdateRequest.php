@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Settings;
 
+use App\Enums\UserRole;
 use App\Http\Requests\Concerns\ValidatesProfileAttributes;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileUpdateRequest extends FormRequest
 {
@@ -17,8 +19,9 @@ class ProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->user()?->id;
-        $isCustomer = (bool) $this->user('customer');
+        $user = $this->user('customer') ?: $this->user();
+        $userId = $user?->id;
+        $isCustomer = $user && ($user->role === UserRole::Customer || Auth::guard('customer')->check());
 
         return $this->profileUpdateRules($userId, $isCustomer);
     }

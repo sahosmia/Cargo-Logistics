@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\Settings;
 
+use App\Enums\UserRole;
 use App\Http\Requests\Concerns\ValidatesProfileAttributes;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class DeleteProfileRequest extends FormRequest
 {
@@ -17,7 +19,8 @@ class DeleteProfileRequest extends FormRequest
     public function rules(): array
     {
         // Customers do not need a password to delete their account as per ProfileController logic
-        if ($this->user('customer')) {
+        $user = $this->user('customer') ?: $this->user();
+        if ($user && ($user->role === UserRole::Customer || Auth::guard('customer')->check())) {
             return [];
         }
 

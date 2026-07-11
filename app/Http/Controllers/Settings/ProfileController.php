@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\DeleteProfileRequest;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
@@ -30,10 +31,10 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $user = $request->user();
+        $user = $request->user('customer') ?: $request->user();
         $validated = $request->validated();
 
-        if ($request->user('customer')) {
+        if ($user && ($user->role === UserRole::Customer || Auth::guard('customer')->check())) {
             unset($validated['email']);
         }
 
@@ -53,9 +54,10 @@ class ProfileController extends Controller
      */
     public function destroy(DeleteProfileRequest $request): RedirectResponse
     {
-        $user = $request->user();
+        $user = $request->user('customer') ?: $request->user();
 
-        Auth::logout();
+        Auth::guard('web')->logout();
+        Auth::guard('customer')->logout();
 
         $user->delete();
 

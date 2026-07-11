@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdatePasswordRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
@@ -19,7 +21,8 @@ class PasswordController extends Controller
      */
     public function edit(Request $request): Response|RedirectResponse
     {
-        if ($request->user('customer')) {
+        $user = $request->user('customer') ?: $request->user();
+        if ($user && ($user->role === UserRole::Customer || Auth::guard('customer')->check())) {
             return redirect()->route('profile.edit');
         }
 
@@ -34,7 +37,8 @@ class PasswordController extends Controller
      */
     public function update(UpdatePasswordRequest $request): RedirectResponse
     {
-        if ($request->user('customer')) {
+        $user = $request->user('customer') ?: $request->user();
+        if ($user && ($user->role === UserRole::Customer || Auth::guard('customer')->check())) {
             return redirect()->route('profile.edit');
         }
 

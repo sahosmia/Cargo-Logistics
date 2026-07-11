@@ -2,8 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\UserRole;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -42,24 +45,24 @@ class HandleInertiaRequests extends Middleware
             'name' => settings('app_name', config('app.name')),
             'settings' => [
                 'app_name' => settings('app_name', config('app.name')),
-                'logo' => settings('site_logo') && \Illuminate\Support\Facades\Storage::disk('public')->exists(settings('site_logo'))
-                    ? \Illuminate\Support\Facades\Storage::disk('public')->url(settings('site_logo'))
+                'logo' => settings('site_logo') && Storage::disk('public')->exists(settings('site_logo'))
+                    ? Storage::disk('public')->url(settings('site_logo'))
                     : asset('logo.svg'),
-                
+
             ],
             'auth' => [
-                'user' => $request->user() ? array_merge($request->user()->toArray(), [
-                    'roles' => $request->user()->getRoleNames(),
-                    'permissions' => $request->user()->getAllPermissions()->pluck('name'),
-                ]) : ($request->user('customer') ? $request->user('customer')->toArray() : null),
-                'guard' => $request->user() ? 'admin' : ($request->user('customer') ? 'customer' : null),
+                'user' => ($user = $request->user('customer') ?: $request->user()) ? array_merge($user->toArray(), [
+                    'roles' => method_exists($user, 'getRoleNames') ? $user->getRoleNames() : [],
+                    'permissions' => method_exists($user, 'getAllPermissions') ? $user->getAllPermissions()->pluck('name') : [],
+                ]) : null,
+                'guard' => $user ? (($user->role === UserRole::Customer || Auth::guard('customer')->check()) ? 'customer' : 'admin') : null,
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'flash' => [
                 'message' => $request->session()->get('message'),
                 'success' => $request->session()->get('success'),
-                'error'   => $request->session()->get('error'),
-                'otp'     => $request->session()->get('otp'),
+                'error' => $request->session()->get('error'),
+                'otp' => $request->session()->get('otp'),
             ],
         ]);
     }
