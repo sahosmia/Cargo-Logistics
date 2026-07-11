@@ -44,19 +44,47 @@ export function UserMenuContent({ user }: Props) {
                 </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-                <Link
-                    className="block w-full cursor-pointer"
-                    href={user.role === 'customer' ? route('customer.logout') : route('logout')}
-                    method="post"
-                    as="button"
-                    onClick={handleLogout}
-                    data-test="logout-button"
-                >
-                    <LogOut className="mr-2" />
-                    Log out
-                </Link>
-            </DropdownMenuItem>
+            {user.role === 'customer' ? (
+                <>
+                    <form id="customer-logout-form" action={route('customer.logout')} method="POST" style={{ display: 'none' }}>
+                        <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''} />
+                    </form>
+                    <DropdownMenuItem asChild>
+                        <button
+                            type="button"
+                            className="block w-full cursor-pointer text-left"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                cleanup();
+                                const form = document.getElementById('customer-logout-form') as HTMLFormElement;
+                                if (form) {
+                                    form.submit();
+                                }
+                            }}
+                            data-test="logout-button"
+                        >
+                            <span className="flex items-center">
+                                <LogOut className="mr-2 h-4 w-4" />
+                                Log out
+                            </span>
+                        </button>
+                    </DropdownMenuItem>
+                </>
+            ) : (
+                <DropdownMenuItem asChild>
+                    <Link
+                        className="block w-full cursor-pointer"
+                        href={route('logout')}
+                        method="post"
+                        as="button"
+                        onClick={handleLogout}
+                        data-test="logout-button"
+                    >
+                        <LogOut className="mr-2" />
+                        Log out
+                    </Link>
+                </DropdownMenuItem>
+            )}
         </>
     );
 }

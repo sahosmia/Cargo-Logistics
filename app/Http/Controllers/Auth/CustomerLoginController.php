@@ -84,7 +84,13 @@ class CustomerLoginController extends Controller
 
             RateLimiter::clear($this->otpVerificationThrottleKey($request));
 
-            return redirect()->intended(route('customer.dashboard'));
+            $intended = redirect()->intended(route('customer.dashboard'))->getTargetUrl();
+
+            if ($intended !== route('customer.dashboard') && $intended !== route('dashboard')) {
+                return Inertia::location($intended);
+            }
+
+            return redirect()->to($intended);
         }
 
         RateLimiter::hit($this->otpVerificationThrottleKey($request), 3600); // Block for 1 hour if too many attempts
