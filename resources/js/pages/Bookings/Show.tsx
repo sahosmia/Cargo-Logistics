@@ -1,9 +1,11 @@
+import { Head, usePage } from '@inertiajs/react';
+import AppLayout from '@/layouts/app-layout';
 import { Booking, BookingHistory } from '@/types/cargo';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Eye, Package, Truck, User, MapPin, ClipboardList, Info, Clock } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, Package, Truck, User, MapPin, ClipboardList, Info, Clock } from 'lucide-react';
+import BookingStatusDropdown from '@/components/bookings/BookingStatusDropdown';
 
 interface Props {
     booking: Booking;
@@ -20,7 +22,16 @@ const STATUS_LABELS: Record<string, string> = {
     cancelled: 'Cancelled',
 };
 
-export default function BookingDetailsDialog({ booking }: Props) {
+export default function BookingShow({ booking }: Props) {
+    const { auth } = usePage<any>().props;
+    const isCustomer = auth.guard === 'customer';
+
+    const breadcrumbs = [
+        { title: 'Dashboard', href: route('dashboard') },
+        { title: 'Bookings', href: route('bookings.index') },
+        { title: `Booking Details`, href: '#' },
+    ];
+
     const histories = booking.histories || [];
     const sortedHistories = [...histories].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
@@ -31,31 +42,51 @@ export default function BookingDetailsDialog({ booking }: Props) {
     };
 
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
-                    <Eye className="h-4 w-4" />
-                    <span>View</span>
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-7xl w-[95vw] max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                    <DialogTitle className="flex items-center gap-2 text-xl">
-                        <Package className="h-5 w-5 text-primary" />
-                        Booking Details: {booking.item_name}
-                    </DialogTitle>
-                </DialogHeader>
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title={`Booking: ${booking.item_name}`} />
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 py-4">
+            <div className="flex flex-col flex-1 h-full gap-6 p-4 md:p-6 overflow-y-auto max-w-7xl mx-auto w-full">
+                {/* Back button and title */}
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex items-center gap-3">
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => window.history.back()}
+                            className="h-9 w-9"
+                        >
+                            <ArrowLeft className="h-4 w-4" />
+                        </Button>
+                        <div>
+                            <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+                                <Package className="h-6 w-6 text-primary" />
+                                Booking: {booking.item_name}
+                            </h1>
+                            <p className="text-sm text-muted-foreground">
+                                View shipment status, pricing, details, and chronological timeline.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Status dropdown if admin/staff */}
+                    {!isCustomer && (
+                        <div className="flex items-center gap-2 bg-muted/50 p-2 rounded-lg border border-border">
+                            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Update Status:</span>
+                            <BookingStatusDropdown booking={booking} />
+                        </div>
+                    )}
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Left & Center Columns: Booking details */}
                     <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Status & Basic Info */}
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-2">
-                                <Info className="h-4 w-4 text-muted-foreground" />
-                                <h3 className="font-semibold">Overview</h3>
+                        <div className="bg-card border border-border rounded-xl p-5 shadow-sm space-y-4">
+                            <div className="flex items-center gap-2 border-b border-border pb-3">
+                                <Info className="h-4 w-4 text-primary" />
+                                <h3 className="font-semibold text-foreground">Overview</h3>
                             </div>
-                            <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                            <div className="space-y-3">
                                 <div className="flex justify-between items-center">
                                     <span className="text-sm text-muted-foreground">Status:</span>
                                     <Badge variant="secondary">{STATUS_LABELS[booking.status] || booking.status}</Badge>
@@ -80,12 +111,12 @@ export default function BookingDetailsDialog({ booking }: Props) {
                         </div>
 
                         {/* Customer Info */}
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-2">
-                                <User className="h-4 w-4 text-muted-foreground" />
-                                <h3 className="font-semibold">Customer Details</h3>
+                        <div className="bg-card border border-border rounded-xl p-5 shadow-sm space-y-4">
+                            <div className="flex items-center gap-2 border-b border-border pb-3">
+                                <User className="h-4 w-4 text-primary" />
+                                <h3 className="font-semibold text-foreground">Customer Details</h3>
                             </div>
-                            <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                            <div className="space-y-3">
                                 <div className="flex justify-between">
                                     <span className="text-sm text-muted-foreground">Name:</span>
                                     <span className="text-sm font-medium">{booking.user?.name || 'N/A'}</span>
@@ -102,12 +133,12 @@ export default function BookingDetailsDialog({ booking }: Props) {
                         </div>
 
                         {/* Item Details */}
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-2">
-                                <ClipboardList className="h-4 w-4 text-muted-foreground" />
-                                <h3 className="font-semibold">Item Specification</h3>
+                        <div className="bg-card border border-border rounded-xl p-5 shadow-sm space-y-4">
+                            <div className="flex items-center gap-2 border-b border-border pb-3">
+                                <ClipboardList className="h-4 w-4 text-primary" />
+                                <h3 className="font-semibold text-foreground">Item Specification</h3>
                             </div>
-                            <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                            <div className="space-y-3">
                                 <div className="flex justify-between">
                                     <span className="text-sm text-muted-foreground">Category:</span>
                                     <span className="text-sm font-medium">{booking.category?.name || 'N/A'}</span>
@@ -133,12 +164,12 @@ export default function BookingDetailsDialog({ booking }: Props) {
                         </div>
 
                         {/* Delivery Info */}
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-2">
-                                <Truck className="h-4 w-4 text-muted-foreground" />
-                                <h3 className="font-semibold">Delivery & Pricing</h3>
+                        <div className="bg-card border border-border rounded-xl p-5 shadow-sm space-y-4">
+                            <div className="flex items-center gap-2 border-b border-border pb-3">
+                                <Truck className="h-4 w-4 text-primary" />
+                                <h3 className="font-semibold text-foreground">Delivery & Pricing</h3>
                             </div>
-                            <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                            <div className="space-y-3">
                                 <div className="flex justify-between">
                                     <span className="text-sm text-muted-foreground">Delivery Method:</span>
                                     <span className="text-sm font-medium">{booking.delivery_method}</span>
@@ -165,12 +196,12 @@ export default function BookingDetailsDialog({ booking }: Props) {
                             </div>
                         </div>
 
-                        <div className="md:col-span-2 space-y-4">
-                            <div className="flex items-center gap-2">
-                                <MapPin className="h-4 w-4 text-muted-foreground" />
-                                <h3 className="font-semibold">Address & Notes</h3>
+                        <div className="md:col-span-2 bg-card border border-border rounded-xl p-5 shadow-sm space-y-4">
+                            <div className="flex items-center gap-2 border-b border-border pb-3">
+                                <MapPin className="h-4 w-4 text-primary" />
+                                <h3 className="font-semibold text-foreground">Address & Notes</h3>
                             </div>
-                            <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                            <div className="space-y-3">
                                 <div>
                                     <span className="text-xs text-muted-foreground uppercase font-bold tracking-wider">Delivery Address:</span>
                                     <p className="text-sm mt-1">{booking.address}</p>
@@ -186,10 +217,10 @@ export default function BookingDetailsDialog({ booking }: Props) {
                     </div>
 
                     {/* Right Column: Status History Timeline */}
-                    <div className="lg:col-span-1 space-y-4">
-                        <div className="flex items-center gap-2">
-                            <Clock className="h-4 w-4 text-muted-foreground" />
-                            <h3 className="font-semibold">Status History & Timeline</h3>
+                    <div className="lg:col-span-1 bg-card border border-border rounded-xl p-5 shadow-sm space-y-4">
+                        <div className="flex items-center gap-2 border-b border-border pb-3">
+                            <Clock className="h-4 w-4 text-primary" />
+                            <h3 className="font-semibold text-foreground">Status History & Timeline</h3>
                         </div>
                         <div className="bg-muted/30 p-4 rounded-lg border border-border">
                             {sortedHistories.length === 0 ? (
@@ -238,7 +269,7 @@ export default function BookingDetailsDialog({ booking }: Props) {
                         </div>
                     </div>
                 </div>
-            </DialogContent>
-        </Dialog>
+            </div>
+        </AppLayout>
     );
 }

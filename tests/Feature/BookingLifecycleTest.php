@@ -103,11 +103,49 @@ class BookingLifecycleTest extends TestCase
             ->assertStatus(403);
     }
 
+    public function test_customer_can_view_own_booking_details()
+    {
+        $user = User::factory()->create();
+        $booking = $this->createBookingForUser($user);
+
+        $this->actingAs($user)
+            ->get(route('bookings.show', $booking))
+            ->assertOk();
+    }
+
+    public function test_customer_cannot_view_others_booking_details()
+    {
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+        $booking = $this->createBookingForUser($user1);
+
+        $this->actingAs($user2)
+            ->get(route('bookings.show', $booking))
+            ->assertStatus(403);
+    }
+
+    public function test_admin_with_permission_can_view_any_booking_details()
+    {
+        $admin = User::factory()->create();
+        $admin->assignRole('Super Admin');
+        $user = User::factory()->create();
+        $booking = $this->createBookingForUser($user);
+
+        $this->actingAs($admin)
+            ->get(route('bookings.show', $booking))
+            ->assertOk();
+    }
+
     private function createBooking()
     {
         $user = User::factory()->create();
-        $category = Category::create(['name' => 'Test', 'price_start' => 10, 'price_end' => 20]);
-        $district = District::create(['name' => 'Dhaka', 'code' => 'DHK']);
+        return $this->createBookingForUser($user);
+    }
+
+    private function createBookingForUser($user)
+    {
+        $category = Category::create(['name' => 'Test ' . uniqid(), 'price_start' => 10, 'price_end' => 20]);
+        $district = District::create(['name' => 'Dhaka ' . uniqid(), 'code' => 'DHK' . uniqid()]);
 
         return Booking::create([
             'user_id' => $user->id,

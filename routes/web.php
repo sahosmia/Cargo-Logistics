@@ -16,6 +16,7 @@ use Inertia\Inertia;
 Route::middleware(['auth:web,customer'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::get('/dashboard/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
     Route::patch('/dashboard/bookings/{booking}/status', [BookingController::class, 'updateStatus'])->name('bookings.update-status');
 });
 
