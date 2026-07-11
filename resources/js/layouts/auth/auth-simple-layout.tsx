@@ -12,7 +12,7 @@ interface AuthLayoutProps {
 export default function AuthSimpleLayout({ children, title, description }: AuthLayoutProps) {
     const { settings } = usePage<SharedData>().props;
     const appName = (settings?.app_name as string) || 'Techpickly';
-    const logoUrl = (settings?.logo as string) || '/logo.png';
+    const logoUrl = (settings?.logo as string) || '/images/techpickly-transparent-logo.png';
 
     console.log(logoUrl);
 
@@ -22,12 +22,11 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                 <div className="flex flex-col gap-8">
                     <div className="flex flex-col items-center gap-4">
                         <Link href={route('home')} className="flex flex-col items-center gap-2 font-medium">
-                            <div className="mb-1 flex h-9 w-9 items-center justify-center rounded-md overflow-hidden">
+                            <div className="mb-1 flex h-20 w-20 items-center justify-center rounded-md overflow-hidden">
                                 {logoUrl ? (
                                     <img src={logoUrl} alt={appName} className="h-full w-full object-contain" />
                                 ) : (
-                                    // <AppLogoIcon className="size-9 fill-current text-[var(--foreground)] dark:text-white" />
-                                    <h1>asdf</h1>
+                                    <AppLogoIcon className="size-9 fill-current text-[var(--foreground)] dark:text-white" />
                                 )}
                             </div>
                             <span className="sr-only">{title}</span>

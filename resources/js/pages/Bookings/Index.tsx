@@ -21,6 +21,8 @@ export default function BookingIndex({ bookings }: Props) {
         { label: 'Weight (High-Low)', sort: 'total_weight', direction: 'desc' },
     ];
 
+    console.log(bookings);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Bookings" />

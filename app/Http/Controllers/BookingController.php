@@ -10,6 +10,7 @@ use App\Models\Booking;
 use App\Models\Category;
 use App\Models\District;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class BookingController extends Controller
@@ -28,12 +29,23 @@ class BookingController extends Controller
             $query->where('user_id', $user->id);
         }
 
-        $bookings = $query->with(['category', 'district', 'user'])
+        $bookings = $query->with(['category', 'district', 'user', 'histories.user'])
             ->latest()
             ->paginate(settings('paginated_quantity', 10));
 
         return Inertia::render('Bookings/Index', [
             'bookings' => $bookings,
+        ]);
+    }
+
+    public function show(Booking $booking)
+    {
+        Gate::authorize('view', $booking);
+
+        $booking->load(['category', 'district', 'user', 'histories.user']);
+
+        return Inertia::render('Bookings/Show', [
+            'booking' => $booking,
         ]);
     }
 

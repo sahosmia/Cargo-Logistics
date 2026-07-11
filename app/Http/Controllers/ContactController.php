@@ -16,8 +16,14 @@ class ContactController extends Controller
     {
         $validated = $request->validated();
 
-        Contact::create($validated);
+        try {
+            Contact::create($validated);
 
-        return back()->with('success', 'Thank you for contacting us! We will get back to you soon.');
+            return back()->with('success', 'Thank you for contacting us! We will get back to you soon.');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'An error occurred while sending your message. Please try again later.')
+                ->withInput();
+        }
     }
 }

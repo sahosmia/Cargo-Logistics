@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 interface Props {
     booking: Booking;
@@ -77,26 +78,24 @@ export default function BookingStatusDropdown({ booking }: Props) {
     const filteredOptions = allowedNext.filter((status) => userAllowedStatuses.includes(status));
 
     const handleStatusChange = (newStatus: string) => {
-        if (newStatus === 'received_in_china' || (newStatus === 'delivered' && auth.user?.roles?.includes('Super Admin'))) {
-            setPendingStatus(newStatus);
-            setData('status', newStatus);
-
-            // Auto-fill unit price based on category and shipping method
-            if (booking.category) {
-                const method = booking.method?.toLowerCase();
-                const price = method === 'sea' ? booking.category.price_start : booking.category.price_end;
-                setData((prevData) => ({
-                    ...prevData,
-                    status: newStatus,
-                    unit_price: price,
-                    total_price: Number(price) * Number(booking.total_weight || 0)
-                }));
+        setPendingStatus(newStatus);
+        setData((prevData) => {
+            const nextData = {
+                ...prevData,
+                status: newStatus,
+                comment: '',
+            };
+            if (newStatus === 'received_in_china' || (newStatus === 'delivered' && auth.user?.roles?.includes('Super Admin'))) {
+                if (booking.category) {
+                    const method = booking.method?.toLowerCase();
+                    const price = method === 'sea' ? booking.category.price_start : booking.category.price_end;
+                    nextData.unit_price = price;
+                    nextData.total_price = Number(price) * Number(booking.total_weight || 0);
+                }
             }
-
-            setIsModalOpen(true);
-        } else {
-            submitStatusChange(newStatus);
-        }
+            return nextData;
+        });
+        setIsModalOpen(true);
     };
 
     const submitStatusChange = (status: string, additionalData = {}) => {
@@ -115,17 +114,31 @@ export default function BookingStatusDropdown({ booking }: Props) {
 
     const handleModalSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        submitStatusChange(data.status, {
-            total_weight: data.total_weight,
-            unit_price: data.unit_price,
-            total_price: data.total_price,
-            comment: data.comment,
-        });
+        const isReceivedInChina = data.status === 'received_in_china';
+        const isSuperAdminDelivered = data.status === 'delivered' && auth.user?.roles?.includes('Super Admin');
+        const showExtraFields = isReceivedInChina || isSuperAdminDelivered;
+
+        if (showExtraFields) {
+            submitStatusChange(data.status, {
+                total_weight: data.total_weight,
+                unit_price: data.unit_price,
+                total_price: data.total_price,
+                comment: data.comment,
+            });
+        } else {
+            submitStatusChange(data.status, {
+                comment: data.comment,
+            });
+        }
     };
 
     if (isCustomer || filteredOptions.length === 0) {
         return <Badge variant="outline">{STATUS_LABELS[currentStatus] || currentStatus}</Badge>;
     }
+
+    const isReceivedInChina = data.status === 'received_in_china';
+    const isSuperAdminDelivered = data.status === 'delivered' && auth.user?.roles?.includes('Super Admin');
+    const showExtraFields = isReceivedInChina || isSuperAdminDelivered;
 
     return (
         <div className="flex items-center gap-2">
@@ -155,61 +168,66 @@ export default function BookingStatusDropdown({ booking }: Props) {
                         </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleModalSubmit} className="space-y-4 py-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="total_weight">Total Weight (Kg)</Label>
-                            <Input
-                                id="total_weight"
-                                type="number"
-                                step="0.01"
-                                value={data.total_weight}
-                                onChange={(e) => setData('total_weight', e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="unit_price">Unit Price (Category: {booking.category?.name})</Label>
-                                <div className="text-[10px] text-muted-foreground mb-1">
-                                    Sea: {booking.category?.price_start} | Air: {booking.category?.price_end}
+                        {showExtraFields && (
+                            <>
+                                <div className="space-y-2">
+                                    <Label htmlFor="total_weight">Total Weight (Kg)</Label>
+                                    <Input
+                                        id="total_weight"
+                                        type="number"
+                                        step="0.01"
+                                        value={data.total_weight}
+                                        onChange={(e) => setData('total_weight', e.target.value)}
+                                        required
+                                    />
                                 </div>
-                                <Input
-                                    id="unit_price"
-                                    type="number"
-                                    step="0.01"
-                                    value={data.unit_price}
-                                    onChange={(e) => {
-                                        const val = e.target.value;
-                                        setData((prev) => ({
-                                            ...prev,
-                                            unit_price: val,
-                                            total_price: Number(val) * Number(booking.total_weight || 0)
-                                        }));
-                                    }}
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="total_price">Total Price</Label>
-                                <div className="text-[10px] text-muted-foreground mb-1">
-                                    Calc: {data.unit_price} * {booking.total_weight}
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="unit_price">Unit Price (Category: {booking.category?.name})</Label>
+                                        <div className="text-[10px] text-muted-foreground mb-1">
+                                            Sea: {booking.category?.price_start} | Air: {booking.category?.price_end}
+                                        </div>
+                                        <Input
+                                            id="unit_price"
+                                            type="number"
+                                            step="0.01"
+                                            value={data.unit_price}
+                                            onChange={(e) => {
+                                                const val = e.target.value;
+                                                setData((prev) => ({
+                                                    ...prev,
+                                                    unit_price: val,
+                                                    total_price: Number(val) * Number(booking.total_weight || 0)
+                                                }));
+                                            }}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="total_price">Total Price</Label>
+                                        <div className="text-[10px] text-muted-foreground mb-1">
+                                            Calc: {data.unit_price} * {booking.total_weight}
+                                        </div>
+                                        <Input
+                                            id="total_price"
+                                            type="number"
+                                            step="0.01"
+                                            value={data.total_price}
+                                            onChange={(e) => setData('total_price', e.target.value)}
+                                            required
+                                        />
+                                    </div>
                                 </div>
-                                <Input
-                                    id="total_price"
-                                    type="number"
-                                    step="0.01"
-                                    value={data.total_price}
-                                    onChange={(e) => setData('total_price', e.target.value)}
-                                    required
-                                />
-                            </div>
-                        </div>
+                            </>
+                        )}
                         <div className="space-y-2">
                             <Label htmlFor="comment">Note / Comment</Label>
-                            <Input
+                            <Textarea
                                 id="comment"
                                 value={data.comment}
                                 onChange={(e) => setData('comment', e.target.value)}
                                 placeholder="Optional notes about this status change"
+                                autoFocus
                             />
                         </div>
                         <DialogFooter>

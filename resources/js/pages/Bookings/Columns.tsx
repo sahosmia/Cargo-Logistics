@@ -1,6 +1,8 @@
 import type { Column } from '@/types';
 import BookingStatusDropdown from '@/components/bookings/BookingStatusDropdown';
-import BookingDetailsDialog from '@/components/bookings/BookingDetailsDialog';
+import { Link } from '@inertiajs/react';
+import { Eye } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export const columns: Column<any>[] = [
     {
@@ -30,7 +32,14 @@ export const columns: Column<any>[] = [
     },
     {
         header: 'Actions',
-        accessor: (item) => <BookingDetailsDialog booking={item} />,
+        accessor: (item) => (
+            <Button variant="outline" size="sm" asChild className="gap-2">
+                <Link href={route('bookings.show', item.id)}>
+                    <Eye className="h-4 w-4" />
+                    <span>View</span>
+                </Link>
+            </Button>
+        ),
     },
     {
         header: 'Date',
