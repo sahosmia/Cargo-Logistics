@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 interface Props {
     booking: Booking;
@@ -221,7 +222,7 @@ export default function BookingStatusDropdown({ booking }: Props) {
                         )}
                         <div className="space-y-2">
                             <Label htmlFor="comment">Note / Comment</Label>
-                            <Input
+                            <Textarea
                                 id="comment"
                                 value={data.comment}
                                 onChange={(e) => setData('comment', e.target.value)}

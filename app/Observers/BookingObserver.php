@@ -17,7 +17,7 @@ class BookingObserver
                 'booking_id' => $booking->id,
                 'status' => $booking->status ?? 'pending',
                 'changed_by' => auth()->id(),
-                'comment' => request('comment') ?? 'Status updated',
+                'comment' => filled(request('comment')) ? trim(request('comment')) : null,
             ]);
         }
     }
