@@ -39,3 +39,15 @@ test('users can logout', function () {
     $this->assertGuest();
     $response->assertRedirect('/');
 });
+
+test('users can logout via Inertia', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->post('/logout', [], [
+        'X-Inertia' => 'true',
+    ]);
+
+    $this->assertGuest();
+    $response->assertStatus(409);
+    $response->assertHeader('X-Inertia-Location', url('/'));
+});

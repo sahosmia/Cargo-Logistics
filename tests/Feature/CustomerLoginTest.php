@@ -150,3 +150,22 @@ test('customer can logout', function () {
     $response->assertRedirect('/');
     $this->assertFalse(Auth::guard('customer')->check());
 });
+
+test('customer can logout via Inertia', function () {
+    $user = User::factory()->create([
+        'phone_number' => '1234567890',
+        'role' => UserRole::Customer,
+    ]);
+
+    Auth::guard('customer')->login($user);
+
+    $this->assertTrue(Auth::guard('customer')->check());
+
+    $response = $this->post(route('customer.logout'), [], [
+        'X-Inertia' => 'true',
+    ]);
+
+    $response->assertStatus(409);
+    $response->assertHeader('X-Inertia-Location', url('/'));
+    $this->assertFalse(Auth::guard('customer')->check());
+});
