@@ -45,9 +45,7 @@ class HandleInertiaRequests extends Middleware
                 'logo' => settings('site_logo') && \Illuminate\Support\Facades\Storage::disk('public')->exists(settings('site_logo'))
                     ? \Illuminate\Support\Facades\Storage::disk('public')->url(settings('site_logo'))
                     : asset('logo.svg'),
-                'default_vat' => settings('default_vat', 0),
-                'default_ait' => settings('default_ait', 0),
-                'quotation_thanks_text' => settings('quotation_thanks_text'),
+
             ],
             'auth' => [
                 'user' => $request->user() ? array_merge($request->user()->toArray(), [

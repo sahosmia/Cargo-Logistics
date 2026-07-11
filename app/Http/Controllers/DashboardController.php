@@ -2,15 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\Models\Booking;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
+        $user = auth()->user() ?: auth('customer')->user();
+
+        if (! $user) {
+            return redirect()->route('login');
+        }
+
+        // Redirect customer to customer dashboard if they are on admin dashboard route
+        if ($user->role === UserRole::Customer && request()->routeIs('dashboard')) {
+            return redirect()->route('customer.dashboard');
+        }
+
+        // Redirect admin/staff to admin dashboard if they are on customer dashboard route
+        if ($user->role !== UserRole::Customer && request()->routeIs('customer.dashboard')) {
+            return redirect()->route('dashboard');
+        }
 
         $data = [
             'total_bookings' => 0,
@@ -22,7 +36,7 @@ class DashboardController extends Controller
         ];
 
         $query = Booking::query();
-        if ($user->role === 'customer') {
+        if ($user->role === UserRole::Customer) {
             $query->where('user_id', $user->id);
         }
 
@@ -38,7 +52,7 @@ class DashboardController extends Controller
             ->get();
 
         return Inertia::render('dashboard', [
-            'stats' => $data
+            'stats' => $data,
         ]);
     }
 }

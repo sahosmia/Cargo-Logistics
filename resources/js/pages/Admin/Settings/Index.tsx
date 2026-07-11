@@ -26,6 +26,7 @@ export default function Index({ settings }: Props) {
     const { data, setData, post, processing, errors } = useForm<SettingsForm>({
         site_logo: null,
         favicon: null,
+        hero_banner: null,
         app_name: (settings.app_name as string) || '',
         email: (settings.email as string) || '',
         phone: (settings.phone as string) || '',
@@ -40,6 +41,7 @@ export default function Index({ settings }: Props) {
     const [previews, setPreviews] = useState({
         site_logo: settings.site_logo ? `/storage/${settings.site_logo}` : null,
         favicon: settings.favicon ? `/storage/${settings.favicon}` : null,
+        hero_banner: settings.hero_banner ? `/storage/${settings.hero_banner}` : null,
     });
 
     const handleFileChange = (key: keyof SettingsForm, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,6 +138,30 @@ export default function Index({ settings }: Props) {
                                             onChange={(e) => handleFileChange('favicon', e)}
                                         />
                                         <InputError message={errors.favicon} />
+                                    </div>
+                                </div>
+
+                                {/* Hero Banner */}
+                                <div className="space-y-2">
+                                    <FormLabel>Home Page Hero Banner</FormLabel>
+                                    <div className="flex flex-col gap-4">
+                                        <div className="relative h-32 w-full overflow-hidden rounded-lg border bg-muted flex items-center justify-center">
+                                            {previews.hero_banner ? (
+                                                <img
+                                                    src={previews.hero_banner}
+                                                    alt="Hero banner preview"
+                                                    className="max-h-full max-w-full object-contain"
+                                                />
+                                            ) : (
+                                                <ImageIcon className="h-10 w-10 text-muted-foreground" />
+                                            )}
+                                        </div>
+                                        <Input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => handleFileChange('hero_banner', e)}
+                                        />
+                                        <InputError message={errors.hero_banner} />
                                     </div>
                                 </div>
                             </div>

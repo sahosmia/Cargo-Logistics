@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Concerns\ValidatesBookingAttributes;
+use App\Http\Requests\Concerns\ValidatesPasswordAttributes;
 use Illuminate\Foundation\Http\FormRequest;
 
-class BookingStoreRequest extends FormRequest
+class UpdatePasswordRequest extends FormRequest
 {
-    use ValidatesBookingAttributes;
+    use ValidatesPasswordAttributes;
 
     public function authorize(): bool
     {
@@ -16,11 +16,11 @@ class BookingStoreRequest extends FormRequest
 
     public function rules(): array
     {
-        return $this->bookingStoreRules();
+        return $this->passwordRules();
     }
 
     public function messages(): array
     {
-        return $this->bookingAttributeMessages();
+        return $this->passwordMessages();
     }
 }

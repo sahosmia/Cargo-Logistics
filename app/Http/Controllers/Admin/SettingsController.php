@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Http\Requests\UpdateSettingsRequest;
 use App\Models\Settings;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
+use Inertia\Inertia;
 
 class SettingsController extends Controller
 {
@@ -26,32 +26,20 @@ class SettingsController extends Controller
     /**
      * Update the settings.
      */
-    public function update(Request $request)
+    public function update(UpdateSettingsRequest $request)
     {
-        $validated = $request->validate([
-            'site_logo' => ['nullable', 'image', 'max:2048'],
-            'favicon' => ['nullable', 'image', 'max:1024'],
-            'app_name' => ['required', 'string', 'max:255'],
-            'email' => ['nullable', 'email', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:50'],
-            'address' => ['nullable', 'string'],
-            'website_url' => ['nullable', 'url', 'max:255'],
-            'warehouses' => ['nullable', 'string', 'max:255'],
-            'office_hours' => ['nullable', 'string', 'max:255'],
-            // 'office_name_1' => ['nullable', 'string', 'max:255'],
-            // 'office_name_2' => ['nullable', 'string', 'max:255'],
-            'paginated_quantity' => ['required', 'integer', 'min:1'],
-        ]);
+        $validated = $request->validated();
 
         // $this->service->updateSettings($validated);
 
-        $imageFields = ['site_logo', 'favicon'];
+        $imageFields = ['site_logo', 'favicon', 'hero_banner'];
 
         foreach ($validated as $key => $value) {
             if (in_array($key, $imageFields)) {
                 if ($value instanceof UploadedFile) {
                     handleImageUpload($key, $value);
                 }
+
                 continue;
             }
 

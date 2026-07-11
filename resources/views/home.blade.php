@@ -9,7 +9,7 @@
    <section class="relative bg-neutral-900 py-24 md:py-32 overflow-hidden">
 
     <div class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transform animate-hero-zoom"
-         style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('{{ asset('images/banner-default.jpg') }}');">
+         style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.15)), url('{{ settings('hero_banner') && \Illuminate\Support\Facades\Storage::disk('public')->exists(settings('hero_banner')) ? \Illuminate\Support\Facades\Storage::disk('public')->url(settings('hero_banner')) : asset('images/banner-default.jpg') }}');">
     </div>
 
     <div class="container relative z-10 mx-auto px-6">

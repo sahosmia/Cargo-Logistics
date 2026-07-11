@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\UserRole;
-use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Actions\Auth\GenerateOTPAction;
 use App\Actions\Auth\SendOTPAction;
 use App\Actions\Auth\VerifyOTPAction;
+use App\Enums\UserRole;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RequestOTPRequest;
+use App\Http\Requests\Auth\VerifyOTPRequest;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -29,15 +32,13 @@ class CustomerLoginController extends Controller
      * Request an OTP for the given phone number.
      */
     public function requestOTP(
-        Request $request,
+        RequestOTPRequest $request,
         GenerateOTPAction $generateOTPAction,
         SendOTPAction $sendOTPAction
     ) {
-        $request->validate([
-            'phone_number' => ['required', 'string', 'regex:/^[0-9]+$/', 'min:10'],
-        ]);
+        $validated = $request->validated();
 
-        $phone = $request->phone_number;
+        $phone = $validated['phone_number'];
 
         // Rate limiting for requesting OTP
         $this->ensureOTPRequestIsNotRateLimited($request);
@@ -45,7 +46,7 @@ class CustomerLoginController extends Controller
         $user = User::firstOrCreate(
             ['phone_number' => $phone],
             [
-                'name' => 'Customer ' . substr($phone, -4),
+                'name' => 'Customer '.substr($phone, -4),
                 'role' => UserRole::Customer,
             ]
         );
@@ -55,7 +56,7 @@ class CustomerLoginController extends Controller
 
         return back()->with([
             'message' => 'OTP sent successfully.',
-            'otp' => $otp 
+            'otp' => $otp,
         ]);
     }
 
@@ -63,16 +64,13 @@ class CustomerLoginController extends Controller
      * Verify the OTP and log the customer in.
      */
     public function verifyOTP(
-        Request $request,
+        VerifyOTPRequest $request,
         VerifyOTPAction $verifyOTPAction
     ) {
-        $request->validate([
-            'phone_number' => ['required', 'string'],
-            'otp' => ['required', 'string', 'size:6'],
-        ]);
+        $validated = $request->validated();
 
-        $phone = $request->phone_number;
-        $otp = $request->otp;
+        $phone = $validated['phone_number'];
+        $otp = $validated['otp'];
 
         // Rate limiting for verifying OTP
         $this->ensureOTPVerificationIsNotRateLimited($request);
@@ -98,7 +96,7 @@ class CustomerLoginController extends Controller
 
     protected function ensureOTPRequestIsNotRateLimited(Request $request)
     {
-        $key = 'otp_request_' . $request->phone_number . '|' . $request->ip();
+        $key = 'otp_request_'.$request->phone_number.'|'.$request->ip();
 
         if (RateLimiter::tooManyAttempts($key, 5)) {
             $seconds = RateLimiter::availableIn($key);
@@ -126,7 +124,7 @@ class CustomerLoginController extends Controller
     /**
      * Log the customer out of the application.
      */
-    public function destroy(Request $request): \Illuminate\Http\RedirectResponse
+    public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('customer')->logout();
 
@@ -138,6 +136,6 @@ class CustomerLoginController extends Controller
 
     protected function otpVerificationThrottleKey(Request $request): string
     {
-        return 'otp_verify_' . $request->phone_number . '|' . $request->ip();
+        return 'otp_verify_'.$request->phone_number.'|'.$request->ip();
     }
 }

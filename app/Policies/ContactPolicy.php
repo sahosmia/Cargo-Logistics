@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Enums\UserRole;
 use App\Models\Contact;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ContactPolicy
 {
@@ -13,7 +13,7 @@ class ContactPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role !== 'customer';
+        return $user->role !== UserRole::Customer;
     }
 
     /**
@@ -21,7 +21,7 @@ class ContactPolicy
      */
     public function view(User $user, Contact $contact): bool
     {
-        return $user->role !== 'customer';
+        return $user->role !== UserRole::Customer;
     }
 
     /**
@@ -37,7 +37,7 @@ class ContactPolicy
      */
     public function update(User $user, Contact $contact): bool
     {
-        return $user->role !== 'customer';
+        return $user->role !== UserRole::Customer;
     }
 
     /**
@@ -45,7 +45,7 @@ class ContactPolicy
      */
     public function delete(User $user, Contact $contact): bool
     {
-        return $user->role !== 'customer';
+        return $user->role !== UserRole::Customer;
     }
 
     /**
@@ -53,7 +53,7 @@ class ContactPolicy
      */
     public function restore(User $user, Contact $contact): bool
     {
-        return $user->role !== 'customer';
+        return $user->role !== UserRole::Customer;
     }
 
     /**
@@ -61,6 +61,6 @@ class ContactPolicy
      */
     public function forceDelete(User $user, Contact $contact): bool
     {
-        return $user->role !== 'customer';
+        return $user->role !== UserRole::Customer;
     }
 }

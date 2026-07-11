@@ -14,6 +14,8 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
     const appName = (settings?.app_name as string) || 'Techpickly';
     const logoUrl = (settings?.logo as string) || '/logo.png';
 
+    console.log(logoUrl);
+
     return (
         <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
             <div className="w-full max-w-sm">
@@ -24,7 +26,8 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                                 {logoUrl ? (
                                     <img src={logoUrl} alt={appName} className="h-full w-full object-contain" />
                                 ) : (
-                                    <AppLogoIcon className="size-9 fill-current text-[var(--foreground)] dark:text-white" />
+                                    // <AppLogoIcon className="size-9 fill-current text-[var(--foreground)] dark:text-white" />
+                                    <h1>asdf</h1>
                                 )}
                             </div>
                             <span className="sr-only">{title}</span>

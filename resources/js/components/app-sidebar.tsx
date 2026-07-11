@@ -39,6 +39,7 @@ export function AppSidebar() {
             href: route('customer.booking'),
             icon: Plus,
             hidden: userRole !== 'customer',
+            isExternalOrBlade : true,
         },
         {
             title: 'Bookings',

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Http\Requests\Concerns\ValidatesBookingAttributes;
 use Illuminate\Foundation\Http\FormRequest;
 
-class BookingStoreRequest extends FormRequest
+class UpdateBookingStatusRequest extends FormRequest
 {
     use ValidatesBookingAttributes;
 
@@ -16,7 +16,7 @@ class BookingStoreRequest extends FormRequest
 
     public function rules(): array
     {
-        return $this->bookingStoreRules();
+        return $this->bookingUpdateStatusRules();
     }
 
     public function messages(): array

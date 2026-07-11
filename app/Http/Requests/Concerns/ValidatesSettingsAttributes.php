@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Requests\Concerns;
+
+trait ValidatesSettingsAttributes
+{
+    /**
+     * @return array<string, mixed>
+     */
+    protected function settingsAttributeRules(): array
+    {
+        return [
+            'site_logo' => ['nullable', 'image', 'max:2048'],
+            'favicon' => ['nullable', 'image', 'max:1024'],
+            'hero_banner' => ['nullable', 'image', 'max:5120'],
+            'app_name' => ['required', 'string', 'max:255'],
+            'email' => ['nullable', 'email', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:50'],
+            'address' => ['nullable', 'string'],
+            'website_url' => ['nullable', 'url', 'max:255'],
+            'warehouses' => ['nullable', 'string', 'max:255'],
+            'office_hours' => ['nullable', 'string', 'max:255'],
+            'paginated_quantity' => ['required', 'integer', 'min:1'],
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function settingsAttributeMessages(): array
+    {
+        return [
+            'app_name.required' => 'Application name is required',
+            'paginated_quantity.required' => 'Pagination quantity is required',
+            'paginated_quantity.integer' => 'Pagination quantity must be a valid integer',
+        ];
+    }
+}

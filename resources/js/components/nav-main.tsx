@@ -4,20 +4,35 @@ import { Link, usePage } from '@inertiajs/react';
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
     const page = usePage();
+
     return (
         <SidebarGroup className="px-2 py-0">
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
             <SidebarMenu>
-                {items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild isActive={item.href === page.url}>
-                            <Link href={item.href ?? ''} prefetch>
-                                {item.icon && <item.icon />}
-                                <span>{item.title}</span>
-                            </Link>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                ))}
+                {items.map((item) => {
+                    const isBlade = item.isExternalOrBlade ?? false;
+                    const isActive = item.href === page.url;
+
+                    return (
+                        <SidebarMenuItem key={item.title}>
+                            {isBlade ? (
+                                <SidebarMenuButton asChild isActive={isActive}>
+                                    <a href={item.href ?? '#'}>
+                                        {item.icon && <item.icon />}
+                                        <span>{item.title}</span>
+                                    </a>
+                                </SidebarMenuButton>
+                            ) : (
+                                <SidebarMenuButton asChild isActive={isActive}>
+                                    <Link href={item.href ?? ''} prefetch>
+                                        {item.icon && <item.icon />}
+                                        <span>{item.title}</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            )}
+                        </SidebarMenuItem>
+                    );
+                })}
             </SidebarMenu>
         </SidebarGroup>
     );

@@ -23,26 +23,34 @@ auto calculate Total Shipping Charge (weight * rate (category price like weight 
 
 
 work by jules:
-1. Home page hero section banner make daynamic in settings table like logo. and update the daynamic image in hero banner section.
-
 2. logout hole redirect hoye home page e jabe, ar jodi login hoi tahole je page theke asese login korte oi page e niye jabe.
-
-5.Make all page responsive, mobile friendly, make dash board all design theme mode wise
 7. login page ba dashboard e logo gulo pacche na.
-8. All Validation code gulo form request file e niye jao,
-
-
-14. conflit bettween http://localhost:8000/customer/dashboard and http://localhost:8000/dashboard
-
-15. Contact page ba full site e contact information gulo daynamic hobe, dorkar hole settings theke update korar bebstha korte hobe, ar age theke filed thakle use korte hobe
-
 16. Crystal vision solutions er poriborte Techpickly hobe,
-17. Contact form submit functionaly complete kora.
-18. /booking?method=sea thakle auto method theke sea select korbe, mane je ta jodi air thake tahole air assbe
-
 19. View option lagbe booking er details er jonno
 20. Confirm price er data thik nai, akane data gulo category wise hobe, and
+21. Defulte logo
+22. show chaina and bangladesh flag on home page
 
+
+
+11-07-2026
+=> The home page hero section banner makes it dynamic in the settings table, like the logo. And update the dynamic image in the hero banner section.
+
+=> Make all pages responsive, mobile friendly, make dash board all design theme mode wise
+
+=> All Validation codes move to the form request file and use the concerns folder,
+
+=> conflit bettween http://localhost:8000/customer/dashboard and http://localhost:8000/dashboard
+
+=> Make all functionality complete for the Contact form submission. Like show an error message or a validation error, store all data in the contact table, and show a success message properly
+
+=> Home page hero section overlay opacity make more light
+
+=> You have to fixed another problem, If admin user logout so it rediect the /login page but if customer logout so it reditrect the home page, it is working too but problem is it shwo in a modal box, because the home page is blade file, so you have to here for customer the a tag , and for admin user use the inertia Link component, same problem during login time the custoemer user if back booking page or old page if it is blade file
+
+=> Booking history will show on each booking details with date time, status, comment for each side admin and customer
+
+=>details er width barbe
 
 
 

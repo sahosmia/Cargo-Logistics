@@ -6,6 +6,8 @@ use App\Actions\Roles\DeleteRoleAction;
 use App\Actions\Roles\ListRoleAction;
 use App\Actions\Roles\StoreRoleAction;
 use App\Actions\Roles\UpdateRoleAction;
+use App\Http\Requests\StoreRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
@@ -27,12 +29,9 @@ class RoleController extends Controller
         ]);
     }
 
-    public function store(Request $request, StoreRoleAction $storeRoleAction)
+    public function store(StoreRoleRequest $request, StoreRoleAction $storeRoleAction)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|unique:roles,name',
-            'permissions' => 'nullable|array',
-        ]);
+        $validated = $request->validated();
 
         $storeRoleAction->execute($validated);
 
@@ -48,12 +47,9 @@ class RoleController extends Controller
         ]);
     }
 
-    public function update(Request $request, Role $role, UpdateRoleAction $updateRoleAction)
+    public function update(UpdateRoleRequest $request, Role $role, UpdateRoleAction $updateRoleAction)
     {
-        $validated = $request->validate([
-            'name' => "required|string|unique:roles,name,{$role->id}",
-            'permissions' => 'nullable|array',
-        ]);
+        $validated = $request->validated();
 
         $updateRoleAction->execute($role, $validated);
 

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Bookings\UpdateBookingStatusAction;
+use App\Enums\UserRole;
 use App\Http\Requests\BookingStoreRequest;
+use App\Http\Requests\UpdateBookingStatusRequest;
 use App\Models\Booking;
 use App\Models\Category;
 use App\Models\District;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-
 
 class BookingController extends Controller
 {
@@ -20,10 +21,10 @@ class BookingController extends Controller
 
     public function index(Request $request)
     {
-        $user = auth()->user();
+        $user = auth()->user() ?: auth('customer')->user();
         $query = Booking::query();
 
-        if ($user->role === 'customer') {
+        if ($user && $user->role === UserRole::Customer) {
             $query->where('user_id', $user->id);
         }
 
@@ -32,7 +33,7 @@ class BookingController extends Controller
             ->paginate(settings('paginated_quantity', 10));
 
         return Inertia::render('Bookings/Index', [
-            'bookings' => $bookings
+            'bookings' => $bookings,
         ]);
     }
 
@@ -80,16 +81,9 @@ class BookingController extends Controller
         return back()->with('success', 'Booking placed successfully!');
     }
 
-    public function updateStatus(Request $request, Booking $booking, UpdateBookingStatusAction $updateBookingStatusAction)
+    public function updateStatus(UpdateBookingStatusRequest $request, Booking $booking, UpdateBookingStatusAction $updateBookingStatusAction)
     {
-        $validated = $request->validate([
-            'status' => 'required|string',
-            'comment' => 'nullable|string',
-            'total_weight' => 'nullable|numeric|min:0',
-            'unit_price' => 'nullable|numeric|min:0',
-            'total_price' => 'nullable|numeric|min:0',
-            'payment_status' => 'nullable|string|in:pending,paid',
-        ]);
+        $validated = $request->validated();
 
         // Logic to trigger payment completion
         if (isset($validated['status']) && $validated['status'] === 'delivered') {
@@ -101,7 +95,7 @@ class BookingController extends Controller
             'unit_price' => $validated['unit_price'] ?? null,
             'total_price' => $validated['total_price'] ?? null,
             'payment_status' => $validated['payment_status'] ?? null,
-        ], fn($value) => !is_null($value)));
+        ], fn ($value) => ! is_null($value)));
 
         $updateBookingStatusAction->execute($booking, $validated['status'], $validated['comment'] ?? null);
 
