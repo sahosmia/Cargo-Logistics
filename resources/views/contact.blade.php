@@ -22,6 +22,35 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="mb-8 p-4 rounded-lg bg-red-50 border border-red-200 flex items-center gap-3">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                    </svg>
+                </div>
+                <p class="text-sm font-bold text-red-800">{{ session('error') }}</p>
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="mb-8 p-4 rounded-lg bg-red-50 border border-red-200 flex items-start gap-3">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-red-800">There were some problems with your submission:</p>
+                    <ul class="mt-1 text-xs text-red-700 list-disc list-inside">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        @endif
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div class="space-y-8">
                 <div>
