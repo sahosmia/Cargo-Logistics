@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { router } from "@inertiajs/react";
 import { RotateCcw, Plus, FileUp } from 'lucide-react';
 import type { ReactNode } from 'react';
@@ -34,12 +34,15 @@ function CommonTable<T extends { id: number }>({
     entityName,
     exportRoute,
     printRoute,
-    importRoute
+    importRoute,
+    hideCheckboxes = false
 }: CommonTableProps<T> & { exportRoute?: string, printRoute?: string }) {
 
     const [loading, setLoading] = useState(false);
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
     const isMobile = useIsMobile();
+
+    const showCheckboxes = !hideCheckboxes;
 
     useEffect(() => {
         const start = () => setLoading(true);
@@ -234,12 +237,14 @@ function CommonTable<T extends { id: number }>({
                             <div key={item.id} className="bg-card border rounded-lg p-4 space-y-3 relative shadow-sm">
                                 <div className="flex items-start justify-between border-b pb-2">
                                     <div className="flex items-center gap-3">
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedItems.includes(item.id)}
-                                            onChange={() => handleSelectItem(item.id)}
-                                            className="w-5 h-5 rounded border-gray-300 text-primary"
-                                        />
+                                        {showCheckboxes && (
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedItems.includes(item.id)}
+                                                onChange={() => handleSelectItem(item.id)}
+                                                className="w-5 h-5 rounded border-gray-300 text-primary"
+                                            />
+                                        )}
                                         <span className="text-xs font-bold text-muted-foreground">#{(data.from ?? 1) + i}</span>
                                     </div>
                                     {/* Action column is usually the last one, let's try to find it */}
@@ -270,14 +275,16 @@ function CommonTable<T extends { id: number }>({
                         <TableHeader className="bg-muted/50">
                             <TableRow>
                                 {/* Fixed widths for small utility columns */}
-                                <TableHead className="w-12 px-4">
-                                    <input
-                                        type="checkbox"
-                                        checked={data.data.length > 0 && selectedItems.length === data.data.length}
-                                        onChange={handleSelectAllItems}
-                                        className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary align-middle"
-                                    />
-                                </TableHead>
+                                {showCheckboxes && (
+                                    <TableHead className="w-12 px-4">
+                                        <input
+                                            type="checkbox"
+                                            checked={data.data.length > 0 && selectedItems.length === data.data.length}
+                                            onChange={handleSelectAllItems}
+                                            className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary align-middle"
+                                        />
+                                    </TableHead>
+                                )}
                                 <TableHead className="w-16 font-bold text-xs">#</TableHead>
 
                                 {columns.map((column, index) => (
@@ -296,11 +303,11 @@ function CommonTable<T extends { id: number }>({
                         </TableHeader>
                         <TableBody>
                             {loading ? (
-                                <TableSkeleton columns={columns.length + 2} />
+                                <TableSkeleton columns={columns.length + (showCheckboxes ? 2 : 1)} />
                             ) : data.data.length === 0 ? (
                                 <TableRow>
                                     <TableCell
-                                        colSpan={columns.length + 2}
+                                        colSpan={columns.length + (showCheckboxes ? 2 : 1)}
                                         className="h-32 text-center text-muted-foreground"
                                     >
                                         No data found matching your criteria.
@@ -309,14 +316,16 @@ function CommonTable<T extends { id: number }>({
                             ) : (
                                 data.data.map((item, i) => (
                                     <TableRow key={item.id} className="hover:bg-muted/30 transition-colors">
-                                        <TableCell className='px-4'>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedItems.includes(item.id)}
-                                                onChange={() => handleSelectItem(item.id)}
-                                                className="block w-4 h-4 rounded border-gray-300 text-primary"
-                                            />
-                                        </TableCell>
+                                        {showCheckboxes && (
+                                            <TableCell className='px-4'>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedItems.includes(item.id)}
+                                                    onChange={() => handleSelectItem(item.id)}
+                                                    className="block w-4 h-4 rounded border-gray-300 text-primary"
+                                                />
+                                            </TableCell>
+                                        )}
 
                                         <TableCell className="text-xs text-muted-foreground overflow-hidden text-ellipsis truncate">
                                             {data.from + i}

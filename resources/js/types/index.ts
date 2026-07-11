@@ -355,6 +355,7 @@ export interface CommonTableProps<T> {
     bulkDeleteRoute?: string;
     entityName?: string;
     importRoute?: string;
+    hideCheckboxes?: boolean;
 }
 
 

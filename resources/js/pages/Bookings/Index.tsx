@@ -11,6 +11,8 @@ interface Props {
 
 export default function BookingIndex({ bookings }: Props) {
     const { auth } = usePage<any>().props;
+    const isCustomer = auth?.guard === 'customer';
+
     const breadcrumbs = [
         { title: 'Dashboard', href: route('dashboard') },
         { title: 'Bookings', href: route('bookings.index') },
@@ -20,8 +22,6 @@ export default function BookingIndex({ bookings }: Props) {
         { label: 'Newest First', sort: 'created_at', direction: 'desc' },
         { label: 'Weight (High-Low)', sort: 'total_weight', direction: 'desc' },
     ];
-
-    console.log(bookings);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -39,6 +39,7 @@ export default function BookingIndex({ bookings }: Props) {
                     routeName="bookings.index"
                     sortOptions={sortOptions}
                     entityName="Booking"
+                    hideCheckboxes={isCustomer}
                 />
             </div>
         </AppLayout>

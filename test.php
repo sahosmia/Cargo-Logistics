@@ -58,4 +58,5 @@ Done :
 => Booking history will show on each booking details with date time, status, comment for each side admin and customer
 =>Add Comment option in status
 => Make all functionality complete for the Contact form submission. Like show an error message or a validation error, store all data in the contact table, and show a success message properly
+=> profile information update role wise 
 
