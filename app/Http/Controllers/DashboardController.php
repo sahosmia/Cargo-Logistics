@@ -46,7 +46,7 @@ class DashboardController extends Controller
         $data['shipped_bookings'] = (clone $query)->where('status', 'in_transit')->count();
         $data['delivered_bookings'] = (clone $query)->where('status', 'delivered')->count();
 
-        $data['recent_bookings'] = $query->with(['user', 'category', 'district'])
+        $data['recent_bookings'] = $query->with(['user', 'category', 'district', 'histories.user'])
             ->latest()
             ->limit(5)
             ->get();

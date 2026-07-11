@@ -46,4 +46,9 @@ class Booking extends Model
     {
         return $this->belongsTo(District::class);
     }
+
+    public function histories()
+    {
+        return $this->hasMany(BookingHistory::class);
+    }
 }

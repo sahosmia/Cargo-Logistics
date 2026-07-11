@@ -28,7 +28,7 @@ class BookingController extends Controller
             $query->where('user_id', $user->id);
         }
 
-        $bookings = $query->with(['category', 'district', 'user'])
+        $bookings = $query->with(['category', 'district', 'user', 'histories.user'])
             ->latest()
             ->paginate(settings('paginated_quantity', 10));
 
