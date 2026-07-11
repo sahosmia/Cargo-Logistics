@@ -1,17 +1,16 @@
 <?php
 
-use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\BookingController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::middleware(['auth:web,customer'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -59,7 +58,6 @@ Route::middleware('auth:customer')->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-
     // --- Administration ---
     // Route::middleware(['role:super_admin'])->group(function () {
     Route::prefix('users')->name('users.')->group(function () {
@@ -103,5 +101,5 @@ Route::get('/run-command/{command}', function ($command) {
     return Artisan::output();
 })->name('run-command.dynamic');
 
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';

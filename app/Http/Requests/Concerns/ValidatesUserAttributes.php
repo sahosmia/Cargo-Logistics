@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\Concerns;
 
-use App\Enums\UserRole;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Validation\Rule;
 
 trait ValidatesUserAttributes
 {

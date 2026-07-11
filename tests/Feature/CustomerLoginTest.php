@@ -1,11 +1,9 @@
 <?php
 
-use App\Models\User;
 use App\Enums\UserRole;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\RateLimiter;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 test('customer can view login form', function () {
     $response = $this->get(route('customer.login'));
@@ -61,6 +59,33 @@ test('customer can login with valid OTP', function () {
     ]);
 
     $response->assertRedirect(route('customer.dashboard'));
+    $this->assertTrue(Auth::guard('customer')->check());
+    $this->assertEquals($user->id, Auth::guard('customer')->id());
+});
+
+test('customer login with valid OTP redirects using Inertia::location when intended is booking page', function () {
+    $phone = '1112223333';
+    $otp = '123456';
+
+    $user = User::factory()->create([
+        'phone_number' => $phone,
+        'role' => UserRole::Customer,
+    ]);
+
+    Cache::put("otp_{$phone}", $otp, now()->addMinutes(5));
+
+    $intendedUrl = route('customer.booking', ['method' => 'air']);
+
+    $response = $this->withSession(['url.intended' => $intendedUrl])
+        ->post(route('customer.login.verify'), [
+            'phone_number' => $phone,
+            'otp' => $otp,
+        ], [
+            'X-Inertia' => 'true',
+        ]);
+
+    $response->assertStatus(409);
+    $response->assertHeader('X-Inertia-Location', $intendedUrl);
     $this->assertTrue(Auth::guard('customer')->check());
     $this->assertEquals($user->id, Auth::guard('customer')->id());
 });

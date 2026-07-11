@@ -80,11 +80,21 @@ class CustomerLoginController extends Controller
 
             Auth::guard('customer')->login($user, $request->boolean('remember'));
 
+            // Retrieve the intended URL before session regeneration clears or changes any session data
+            $intendedUrl = session()->pull('url.intended', route('customer.dashboard'));
+
             $request->session()->regenerate();
 
             RateLimiter::clear($this->otpVerificationThrottleKey($request));
 
-            return redirect()->intended(route('customer.dashboard'));
+            $path = parse_url($intendedUrl, PHP_URL_PATH);
+            $path = '/'.ltrim($path, '/');
+
+            if ($path === '/booking' || str_starts_with($path, '/booking/')) {
+                return Inertia::location($intendedUrl);
+            }
+
+            return redirect($intendedUrl);
         }
 
         RateLimiter::hit($this->otpVerificationThrottleKey($request), 3600); // Block for 1 hour if too many attempts
