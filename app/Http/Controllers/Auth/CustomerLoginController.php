@@ -84,6 +84,16 @@ class CustomerLoginController extends Controller
 
             RateLimiter::clear($this->otpVerificationThrottleKey($request));
 
+            $intendedUrl = redirect()->intended(route('customer.dashboard'))->getTargetUrl();
+
+            // If the intended URL is a Blade page, return an Inertia::location response
+            $nonInertiaPaths = ['/booking', '/contact', '/about', 'http://localhost:8000/', 'http://localhost/'];
+            foreach ($nonInertiaPaths as $path) {
+                if ($intendedUrl === $path || str_ends_with($intendedUrl, $path) || $intendedUrl === url($path)) {
+                    return Inertia::location($intendedUrl);
+                }
+            }
+
             return redirect()->intended(route('customer.dashboard'));
         }
 
