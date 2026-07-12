@@ -358,7 +358,16 @@
     }
 
     document.querySelector('input[name="total_weight"]').addEventListener('input', updateSummary);
-    document.querySelector('select[name="method"]').addEventListener('change', updateSummary);
+    document.querySelector('select[name="method"]').addEventListener('change', function() {
+        updateSummary();
+        if (typeof categorySelect !== 'undefined' && categorySelect) {
+            categorySelect.clearCache();
+            const currentValue = categorySelect.getValue();
+            if (currentValue && categorySelect.options[currentValue]) {
+                categorySelect.updateOption(currentValue, categorySelect.options[currentValue]);
+            }
+        }
+    });
 
     // Call once on load to initialize values
     updateSummary();
@@ -387,13 +396,45 @@
         },
         render: {
             option: function(item, escape) {
+                const methodSelect = document.querySelector('select[name="method"]');
+                const method = methodSelect ? methodSelect.value.trim().toLowerCase() : '';
+
+                let priceText = '';
+                if (method === 'sea') {
+                    const pStart = (parseFloat(item.sea_price_start) || 0).toFixed(2);
+                    const pEnd = (parseFloat(item.sea_price_end) || 0).toFixed(2);
+                    priceText = ' (' + pStart + 'tk-' + pEnd + 'tk)';
+                } else if (method === 'air') {
+                    const pStart = (parseFloat(item.air_price_start) || 0).toFixed(2);
+                    const pEnd = (parseFloat(item.air_price_end) || 0).toFixed(2);
+                    priceText = ' (' + pStart + 'tk-' + pEnd + 'tk)';
+                } else {
+                    priceText = ' (Select method first)';
+                }
+
                 return '<div class="py-1 px-2">' +
                             '<span class="font-medium">' + escape(item.name) + '</span>' +
-                            '<span class="text-xs text-gray-500 ml-2">(Sea: ' + escape(item.sea_price_start) + '-' + escape(item.sea_price_end) + ' | Air: ' + escape(item.air_price_start) + '-' + escape(item.air_price_end) + ' Tk)</span>' +
+                            '<span class="text-xs text-gray-500 ml-1">' + priceText + '</span>' +
                         '</div>';
             },
             item: function(item, escape) {
-                return '<div>' + escape(item.name) + ' (Sea: ' + escape(item.sea_price_start) + '-' + escape(item.sea_price_end) + ' | Air: ' + escape(item.air_price_start) + '-' + escape(item.air_price_end) + ')</div>';
+                const methodSelect = document.querySelector('select[name="method"]');
+                const method = methodSelect ? methodSelect.value.trim().toLowerCase() : '';
+
+                let priceText = '';
+                if (method === 'sea') {
+                    const pStart = (parseFloat(item.sea_price_start) || 0).toFixed(2);
+                    const pEnd = (parseFloat(item.sea_price_end) || 0).toFixed(2);
+                    priceText = ' (' + pStart + 'tk-' + pEnd + 'tk)';
+                } else if (method === 'air') {
+                    const pStart = (parseFloat(item.air_price_start) || 0).toFixed(2);
+                    const pEnd = (parseFloat(item.air_price_end) || 0).toFixed(2);
+                    priceText = ' (' + pStart + 'tk-' + pEnd + 'tk)';
+                } else {
+                    priceText = ' (Select method first)';
+                }
+
+                return '<div>' + escape(item.name) + priceText + '</div>';
             }
         }
     });
