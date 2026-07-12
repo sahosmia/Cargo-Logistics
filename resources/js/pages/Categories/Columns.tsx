@@ -4,8 +4,10 @@ import type { Column } from '@/types';
 interface CategoryType {
     id: number;
     name: string;
-    price_start: string;
-    price_end: string;
+    sea_price_start: string;
+    sea_price_end: string;
+    air_price_start: string;
+    air_price_end: string;
 }
 
 const columns: Column<CategoryType>[] = [
@@ -14,10 +16,18 @@ const columns: Column<CategoryType>[] = [
         accessor: (item) => <span className="font-medium">{item.name}</span>,
     },
     {
-        header: 'Price Range',
+        header: 'Sea Price Range',
         accessor: (item) => (
             <span className="text-sm">
-                {item.price_start} - {item.price_end}
+                {item.sea_price_start} - {item.sea_price_end}
+            </span>
+        ),
+    },
+    {
+        header: 'Air Price Range',
+        accessor: (item) => (
+            <span className="text-sm">
+                {item.air_price_start} - {item.air_price_end}
             </span>
         ),
     },

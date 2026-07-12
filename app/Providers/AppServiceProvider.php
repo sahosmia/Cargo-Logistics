@@ -44,11 +44,11 @@ class AppServiceProvider extends ServiceProvider
                     }
                 }
             } catch (\Exception $e) {
-                Log::warning('Settings table missing or DB connection failed: ' . $e->getMessage());
+                Log::warning('Settings table missing or DB connection failed: '.$e->getMessage());
             }
 
             $view->with([
-                'siteLogoUrl'    => $logoUrl,
+                'siteLogoUrl' => $logoUrl,
                 'siteFaviconUrl' => $faviconUrl,
             ]);
         });

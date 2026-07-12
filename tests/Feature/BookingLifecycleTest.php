@@ -30,7 +30,7 @@ class BookingLifecycleTest extends TestCase
         $this->actingAs($superAdmin)
             ->patch(route('bookings.update-status', $booking), [
                 'status' => 'received_in_china',
-                'comment' => 'Received'
+                'comment' => 'Received',
             ])
             ->assertRedirect();
 
@@ -38,7 +38,7 @@ class BookingLifecycleTest extends TestCase
         $this->assertDatabaseHas('booking_histories', [
             'booking_id' => $booking->id,
             'status' => 'received_in_china',
-            'comment' => 'Received'
+            'comment' => 'Received',
         ]);
     }
 
@@ -138,13 +138,20 @@ class BookingLifecycleTest extends TestCase
     private function createBooking()
     {
         $user = User::factory()->create();
+
         return $this->createBookingForUser($user);
     }
 
     private function createBookingForUser($user)
     {
-        $category = Category::create(['name' => 'Test ' . uniqid(), 'price_start' => 10, 'price_end' => 20]);
-        $district = District::create(['name' => 'Dhaka ' . uniqid(), 'code' => 'DHK' . uniqid()]);
+        $category = Category::create([
+            'name' => 'Test '.uniqid(),
+            'sea_price_start' => 10,
+            'sea_price_end' => 20,
+            'air_price_start' => 10,
+            'air_price_end' => 20,
+        ]);
+        $district = District::create(['name' => 'Dhaka '.uniqid(), 'code' => 'DHK'.uniqid()]);
 
         return Booking::create([
             'user_id' => $user->id,
@@ -158,7 +165,7 @@ class BookingLifecycleTest extends TestCase
             'delivery_method' => 'courier',
             'district_id' => $district->id,
             'address' => 'Dhaka',
-            'status' => 'pending'
+            'status' => 'pending',
         ]);
     }
 }

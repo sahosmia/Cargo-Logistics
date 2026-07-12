@@ -1,15 +1,15 @@
 <?php
 
+use App\Enums\UserRole;
 use App\Models\Contact;
 use App\Models\User;
-use App\Enums\UserRole;
 
 test('admin can view contact submissions', function () {
     $admin = User::factory()->create(['role' => UserRole::SuperAdmin]);
     $contact = Contact::create([
         'name' => 'Jane Doe',
         'email' => 'jane@example.com',
-        'message' => 'Interested in your services.'
+        'message' => 'Interested in your services.',
     ]);
 
     $response = $this->actingAs($admin)->get(route('admin.contacts.index'));

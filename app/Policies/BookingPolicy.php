@@ -5,7 +5,6 @@ namespace App\Policies;
 use App\Enums\BookingStatus;
 use App\Models\Booking;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class BookingPolicy
@@ -35,20 +34,20 @@ class BookingPolicy
      */
     public function updateStatus(Authenticatable $user, Booking $booking, string $newStatus): bool
     {
-        if (!$user->hasPermissionTo('update booking status')) {
+        if (! $user->hasPermissionTo('update booking status')) {
             return false;
         }
 
         $currentStatus = BookingStatus::tryFrom($booking->status);
         $targetStatus = BookingStatus::tryFrom($newStatus);
 
-        if (!$currentStatus || !$targetStatus) {
+        if (! $currentStatus || ! $targetStatus) {
             return false;
         }
 
         // Check if transition is allowed in linear lifecycle
         $allowedNext = $currentStatus->nextStatuses();
-        if (!in_array($targetStatus, $allowedNext) && $booking->status !== $newStatus) {
+        if (! in_array($targetStatus, $allowedNext) && $booking->status !== $newStatus) {
             return false;
         }
 

@@ -14,7 +14,7 @@ test('customer profile page is displayed', function () {
 
 test('customer profile information can be updated without email', function () {
     $user = User::factory()->create([
-        'email' => 'old@example.com'
+        'email' => 'old@example.com',
     ]);
 
     $response = $this
