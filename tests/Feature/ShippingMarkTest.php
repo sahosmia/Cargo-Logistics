@@ -222,3 +222,31 @@ test('booking form renders the customer code', function () {
     $response->assertOk();
     $response->assertSee('CVS-1001');
 });
+
+test('bookings can be searched by shipping_mark', function () {
+    $user = User::create([
+        'name' => 'Alice',
+        'email' => 'alice@example.com',
+        'password' => bcrypt('password'),
+        'role' => UserRole::Customer,
+    ]);
+
+    $dateStr = now()->format('ymd');
+
+    $booking1 = createBookingForUser($user);
+    $booking2 = createBookingForUser($user);
+
+    expect($booking1->shipping_mark)->toBe("CVS-1001-{$dateStr}");
+    expect($booking2->shipping_mark)->toBe("CVS-1001-{$dateStr}-1");
+
+    // Search for booking 2
+    $response = $this->actingAs($user, 'customer')
+        ->get(route('bookings.index', ['search' => "CVS-1001-{$dateStr}-1"]));
+
+    $response->assertOk();
+    // It should render the Inertia page with bookings data.
+    // Let's assert that the returned data only includes booking2.
+    $pageData = $response->original->getData()['page']['props']['bookings']['data'];
+    expect(count($pageData))->toBe(1);
+    expect($pageData[0]['id'])->toBe($booking2->id);
+});

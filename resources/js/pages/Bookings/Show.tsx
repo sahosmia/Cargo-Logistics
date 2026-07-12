@@ -92,6 +92,10 @@ export default function BookingShow({ booking }: Props) {
                                     <Badge variant="secondary">{STATUS_LABELS[booking.status] || booking.status}</Badge>
                                 </div>
                                 <div className="flex justify-between">
+                                    <span className="text-sm text-muted-foreground">Shipping Mark:</span>
+                                    <span className="text-sm font-bold font-mono text-primary">{booking.shipping_mark || 'N/A'}</span>
+                                </div>
+                                <div className="flex justify-between">
                                     <span className="text-sm text-muted-foreground">Method:</span>
                                     <span className="text-sm font-medium">{booking.method}</span>
                                 </div>

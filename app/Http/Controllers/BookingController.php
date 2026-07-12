@@ -29,6 +29,15 @@ class BookingController extends Controller
             $query->where('user_id', $user->id);
         }
 
+        if ($request->filled('search')) {
+            $search = $request->get('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('shipping_mark', 'LIKE', "%{$search}%")
+                    ->orWhere('item_name', 'LIKE', "%{$search}%")
+                    ->orWhere('tracking', 'LIKE', "%{$search}%");
+            });
+        }
+
         $bookings = $query->with(['category', 'district', 'user', 'histories.user'])
             ->latest()
             ->paginate(settings('paginated_quantity', 10));
