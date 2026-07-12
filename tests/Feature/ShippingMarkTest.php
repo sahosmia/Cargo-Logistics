@@ -158,3 +158,67 @@ test('creating a booking generates customer code for old customer user without c
     expect($user->customer_code)->toBe('CVS-1001');
     expect($booking->shipping_mark)->toBe("CVS-1001-{$dateStr}");
 });
+
+test('customer can view and update their customer_code via profile', function () {
+    $user = User::create([
+        'name' => 'Alice',
+        'email' => 'alice@example.com',
+        'password' => bcrypt('password'),
+        'role' => UserRole::Customer,
+    ]);
+
+    expect($user->customer_code)->toBe('CVS-1001');
+
+    // Act as customer and update customer_code
+    $response = $this->actingAs($user, 'customer')
+        ->patch(route('profile.update'), [
+            'name' => 'Alice Updated',
+            'customer_code' => 'CUSTOM-MARK-123',
+        ]);
+
+    $response->assertRedirect(route('profile.edit'));
+    expect($user->fresh()->name)->toBe('Alice Updated');
+    expect($user->fresh()->customer_code)->toBe('CUSTOM-MARK-123');
+});
+
+test('customer code update must be unique', function () {
+    $user1 = User::create([
+        'name' => 'Alice',
+        'email' => 'alice@example.com',
+        'password' => bcrypt('password'),
+        'role' => UserRole::Customer,
+    ]);
+
+    $user2 = User::create([
+        'name' => 'Bob',
+        'email' => 'bob@example.com',
+        'password' => bcrypt('password'),
+        'role' => UserRole::Customer,
+    ]);
+
+    // Bob tries to set Alice's customer_code (CVS-1001) - should fail
+    $response = $this->actingAs($user2, 'customer')
+        ->patch(route('profile.update'), [
+            'name' => 'Bob Updated',
+            'customer_code' => 'CVS-1001',
+        ]);
+
+    $response->assertSessionHasErrors(['customer_code']);
+    expect($user2->fresh()->customer_code)->toBe('CVS-1002'); // unchanged
+});
+
+test('booking form renders the customer code', function () {
+    $user = User::create([
+        'name' => 'Alice',
+        'email' => 'alice@example.com',
+        'password' => bcrypt('password'),
+        'role' => UserRole::Customer,
+    ]);
+
+    // Access the booking form and assert it contains CVS-1001
+    $response = $this->actingAs($user, 'customer')
+        ->get(route('customer.booking'));
+
+    $response->assertOk();
+    $response->assertSee('CVS-1001');
+});

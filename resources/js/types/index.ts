@@ -68,6 +68,7 @@ export interface User {
     deleted_at?: string | null;
     signature?: string | null;
     signature_url?: string | null;
+    customer_code?: string | null;
     [key: string]: unknown;
 }
 

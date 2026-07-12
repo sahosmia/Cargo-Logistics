@@ -12,7 +12,7 @@ trait ValidatesProfileAttributes
      */
     protected function profileUpdateRules(?int $userId = null, bool $isCustomer = false): array
     {
-        return [
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => [
                 $isCustomer ? 'nullable' : 'required',
@@ -23,6 +23,18 @@ trait ValidatesProfileAttributes
                 $userId ? Rule::unique(User::class)->ignore($userId) : Rule::unique(User::class),
             ],
         ];
+
+        if ($isCustomer) {
+            $rules['customer_code'] = [
+                'sometimes',
+                'required',
+                'string',
+                'max:255',
+                $userId ? Rule::unique(User::class)->ignore($userId) : Rule::unique(User::class),
+            ];
+        }
+
+        return $rules;
     }
 
     /**

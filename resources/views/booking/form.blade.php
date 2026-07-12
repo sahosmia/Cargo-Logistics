@@ -69,7 +69,7 @@
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Shipping Mark</label>
                             <div class="relative">
-                                <input type="text" value="SS19399" readonly
+                                <input type="text" value="{{ auth()->user()?->customer_code ?? 'SS19399' }}" readonly
                                     class="w-full text-sm bg-gray-50 border border-gray-200 rounded-lg pl-3 pr-10 py-2 text-gray-700 font-medium focus:outline-none">
                                 <span class="absolute inset-y-0 right-3 flex items-center text-green-500">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
