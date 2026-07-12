@@ -215,12 +215,14 @@ test('booking form renders the customer code', function () {
         'role' => UserRole::Customer,
     ]);
 
-    // Access the booking form and assert it contains CVS-1001
+    $dateStr = now()->format('ymd');
+
+    // Access the booking form and assert it contains CVS-1001-YYMMDD
     $response = $this->actingAs($user, 'customer')
         ->get(route('customer.booking'));
 
     $response->assertOk();
-    $response->assertSee('CVS-1001');
+    $response->assertSee("CVS-1001-{$dateStr}");
 });
 
 test('bookings can be searched by shipping_mark', function () {
