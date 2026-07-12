@@ -24,6 +24,9 @@ Route::middleware(['auth:web,customer'])->group(function () {
 
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/about', [FrontendController::class, 'about'])->name('about');
+Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy.policy');
+Route::get('/return-refund', [FrontendController::class, 'returnRefund'])->name('return.refund');
+Route::get('/terms-conditions', [FrontendController::class, 'termsConditions'])->name('terms.conditions');
 
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');

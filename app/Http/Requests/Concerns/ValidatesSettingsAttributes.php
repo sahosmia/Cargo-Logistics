@@ -21,6 +21,9 @@ trait ValidatesSettingsAttributes
             'warehouses' => ['nullable', 'string', 'max:255'],
             'office_hours' => ['nullable', 'string', 'max:255'],
             'paginated_quantity' => ['required', 'integer', 'min:1'],
+            'privacy_policy' => ['nullable', 'string'],
+            'return_refund' => ['nullable', 'string'],
+            'terms_conditions' => ['nullable', 'string'],
         ];
     }
 

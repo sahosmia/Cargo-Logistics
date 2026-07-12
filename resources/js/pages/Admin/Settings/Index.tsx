@@ -34,6 +34,9 @@ export default function Index({ settings }: Props) {
         website_url: (settings.website_url as string) || '',
         warehouses: (settings.warehouses as string) || '',
         office_hours: (settings.office_hours as string) || '',
+        privacy_policy: (settings.privacy_policy as string) || '',
+        return_refund: (settings.return_refund as string) || '',
+        terms_conditions: (settings.terms_conditions as string) || '',
 
         paginated_quantity: (settings.paginated_quantity as string) || '10',
     });
@@ -361,6 +364,53 @@ export default function Index({ settings }: Props) {
 
 
 
+
+                    {/* Legal & Policy Pages */}
+                    <Card>
+                        <CardHeader>
+                            <div className="flex items-center gap-2">
+                                <FileText className="h-5 w-5 text-muted-foreground" />
+                                <CardTitle>Frontend Pages Content</CardTitle>
+                            </div>
+                            <CardDescription>
+                                Set the content for Privacy Policy, Return & Refund, and Terms & Conditions pages.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="space-y-2">
+                                <FormLabel>Privacy Policy</FormLabel>
+                                <Textarea
+                                    value={data.privacy_policy}
+                                    onChange={(e) => setData('privacy_policy', e.target.value)}
+                                    placeholder="Enter Privacy Policy content..."
+                                    rows={6}
+                                />
+                                <InputError message={errors.privacy_policy} />
+                            </div>
+
+                            <div className="space-y-2">
+                                <FormLabel>Return & Refund Policy</FormLabel>
+                                <Textarea
+                                    value={data.return_refund}
+                                    onChange={(e) => setData('return_refund', e.target.value)}
+                                    placeholder="Enter Return & Refund Policy content..."
+                                    rows={6}
+                                />
+                                <InputError message={errors.return_refund} />
+                            </div>
+
+                            <div className="space-y-2">
+                                <FormLabel>Terms & Conditions</FormLabel>
+                                <Textarea
+                                    value={data.terms_conditions}
+                                    onChange={(e) => setData('terms_conditions', e.target.value)}
+                                    placeholder="Enter Terms & Conditions content..."
+                                    rows={6}
+                                />
+                                <InputError message={errors.terms_conditions} />
+                            </div>
+                        </CardContent>
+                    </Card>
 
                     {/* System Configurations */}
                     <Card>
