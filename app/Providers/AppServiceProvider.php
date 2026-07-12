@@ -3,10 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Booking;
-use App\Models\Shipment;
 use App\Models\User;
 use App\Observers\BookingObserver;
-use App\Observers\ShipmentObserver;
 use App\Observers\UserObserver;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
@@ -30,7 +28,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Booking::observe(BookingObserver::class);
         User::observe(UserObserver::class);
-        Shipment::observe(ShipmentObserver::class);
 
         View::composer(['layouts.frontend', 'app'], function ($view) {
             $logoUrl = asset('images/techpickly-transparent-logo.jpg');

@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Enums\UserRole;
 use App\Models\User;
 
 class UserObserver
@@ -11,7 +12,9 @@ class UserObserver
      */
     public function creating(User $user): void
     {
-        if (empty($user->customer_code)) {
+        $isCustomer = $user->role === UserRole::Customer || $user->role === 'customer';
+
+        if ($isCustomer && empty($user->customer_code)) {
             $latestUser = User::whereNotNull('customer_code')
                 ->where('customer_code', 'LIKE', 'CVS-%')
                 ->orderByRaw('CAST(SUBSTRING(customer_code, 5) AS UNSIGNED) DESC')

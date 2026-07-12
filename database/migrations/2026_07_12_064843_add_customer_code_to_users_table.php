@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('customer_code')->nullable()->unique()->after('id');
         });
+
+        Schema::table('bookings', function (Blueprint $table) {
+            $table->string('shipping_mark')->nullable()->unique()->after('id');
+        });
     }
 
     /**
@@ -23,6 +27,10 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('customer_code');
+        });
+
+        Schema::table('bookings', function (Blueprint $table) {
+            $table->dropColumn('shipping_mark');
         });
     }
 };
