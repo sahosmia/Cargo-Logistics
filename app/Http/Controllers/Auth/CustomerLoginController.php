@@ -46,7 +46,7 @@ class CustomerLoginController extends Controller
         $user = User::firstOrCreate(
             ['phone_number' => $phone],
             [
-                'name' => 'Customer '.substr($phone, -4),
+                'name' => 'Customer ' . substr($phone, -4),
                 'role' => UserRole::Customer,
             ]
         );
@@ -67,6 +67,8 @@ class CustomerLoginController extends Controller
         VerifyOTPRequest $request,
         VerifyOTPAction $verifyOTPAction
     ) {
+
+        // return "asdf";
         $validated = $request->validated();
 
         $phone = $validated['phone_number'];
@@ -84,7 +86,18 @@ class CustomerLoginController extends Controller
 
             RateLimiter::clear($this->otpVerificationThrottleKey($request));
 
-            return redirect()->intended(route('customer.dashboard'));
+            // return redirect()->intended(route('customer.dashboard'));
+            $redirectResponse = redirect()->intended(route('customer.dashboard'));
+            $targetUrl = $redirectResponse->getTargetUrl();
+
+            $path = parse_url($targetUrl, PHP_URL_PATH);
+            $path = '/' . ltrim($path, '/');
+
+            if ($path === '/booking' || str_starts_with($path, '/booking/')) {
+                return Inertia::location($targetUrl);
+            }
+
+            return $redirectResponse;
         }
 
         RateLimiter::hit($this->otpVerificationThrottleKey($request), 3600); // Block for 1 hour if too many attempts
@@ -96,7 +109,7 @@ class CustomerLoginController extends Controller
 
     protected function ensureOTPRequestIsNotRateLimited(Request $request)
     {
-        $key = 'otp_request_'.$request->phone_number.'|'.$request->ip();
+        $key = 'otp_request_' . $request->phone_number . '|' . $request->ip();
 
         if (RateLimiter::tooManyAttempts($key, 5)) {
             $seconds = RateLimiter::availableIn($key);
@@ -136,6 +149,6 @@ class CustomerLoginController extends Controller
 
     protected function otpVerificationThrottleKey(Request $request): string
     {
-        return 'otp_verify_'.$request->phone_number.'|'.$request->ip();
+        return 'otp_verify_' . $request->phone_number . '|' . $request->ip();
     }
 }

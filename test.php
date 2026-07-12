@@ -40,7 +40,6 @@ work by jules:
 
 => You have to fixed another problem, If admin user logout so it rediect the /login page but if customer logout so it reditrect the home page, it is working too but problem is it shwo in a modal box, because the home page is blade file, so you have to here for customer the a tag , and for admin user use the inertia Link component, same problem during login time the custoemer user if back booking page or old page if it is blade file
 
-=> Customer user not need password, email option in profile settings
 
 
 
@@ -58,5 +57,5 @@ Done :
 => Booking history will show on each booking details with date time, status, comment for each side admin and customer
 =>Add Comment option in status
 => Make all functionality complete for the Contact form submission. Like show an error message or a validation error, store all data in the contact table, and show a success message properly
-=> profile information update role wise 
+=> customer-profile-email-password-restrictions
 

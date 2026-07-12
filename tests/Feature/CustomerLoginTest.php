@@ -1,11 +1,9 @@
 <?php
 
-use App\Models\User;
 use App\Enums\UserRole;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\RateLimiter;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 test('customer can view login form', function () {
     $response = $this->get(route('customer.login'));

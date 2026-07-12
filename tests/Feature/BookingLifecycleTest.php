@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Booking;
-use App\Models\BookingHistory;
 use App\Models\Category;
 use App\Models\District;
 use App\Models\User;
