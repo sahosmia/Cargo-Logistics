@@ -69,6 +69,7 @@ export interface User {
     signature?: string | null;
     signature_url?: string | null;
     [key: string]: unknown;
+    customer_code?: string | null;
 }
 
 export interface Sale {

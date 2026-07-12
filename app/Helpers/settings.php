@@ -1,18 +1,15 @@
 <?php
 
 use App\Models\Settings;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
-
-
-if (!function_exists('settings')) {
+if (! function_exists('settings')) {
     /**
      * Get setting value by key with optimized global caching and auto-casting.
      *
-     * @param string|null $key
-     * @param mixed $default
+     * @param  mixed  $default
      * @return mixed
      */
     function settings(?string $key = null, $default = null)
@@ -32,20 +29,19 @@ if (!function_exists('settings')) {
         }
 
         // Auto-cast numeric strings to integers if applicable
-        if (is_string($value) && is_numeric($value) && (string)(int)$value === $value) {
-            return (int)$value;
+        if (is_string($value) && is_numeric($value) && (string) (int) $value === $value) {
+            return (int) $value;
         }
 
         return $value;
     }
 }
 
-if(!function_exists('handleImageUpload')){
-      function handleImageUpload(string $key, UploadedFile $file): void
+if (! function_exists('handleImageUpload')) {
+    function handleImageUpload(string $key, UploadedFile $file): void
     {
         // Get old image path
         $oldPath = Settings::pluck('value', 'key')->get($key);
-
 
         // Store new image
         $path = $file->store('settings', 'public');

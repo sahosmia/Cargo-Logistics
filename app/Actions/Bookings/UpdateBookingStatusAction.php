@@ -17,7 +17,7 @@ class UpdateBookingStatusAction
 
         // Comment is handled by Observer via request('comment')
         // but we can also explicitly set it if needed.
-        
+
         return $booking;
     }
 }

@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Inertia\Inertia;
 
 class ContactController extends Controller
 {
@@ -22,7 +21,7 @@ class ContactController extends Controller
         $contacts = Contact::latest()->paginate(settings('paginated_quantity', 10));
 
         return Inertia::render('Admin/Contacts/Index', [
-            'contacts' => $contacts
+            'contacts' => $contacts,
         ]);
     }
 }

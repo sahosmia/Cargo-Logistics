@@ -21,6 +21,8 @@ class Booking extends Model
         'address',
         'note',
         'status',
+                'shipping_mark',
+
     ];
 
     protected function casts(): array

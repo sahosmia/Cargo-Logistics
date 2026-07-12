@@ -8,8 +8,10 @@ import { Input } from "@/components/ui/input";
 interface Category {
     id: number;
     name: string;
-    price_start: string;
-    price_end: string;
+    sea_price_start: string;
+    sea_price_end: string;
+    air_price_start: string;
+    air_price_end: string;
 }
 
 interface Props { category?: Category; }
@@ -17,8 +19,10 @@ interface Props { category?: Category; }
 export default function CategoryForm({ category }: Props) {
     const { data, setData, post, processing, errors } = useForm({
         name: category?.name || "",
-        price_start: category?.price_start || "",
-        price_end: category?.price_end || "",
+        sea_price_start: category?.sea_price_start || "",
+        sea_price_end: category?.sea_price_end || "",
+        air_price_start: category?.air_price_start || "",
+        air_price_end: category?.air_price_end || "",
         _method: category ? "put" : undefined,
     });
 
@@ -43,16 +47,32 @@ export default function CategoryForm({ category }: Props) {
                         <ErrorMessage message={errors.name} />
                     </div>
 
-                    <div className="space-y-1">
-                        <FormLabel required>Price Start</FormLabel>
-                        <Input type="number" step="0.01" value={data.price_start} onChange={e => setData("price_start", e.target.value)} placeholder="0.00" />
-                        <ErrorMessage message={errors.price_start} />
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                            <FormLabel required>Sea Price Min</FormLabel>
+                            <Input type="number" step="0.01" value={data.sea_price_start} onChange={e => setData("sea_price_start", e.target.value)} placeholder="0.00" />
+                            <ErrorMessage message={errors.sea_price_start} />
+                        </div>
+
+                        <div className="space-y-1">
+                            <FormLabel required>Sea Price Max</FormLabel>
+                            <Input type="number" step="0.01" value={data.sea_price_end} onChange={e => setData("sea_price_end", e.target.value)} placeholder="0.00" />
+                            <ErrorMessage message={errors.sea_price_end} />
+                        </div>
                     </div>
 
-                    <div className="space-y-1">
-                        <FormLabel required>Price End</FormLabel>
-                        <Input type="number" step="0.01" value={data.price_end} onChange={e => setData("price_end", e.target.value)} placeholder="0.00" />
-                        <ErrorMessage message={errors.price_end} />
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                            <FormLabel required>Air Price Min</FormLabel>
+                            <Input type="number" step="0.01" value={data.air_price_start} onChange={e => setData("air_price_start", e.target.value)} placeholder="0.00" />
+                            <ErrorMessage message={errors.air_price_start} />
+                        </div>
+
+                        <div className="space-y-1">
+                            <FormLabel required>Air Price Max</FormLabel>
+                            <Input type="number" step="0.01" value={data.air_price_end} onChange={e => setData("air_price_end", e.target.value)} placeholder="0.00" />
+                            <ErrorMessage message={errors.air_price_end} />
+                        </div>
                     </div>
                 </div>
             </div>

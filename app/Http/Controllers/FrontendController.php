@@ -15,6 +15,7 @@ class FrontendController extends Controller
 
         return view('home', compact('heroBannerUrl'));
     }
+
     public function about()
     {
         return view('about');

@@ -59,6 +59,7 @@
                                     class="text-red-500 mr-0.5">*</span>Method</label>
                             <select name="method"
                                 class="w-full text-sm bg-gray-50 border @error('method') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                <option value="" {{ !old('method', request('method')) ? 'selected' : '' }}>Select Method</option>
                                 <option value="Air" {{ strtolower(old('method', request('method'))) == 'air' ? 'selected' : '' }}>Air</option>
                                 <option value="Sea" {{ strtolower(old('method', request('method'))) == 'sea' ? 'selected' : '' }}>Sea</option>
                             </select>
@@ -69,7 +70,7 @@
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Shipping Mark</label>
                             <div class="relative">
-                                <input type="text" value="SS19399" readonly
+                                <input type="text" value="{{ auth()->user()?->customer_code ? auth()->user()->customer_code . '-' . date('ymd') : 'SS19399' }}" readonly
                                     class="w-full text-sm bg-gray-50 border border-gray-200 rounded-lg pl-3 pr-10 py-2 text-gray-700 font-medium focus:outline-none">
                                 <span class="absolute inset-y-0 right-3 flex items-center text-green-500">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -139,8 +140,13 @@
                                 class="text-red-500 mr-0.5">*</span>Category</label>
                         <select id="category-select" name="category_id" placeholder="Search By category Name" autocomplete="off"
                             class="w-full text-sm bg-white border @error('category_id') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
-                            @if(old('category_id'))
-                                <option value="{{ old('category_id') }}" selected>{{ old('category_name') }}</option>
+                            @if(old('category_id') && isset($oldCategory))
+                                <option value="{{ old('category_id') }}"
+                                        data-sea-price-start="{{ $oldCategory->sea_price_start }}"
+                                        data-sea-price-end="{{ $oldCategory->sea_price_end }}"
+                                        data-air-price-start="{{ $oldCategory->air_price_start }}"
+                                        data-air-price-end="{{ $oldCategory->air_price_end }}"
+                                        selected>{{ old('category_name', $oldCategory->name) }}</option>
                             @endif
                         </select>
                         <input type="hidden" name="category_name" id="category_name" value="{{ old('category_name') }}">
@@ -301,24 +307,70 @@
 <script>
     let selectedCategory = null;
 
+    // Load initial category from data attributes if selected
+    const initialCategoryOption = document.querySelector('#category-select option[selected]');
+    if (initialCategoryOption) {
+        selectedCategory = {
+            id: initialCategoryOption.value,
+            name: initialCategoryOption.textContent,
+            sea_price_start: initialCategoryOption.getAttribute('data-sea-price-start') || '0',
+            sea_price_end: initialCategoryOption.getAttribute('data-sea-price-end') || '0',
+            air_price_start: initialCategoryOption.getAttribute('data-air-price-start') || '0',
+            air_price_end: initialCategoryOption.getAttribute('data-air-price-end') || '0'
+        };
+    }
+
     function updateSummary() {
         const weight = parseFloat(document.querySelector('input[name="total_weight"]').value) || 0;
         document.getElementById('summary-weight').innerText = weight;
 
-        if (selectedCategory) {
-            const rateStr = `${selectedCategory.price_start} - ${selectedCategory.price_end}`;
-            document.getElementById('summary-rate').innerText = rateStr;
+        const methodSelect = document.querySelector('select[name="method"]');
+        const method = methodSelect ? methodSelect.value.trim().toLowerCase() : '';
 
-            const totalStart = selectedCategory.price_start * weight;
-            const totalEnd = selectedCategory.price_end * weight;
-            document.getElementById('summary-total').innerText = `${totalStart.toFixed(2)} - ${totalEnd.toFixed(2)}`;
+        if (!method) {
+            document.getElementById('summary-rate').innerText = 'Select method first';
+            document.getElementById('summary-total').innerText = 'Select method first';
+            return;
+        }
+
+        if (selectedCategory) {
+            let pStart = 0;
+            let pEnd = 0;
+
+            if (method === 'sea') {
+                pStart = parseFloat(selectedCategory.sea_price_start) || 0;
+                pEnd = parseFloat(selectedCategory.sea_price_end) || 0;
+            } else if (method === 'air') {
+                pStart = parseFloat(selectedCategory.air_price_start) || 0;
+                pEnd = parseFloat(selectedCategory.air_price_end) || 0;
+            }
+
+            const rateStr = `${pStart} - ${pEnd}`;
+            document.getElementById('summary-rate').innerText = `${rateStr} Tk`;
+
+            const totalStart = pStart * weight;
+            const totalEnd = pEnd * weight;
+            document.getElementById('summary-total').innerText = `${totalStart.toFixed(2)} - ${totalEnd.toFixed(2)} Tk`;
         } else {
-            document.getElementById('summary-rate').innerText = '0';
-            document.getElementById('summary-total').innerText = '0';
+            document.getElementById('summary-rate').innerText = '0 Tk';
+            document.getElementById('summary-total').innerText = '0 Tk';
         }
     }
 
     document.querySelector('input[name="total_weight"]').addEventListener('input', updateSummary);
+    document.querySelector('select[name="method"]').addEventListener('change', function() {
+        updateSummary();
+        if (typeof categorySelect !== 'undefined' && categorySelect) {
+            categorySelect.clearCache();
+            const currentValue = categorySelect.getValue();
+            if (currentValue && categorySelect.options[currentValue]) {
+                categorySelect.updateOption(currentValue, categorySelect.options[currentValue]);
+            }
+        }
+    });
+
+    // Call once on load to initialize values
+    updateSummary();
 
     // Initialize Tom Select for Category
     var categorySelect = new TomSelect("#category-select", {
@@ -344,13 +396,37 @@
         },
         render: {
             option: function(item, escape) {
+                const methodSelect = document.querySelector('select[name="method"]');
+                const method = methodSelect ? methodSelect.value.trim().toLowerCase() : '';
+
+                let priceText = '';
+                if (method === 'sea') {
+                    priceText = escape(item.sea_price_start) + ' - ' + escape(item.sea_price_end) + ' Tk';
+                } else if (method === 'air') {
+                    priceText = escape(item.air_price_start) + ' - ' + escape(item.air_price_end) + ' Tk';
+                } else {
+                    priceText = 'Select method first';
+                }
+
                 return '<div class="py-1 px-2">' +
                             '<span class="font-medium">' + escape(item.name) + '</span>' +
-                            '<span class="text-xs text-gray-500 ml-2">(' + escape(item.price_start) + ' - ' + escape(item.price_end) + ' Tk)</span>' +
+                            '<span class="text-xs text-gray-500 ml-2">(' + priceText + ')</span>' +
                         '</div>';
             },
             item: function(item, escape) {
-                return '<div>' + escape(item.name) + ' (' + escape(item.price_start) + ' - ' + escape(item.price_end) + ')</div>';
+                const methodSelect = document.querySelector('select[name="method"]');
+                const method = methodSelect ? methodSelect.value.trim().toLowerCase() : '';
+
+                let priceText = '';
+                if (method === 'sea') {
+                    priceText = escape(item.sea_price_start) + ' - ' + escape(item.sea_price_end) + ' Tk';
+                } else if (method === 'air') {
+                    priceText = escape(item.air_price_start) + ' - ' + escape(item.air_price_end) + ' Tk';
+                } else {
+                    priceText = 'Select method first';
+                }
+
+                return '<div>' + escape(item.name) + ' (' + priceText + ')</div>';
             }
         }
     });

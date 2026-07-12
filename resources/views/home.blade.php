@@ -36,7 +36,7 @@
                     <div class="flex items-center gap-3">
                         <span class="text-sm font-medium text-gray-400 pl-2">From</span>
                         <div class="flex items-center gap-2 bg-white text-gray-900 px-4 py-2 rounded-lg border border-gray-200 select-none">
-                            <span class="text-xl">🇨🇳</span>
+                            img
                             <span class="text-sm font-semibold pr-4">China</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3 h-3 text-gray-500">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />

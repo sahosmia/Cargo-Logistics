@@ -13,8 +13,10 @@ trait ValidatesCategoryAttributes
     {
         return [
             'name' => 'required|string|max:255',
-            'price_start' => 'required|numeric|min:0',
-            'price_end' => 'required|numeric|gt:price_start',
+            'sea_price_start' => 'required|numeric|min:0',
+            'sea_price_end' => 'required|numeric|gte:sea_price_start',
+            'air_price_start' => 'required|numeric|min:0',
+            'air_price_end' => 'required|numeric|gte:air_price_start',
         ];
     }
 
@@ -25,9 +27,12 @@ trait ValidatesCategoryAttributes
     {
         return [
             'name.required' => 'Category name is required',
-            'price_start.required' => 'Starting price is required',
-            'price_end.required' => 'Ending price is required',
-            'price_end.gt' => 'Ending price must be greater than starting price',
+            'sea_price_start.required' => 'Sea starting price is required',
+            'sea_price_end.required' => 'Sea ending price is required',
+            'sea_price_end.gte' => 'Sea ending price must be greater than or equal to starting price',
+            'air_price_start.required' => 'Air starting price is required',
+            'air_price_end.required' => 'Air ending price is required',
+            'air_price_end.gte' => 'Air ending price must be greater than or equal to starting price',
         ];
     }
 }

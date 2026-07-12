@@ -3,9 +3,9 @@
 namespace App\Policies;
 
 use App\Enums\BookingStatus;
+use App\Enums\UserRole;
 use App\Models\Booking;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class BookingPolicy
@@ -15,6 +15,10 @@ class BookingPolicy
      */
     public function viewAny(Authenticatable $user): bool
     {
+        if ($user->role === UserRole::Customer || $user->role === 'customer') {
+            return true;
+        }
+
         return method_exists($user, 'hasPermissionTo') && $user->hasPermissionTo('view bookings');
     }
 
@@ -23,6 +27,10 @@ class BookingPolicy
      */
     public function view(Authenticatable $user, Booking $booking): bool
     {
+        if ($user->role === UserRole::Customer || $user->role === 'customer') {
+            return $user->getAuthIdentifier() === $booking->user_id;
+        }
+
         if (method_exists($user, 'hasPermissionTo') && $user->hasPermissionTo('view bookings')) {
             return true;
         }
@@ -35,20 +43,24 @@ class BookingPolicy
      */
     public function updateStatus(Authenticatable $user, Booking $booking, string $newStatus): bool
     {
-        if (!$user->hasPermissionTo('update booking status')) {
+        if ($user->role === UserRole::Customer || $user->role === 'customer') {
+            return false;
+        }
+
+        if (! $user->hasPermissionTo('update booking status')) {
             return false;
         }
 
         $currentStatus = BookingStatus::tryFrom($booking->status);
         $targetStatus = BookingStatus::tryFrom($newStatus);
 
-        if (!$currentStatus || !$targetStatus) {
+        if (! $currentStatus || ! $targetStatus) {
             return false;
         }
 
         // Check if transition is allowed in linear lifecycle
         $allowedNext = $currentStatus->nextStatuses();
-        if (!in_array($targetStatus, $allowedNext) && $booking->status !== $newStatus) {
+        if (! in_array($targetStatus, $allowedNext) && $booking->status !== $newStatus) {
             return false;
         }
 
@@ -84,6 +96,10 @@ class BookingPolicy
      */
     public function delete(User $user, Booking $booking): bool
     {
+        if ($user->role === UserRole::Customer || $user->role === 'customer') {
+            return false;
+        }
+
         return $user->hasPermissionTo('delete bookings');
     }
 }

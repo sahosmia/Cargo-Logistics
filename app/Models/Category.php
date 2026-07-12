@@ -11,15 +11,19 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'price_start',
-        'price_end',
+        'sea_price_start',
+        'sea_price_end',
+        'air_price_start',
+        'air_price_end',
     ];
 
     protected function casts(): array
     {
         return [
-            'price_start' => 'decimal:2',
-            'price_end' => 'decimal:2',
+            'sea_price_start' => 'decimal:2',
+            'sea_price_end' => 'decimal:2',
+            'air_price_start' => 'decimal:2',
+            'air_price_end' => 'decimal:2',
         ];
     }
 }

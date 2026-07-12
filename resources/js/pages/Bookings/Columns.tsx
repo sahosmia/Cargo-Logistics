@@ -15,6 +15,14 @@ export const columns: Column<any>[] = [
         ),
     },
     {
+        header: 'Shipping Mark',
+        accessor: (item) => (
+            <span className="font-mono text-xs font-semibold text-primary">
+                {item.shipping_mark || 'N/A'}
+            </span>
+        ),
+    },
+    {
         header: 'Category',
         accessor: (item) => item.category?.name || 'N/A',
     },

@@ -25,6 +25,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         name: auth.user.name,
         email: auth.user.email,
+        customer_code: auth.user.customer_code || '',
     });
 
     const submit: FormEventHandler = (e) => {
@@ -79,17 +80,34 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                 <InputError className="mt-2" message={errors.email} />
                             </div>
                         ) : (
-                            <div className="grid gap-2">
-                                <Label htmlFor="phone_number">Phone Number</Label>
+                            <>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="phone_number">Phone Number</Label>
 
-                                <Input
-                                    id="phone_number"
-                                    className="mt-1 block w-full bg-muted"
-                                    value={auth.user.phone_number}
-                                    readOnly
-                                    placeholder="Phone Number"
-                                />
-                            </div>
+                                    <Input
+                                        id="phone_number"
+                                        className="mt-1 block w-full bg-muted"
+                                        value={auth.user.phone_number}
+                                        readOnly
+                                        placeholder="Phone Number"
+                                    />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor="customer_code">Shipping Mark / Customer Code</Label>
+
+                                    <Input
+                                        id="customer_code"
+                                        className="mt-1 block w-full"
+                                        value={data.customer_code}
+                                        onChange={(e) => setData('customer_code', e.target.value)}
+                                        required
+                                        placeholder="Customer Code (e.g. CVS-1001)"
+                                    />
+
+                                    <InputError className="mt-2" message={errors.customer_code} />
+                                </div>
+                            </>
                         )}
 
                         {auth.guard !== 'customer' && mustVerifyEmail && auth.user.email_verified_at === null && (

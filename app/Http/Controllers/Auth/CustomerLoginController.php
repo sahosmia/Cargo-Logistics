@@ -46,7 +46,7 @@ class CustomerLoginController extends Controller
         $user = User::firstOrCreate(
             ['phone_number' => $phone],
             [
-                'name' => 'Customer ' . substr($phone, -4),
+                'name' => 'Customer '.substr($phone, -4),
                 'role' => UserRole::Customer,
             ]
         );
@@ -91,7 +91,7 @@ class CustomerLoginController extends Controller
             $targetUrl = $redirectResponse->getTargetUrl();
 
             $path = parse_url($targetUrl, PHP_URL_PATH);
-            $path = '/' . ltrim($path, '/');
+            $path = '/'.ltrim($path, '/');
 
             if ($path === '/booking' || str_starts_with($path, '/booking/')) {
                 return Inertia::location($targetUrl);
@@ -109,7 +109,7 @@ class CustomerLoginController extends Controller
 
     protected function ensureOTPRequestIsNotRateLimited(Request $request)
     {
-        $key = 'otp_request_' . $request->phone_number . '|' . $request->ip();
+        $key = 'otp_request_'.$request->phone_number.'|'.$request->ip();
 
         if (RateLimiter::tooManyAttempts($key, 5)) {
             $seconds = RateLimiter::availableIn($key);
@@ -149,6 +149,6 @@ class CustomerLoginController extends Controller
 
     protected function otpVerificationThrottleKey(Request $request): string
     {
-        return 'otp_verify_' . $request->phone_number . '|' . $request->ip();
+        return 'otp_verify_'.$request->phone_number.'|'.$request->ip();
     }
 }

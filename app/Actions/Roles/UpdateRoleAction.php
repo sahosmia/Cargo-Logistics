@@ -12,7 +12,7 @@ class UpdateRoleAction
         unset($data['permissions']);
 
         $role->syncPermissions($permissions);
-        
+
         return $role->update($data);
     }
 }

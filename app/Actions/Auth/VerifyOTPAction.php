@@ -12,6 +12,7 @@ class VerifyOTPAction
 
         if ($cachedOtp && $cachedOtp === $otp) {
             Cache::forget("otp_{$phone}");
+
             return true;
         }
 

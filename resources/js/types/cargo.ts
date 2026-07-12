@@ -14,8 +14,10 @@ export interface Permission {
 export interface Category {
     id: number;
     name: string;
-    price_start: string | number;
-    price_end: string | number;
+    sea_price_start: string | number;
+    sea_price_end: string | number;
+    air_price_start: string | number;
+    air_price_end: string | number;
 }
 
 export interface District {

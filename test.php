@@ -49,13 +49,7 @@ work by jules:
 
 
 Done :
-=>All validation code mode to form request file for industry standerd code,
 =>China BD Flag show,
 =>The home page hero section banner makes it dynamic in the settings table, like the logo. And update the dynamic image in the hero banner section.
-=> Home page hero section overlay opacity make more light
-=> sidebar link menu use to redirect by link and a tag for blade and react file
-=> Booking history will show on each booking details with date time, status, comment for each side admin and customer
-=>Add Comment option in status
-=> Make all functionality complete for the Contact form submission. Like show an error message or a validation error, store all data in the contact table, and show a success message properly
-=> customer-profile-email-password-restrictions
+
 

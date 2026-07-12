@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Booking;
+use App\Models\User;
 use App\Observers\BookingObserver;
+use App\Observers\UserObserver;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
@@ -25,9 +27,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Booking::observe(BookingObserver::class);
+        User::observe(UserObserver::class);
 
         View::composer(['layouts.frontend', 'app'], function ($view) {
-            $logoUrl = asset('images/techpickly-transparent-logo.jpg');
+            $logoUrl = asset('images/techpickly-transparent-logo.png');
             $faviconUrl = asset('images/favicon.png');
 
             try {
@@ -44,11 +47,11 @@ class AppServiceProvider extends ServiceProvider
                     }
                 }
             } catch (\Exception $e) {
-                Log::warning('Settings table missing or DB connection failed: ' . $e->getMessage());
+                Log::warning('Settings table missing or DB connection failed: '.$e->getMessage());
             }
 
             $view->with([
-                'siteLogoUrl'    => $logoUrl,
+                'siteLogoUrl' => $logoUrl,
                 'siteFaviconUrl' => $faviconUrl,
             ]);
         });
