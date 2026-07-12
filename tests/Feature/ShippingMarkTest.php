@@ -14,8 +14,10 @@ function createBookingForUser($user)
 {
     $category = Category::create([
         'name' => 'Test '.uniqid(),
-        'price_start' => 10,
-        'price_end' => 20,
+        'sea_price_start' => 10,
+        'sea_price_end' => 20,
+        'air_price_start' => 15,
+        'air_price_end' => 25,
     ]);
     $district = District::create([
         'name' => 'Dhaka '.uniqid(),
