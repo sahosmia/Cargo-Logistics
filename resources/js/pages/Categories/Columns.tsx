@@ -19,7 +19,9 @@ const columns: Column<CategoryType>[] = [
         header: 'Sea Price Range',
         accessor: (item) => (
             <span className="text-sm">
-                {item.sea_price_start} - {item.sea_price_end}
+                {item.sea_price_start && item.sea_price_end
+                    ? `${item.sea_price_start} - ${item.sea_price_end}`
+                    : 'N/A'}
             </span>
         ),
     },
@@ -27,7 +29,9 @@ const columns: Column<CategoryType>[] = [
         header: 'Air Price Range',
         accessor: (item) => (
             <span className="text-sm">
-                {item.air_price_start} - {item.air_price_end}
+                {item.air_price_start && item.air_price_end
+                    ? `${item.air_price_start} - ${item.air_price_end}`
+                    : 'N/A'}
             </span>
         ),
     },

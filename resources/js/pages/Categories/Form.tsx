@@ -49,13 +49,13 @@ export default function CategoryForm({ category }: Props) {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-1">
-                            <FormLabel required>Sea Price Min</FormLabel>
+                            <FormLabel>Sea Price Min</FormLabel>
                             <Input type="number" step="0.01" value={data.sea_price_start} onChange={e => setData("sea_price_start", e.target.value)} placeholder="0.00" />
                             <ErrorMessage message={errors.sea_price_start} />
                         </div>
 
                         <div className="space-y-1">
-                            <FormLabel required>Sea Price Max</FormLabel>
+                            <FormLabel>Sea Price Max</FormLabel>
                             <Input type="number" step="0.01" value={data.sea_price_end} onChange={e => setData("sea_price_end", e.target.value)} placeholder="0.00" />
                             <ErrorMessage message={errors.sea_price_end} />
                         </div>
@@ -63,13 +63,13 @@ export default function CategoryForm({ category }: Props) {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-1">
-                            <FormLabel required>Air Price Min</FormLabel>
+                            <FormLabel>Air Price Min</FormLabel>
                             <Input type="number" step="0.01" value={data.air_price_start} onChange={e => setData("air_price_start", e.target.value)} placeholder="0.00" />
                             <ErrorMessage message={errors.air_price_start} />
                         </div>
 
                         <div className="space-y-1">
-                            <FormLabel required>Air Price Max</FormLabel>
+                            <FormLabel>Air Price Max</FormLabel>
                             <Input type="number" step="0.01" value={data.air_price_end} onChange={e => setData("air_price_end", e.target.value)} placeholder="0.00" />
                             <ErrorMessage message={errors.air_price_end} />
                         </div>

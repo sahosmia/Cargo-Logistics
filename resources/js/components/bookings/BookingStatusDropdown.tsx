@@ -88,7 +88,9 @@ export default function BookingStatusDropdown({ booking }: Props) {
             if (newStatus === 'received_in_china' || (newStatus === 'delivered' && auth.user?.roles?.includes('Super Admin'))) {
                 if (booking.category) {
                     const method = booking.method?.toLowerCase();
-                    const price = method === 'sea' ? booking.category.sea_price_start : booking.category.air_price_start;
+                    const price = method === 'sea'
+                        ? (booking.category.sea_price_start ?? 0)
+                        : (booking.category.air_price_start ?? 0);
                     nextData.unit_price = price;
                     nextData.total_price = Number(price) * Number(booking.total_weight || 0);
                 }
@@ -185,7 +187,7 @@ export default function BookingStatusDropdown({ booking }: Props) {
                                     <div className="space-y-2">
                                         <Label htmlFor="unit_price">Unit Price (Category: {booking.category?.name})</Label>
                                         <div className="text-[10px] text-muted-foreground mb-1">
-                                            Sea: {booking.category?.sea_price_start} - {booking.category?.sea_price_end} | Air: {booking.category?.air_price_start} - {booking.category?.air_price_end}
+                                            Sea: {booking.category?.sea_price_start ?? 'N/A'} - {booking.category?.sea_price_end ?? 'N/A'} | Air: {booking.category?.air_price_start ?? 'N/A'} - {booking.category?.air_price_end ?? 'N/A'}
                                         </div>
                                         <Input
                                             id="unit_price"

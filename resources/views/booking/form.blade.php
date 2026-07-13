@@ -361,11 +361,10 @@
     document.querySelector('select[name="method"]').addEventListener('change', function() {
         updateSummary();
         if (typeof categorySelect !== 'undefined' && categorySelect) {
+            categorySelect.clear();
+            categorySelect.clearOptions();
             categorySelect.clearCache();
-            const currentValue = categorySelect.getValue();
-            if (currentValue && categorySelect.options[currentValue]) {
-                categorySelect.updateOption(currentValue, categorySelect.options[currentValue]);
-            }
+            categorySelect.load('');
         }
     });
 
@@ -379,7 +378,9 @@
         searchField: 'name',
         preload: true,
         load: function(query, callback) {
-            var url = '/api/search-categories?q=' + encodeURIComponent(query);
+            const methodSelect = document.querySelector('select[name="method"]');
+            const method = methodSelect ? methodSelect.value.trim().toLowerCase() : '';
+            var url = '/api/search-categories?q=' + encodeURIComponent(query) + '&method=' + encodeURIComponent(method);
             fetch(url)
                 .then(response => response.json())
                 .then(json => {
