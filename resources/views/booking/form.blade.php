@@ -139,7 +139,7 @@
                         <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                 class="text-red-500 mr-0.5">*</span>Category</label>
                         <select id="category-select" name="category_id" placeholder="Search By category Name" autocomplete="off"
-                            class="w-full text-sm bg-white border @error('category_id') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                            class="w-full text-sm bg-white border @error('category_id') border-red-500 @else border-gray-200 @enderror rounded-lg  text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
                             @if(old('category_id') && isset($oldCategory))
                                 <option value="{{ old('category_id') }}"
                                         data-sea-price-start="{{ $oldCategory->sea_price_start }}"
@@ -178,7 +178,7 @@
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                     class="text-red-500 mr-0.5">*</span>Total Weight</label>
-                            <input type="number" name="total_weight" placeholder="Weight" value="{{ old('total_weight') }}"
+                            <input type="number" step="0.1" name="total_weight" placeholder="Weight" value="{{ old('total_weight') }}"
                                 class="w-full text-sm bg-white border @error('total_weight') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
                             @error('total_weight')
                                 <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
@@ -218,7 +218,7 @@
                             <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
                                     class="text-red-500 mr-0.5">*</span>District</label>
                             <select id="district-select" name="district_id" placeholder="Select District" autocomplete="off"
-                                class="w-full text-sm bg-white border @error('district_id') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                class="w-full text-sm bg-white border @error('district_id') border-red-500 @else border-gray-200 @enderror rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
                                 @if(old('district_id'))
                                     <option value="{{ old('district_id') }}" selected>{{ old('district_name') }}</option>
                                 @endif
@@ -361,11 +361,10 @@
     document.querySelector('select[name="method"]').addEventListener('change', function() {
         updateSummary();
         if (typeof categorySelect !== 'undefined' && categorySelect) {
+            categorySelect.clear();
+            categorySelect.clearOptions();
             categorySelect.clearCache();
-            const currentValue = categorySelect.getValue();
-            if (currentValue && categorySelect.options[currentValue]) {
-                categorySelect.updateOption(currentValue, categorySelect.options[currentValue]);
-            }
+            categorySelect.load('');
         }
     });
 
@@ -379,7 +378,9 @@
         searchField: 'name',
         preload: true,
         load: function(query, callback) {
-            var url = '/api/search-categories?q=' + encodeURIComponent(query);
+            const methodSelect = document.querySelector('select[name="method"]');
+            const method = methodSelect ? methodSelect.value.trim().toLowerCase() : '';
+            var url = '/api/search-categories?q=' + encodeURIComponent(query) + '&method=' + encodeURIComponent(method);
             fetch(url)
                 .then(response => response.json())
                 .then(json => {

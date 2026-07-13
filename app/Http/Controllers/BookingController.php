@@ -61,9 +61,23 @@ class BookingController extends Controller
     public function getCategories(Request $request)
     {
         $query = $request->get('q');
+        $method = $request->get('method');
 
-        $categories = Category::where('name', 'LIKE', "%{$query}%")
-            ->limit(15)
+        $dbQuery = Category::query();
+
+        if ($query) {
+            $dbQuery->where('name', 'LIKE', "%{$query}%");
+        }
+
+        if (strtolower($method) === 'sea') {
+            $dbQuery->whereNotNull('sea_price_start')
+                ->whereNotNull('sea_price_end');
+        } elseif (strtolower($method) === 'air') {
+            $dbQuery->whereNotNull('air_price_start')
+                ->whereNotNull('air_price_end');
+        }
+
+        $categories = $dbQuery->limit(15)
             ->get([
                 'id',
                 'name',

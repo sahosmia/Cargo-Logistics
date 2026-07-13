@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->decimal('sea_price_start', 10, 2);
-            $table->decimal('sea_price_end', 10, 2);
-            $table->decimal('air_price_start', 10, 2);
-            $table->decimal('air_price_end', 10, 2);
+                $table->decimal('sea_price_start', 10, 2)->nullable();
+            $table->decimal('sea_price_end', 10, 2)->nullable();
+            $table->decimal('air_price_start', 10, 2)->nullable();
+            $table->decimal('air_price_end', 10, 2)->nullable();
             $table->timestamps();
         });
     }
