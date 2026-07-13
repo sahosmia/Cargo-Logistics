@@ -166,3 +166,47 @@
   2026-07-13 11:16:55 /api/search-categories ....................... ~ 0.13ms
   2026-07-13 11:16:58 /api/search-categories ....................... ~ 0.09ms
   2026-07-13 11:16:59 /api/search-categories ....................... ~ 0.09ms
+  2026-07-13 11:36:04 /login ..................................... ~ 514.13ms
+  2026-07-13 11:36:04 /build/assets/app-DSV6MwC1.css ............... ~ 0.05ms
+  2026-07-13 11:36:04 /build/assets/login-Bt4lCRYZ.js .............. ~ 0.36ms
+  2026-07-13 11:36:04 /build/assets/input-error-CXsuKSWd.js ........ ~ 0.51ms
+  2026-07-13 11:36:04 /build/assets/app-BmAMTiUv.js ................ ~ 0.64ms
+  2026-07-13 11:36:04 /build/assets/text-link-BznZoAx3.js .......... ~ 0.62ms
+  2026-07-13 11:36:04 /build/assets/button-DXT1NHDs.js ............. ~ 1.07ms
+  2026-07-13 11:36:04 /build/assets/checkbox-B42V_Twz.js ........... ~ 1.21ms
+  2026-07-13 11:36:04 /build/assets/input-CEFt0jOq.js .............. ~ 0.10ms
+  2026-07-13 11:36:04 /build/assets/label-B8cczAmG.js .............. ~ 0.23ms
+  2026-07-13 11:36:04 /build/assets/auth-layout-C83brs55.js ........ ~ 2.38ms
+  2026-07-13 11:36:04 /build/assets/loader-circle-KangHrFD.js ...... ~ 2.57ms
+  2026-07-13 11:36:04 /build/assets/index-POyOYHxn.js .............. ~ 2.66ms
+  2026-07-13 11:36:04 /build/assets/index-C8q4t9Xy.js .............. ~ 0.12ms
+  2026-07-13 11:36:04 /build/assets/index-BZpab5HS.js .............. ~ 0.26ms
+  2026-07-13 11:36:04 /build/assets/index-EyOxjpJp.js .............. ~ 0.39ms
+  2026-07-13 11:36:05 /build/assets/app-DSV6MwC1.css ............... ~ 0.03ms
+  2026-07-13 11:36:05 /logo.svg .................................... ~ 0.03ms
+  2026-07-13 11:36:05 /_boost/browser-logs ......................... ~ 0.02ms
+  2026-07-13 11:36:05 /_boost/browser-logs ......................... ~ 0.11ms
+  2026-07-13 11:36:07 /_boost/browser-logs ......................... ~ 0.11ms
+  2026-07-13 11:36:07 /_boost/browser-logs ......................... ~ 0.11ms
+  2026-07-13 11:36:08 /login ..................................... ~ 501.04ms
+  2026-07-13 11:36:08 /_boost/browser-logs ......................... ~ 0.04ms
+  2026-07-13 11:36:08 /dashboard ................................... ~ 0.03ms
+  2026-07-13 11:36:08 /build/assets/dashboard-DUHnMa0z.js .......... ~ 0.07ms
+  2026-07-13 11:36:08 /build/assets/badge-CyEcBlYb.js .............. ~ 0.08ms
+  2026-07-13 11:36:08 /build/assets/app-layout-D71txAqn.js ......... ~ 0.24ms
+  2026-07-13 11:36:08 /build/assets/index-D4xB-BXe.js .............. ~ 0.36ms
+  2026-07-13 11:36:08 /build/assets/index-DX4hVH9-.js .............. ~ 4.20ms
+  2026-07-13 11:36:08 /build/assets/Combination-C3vqnm0L.js ........ ~ 4.41ms
+  2026-07-13 11:36:08 /build/assets/index-DgLsMEYb.js .............. ~ 4.55ms
+  2026-07-13 11:36:08 /build/assets/index-CqSeo2yf.js .............. ~ 0.07ms
+  2026-07-13 11:36:08 /build/assets/dropdown-menu-C156HNEi.js ...... ~ 0.24ms
+  2026-07-13 11:36:08 /build/assets/truck-9axrhk5m.js .............. ~ 0.33ms
+  2026-07-13 11:36:10 /booking ..................................... ~ 0.11ms
+  2026-07-13 11:36:10 /build/assets/app-DSV6MwC1.css ............... ~ 0.05ms
+  2026-07-13 11:36:10 /images/techpickly-transparent-logo.png ...... ~ 0.25ms
+  2026-07-13 11:36:10 /api/search-categories ....................... ~ 0.27ms
+  2026-07-13 11:36:10 /api/search-districts ........................ ~ 0.04ms
+  2026-07-13 11:36:11 /api/search-categories ....................... ~ 0.19ms
+  2026-07-13 11:36:13 /api/search-categories ....................... ~ 0.11ms
+  2026-07-13 11:36:15 /api/search-categories ..................... ~ 500.58ms
+  2026-07-13 11:36:17 /api/search-categories ....................... ~ 0.11ms
