@@ -396,5 +396,8 @@ export interface SettingsForm {
     warehouses: string;
     office_hours: string;
     hero_banner: File | string | null;
+    privacy_policy?: string;
+    return_refund?: string;
+    terms_conditions?: string;
 
 }

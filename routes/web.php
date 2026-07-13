@@ -28,6 +28,11 @@ Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
+Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy.policy');
+Route::get('/return-refund', [FrontendController::class, 'returnRefund'])->name('return.refund');
+Route::get('/terms-conditions', [FrontendController::class, 'termsConditions'])->name('terms.conditions');
+
+
 Route::get('/api/search-categories', [BookingController::class, 'getCategories'])->name('api.search-categories');
 Route::get('/api/search-districts', [BookingController::class, 'getDistricts'])->name('api.search-districts');
 

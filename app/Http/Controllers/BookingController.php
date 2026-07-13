@@ -64,7 +64,14 @@ class BookingController extends Controller
 
         $categories = Category::where('name', 'LIKE', "%{$query}%")
             ->limit(15)
-            ->get(['id', 'name', 'price_start', 'price_end']);
+            ->get([
+                'id',
+                'name',
+                'sea_price_start',
+                'sea_price_end',
+                'air_price_start',
+                'air_price_end',
+            ]);
 
         return response()->json($categories);
     }

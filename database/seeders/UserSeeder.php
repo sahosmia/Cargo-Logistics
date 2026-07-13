@@ -52,6 +52,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Sample Customer',
                 'role' => 'customer',
+                'customer_code' => 'CVS-1001',
             ]
         );
     }

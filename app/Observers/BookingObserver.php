@@ -14,26 +14,28 @@ class BookingObserver
      */
     public function creating(Booking $booking): void
     {
-        $user = $booking->user;
-        if ($user && ($user->role === UserRole::Customer || $user->role === 'customer')) {
-            $customerCode = $user->customer_code;
-            if (empty($customerCode)) {
-                $customerCode = $this->generateCustomerCode($user);
-                $user->customer_code = $customerCode;
-                $user->save();
+        if (empty($booking->shipping_mark)) {
+            $user = $booking->user;
+            if ($user && ($user->role === UserRole::Customer || $user->role === 'customer')) {
+                $customerCode = $user->customer_code;
+                if (empty($customerCode)) {
+                    $customerCode = $this->generateCustomerCode($user);
+                    $user->customer_code = $customerCode;
+                    $user->save();
+                }
+
+                $dateStr = now()->format('ymd'); // YYMMDD (e.g., 260712)
+                $baseMark = "{$customerCode}-{$dateStr}";
+
+                $shippingMark = $baseMark;
+                $counter = 1;
+                while (Booking::where('shipping_mark', $shippingMark)->exists()) {
+                    $shippingMark = "{$baseMark}-{$counter}";
+                    $counter++;
+                }
+
+                $booking->shipping_mark = $shippingMark;
             }
-
-            $dateStr = now()->format('ymd'); // YYMMDD (e.g., 260712)
-            $baseMark = "{$customerCode}-{$dateStr}";
-
-            $shippingMark = $baseMark;
-            $counter = 1;
-            while (Booking::where('shipping_mark', $shippingMark)->exists()) {
-                $shippingMark = "{$baseMark}-{$counter}";
-                $counter++;
-            }
-
-            $booking->shipping_mark = $shippingMark;
         }
     }
 
