@@ -9,6 +9,17 @@ interface Props {
     booking: Booking;
 }
 
+const STATUS_LABELS: Record<string, string> = {
+    pending: 'Pending / Requested',
+    received_in_china: 'Received in China',
+    in_transit: 'In Transit (Ship/Air)',
+    arrived_in_bd: 'Arrived in BD',
+    customs_cleared: 'Customs Cleared',
+    ready_for_delivery: 'Ready for Delivery',
+    delivered: 'Delivered',
+    cancelled: 'Cancelled',
+};
+
 export default function BookingInvoice({ booking }: Props) {
     const { settings } = usePage<any>().props;
 
@@ -52,31 +63,19 @@ export default function BookingInvoice({ booking }: Props) {
             {/* Local Stylesheet to enforce print behavior cleanly */}
             <style dangerouslySetInnerHTML={{ __html: `
                 @media print {
-                    /* Hide everything except the invoice sheet */
-                    aside, nav, header, footer, button, .print\\:hidden, [role="navigation"], [data-sidebar="sidebar"], .app-header {
-                        display: none !important;
+                    /* Hide EVERYTHING on the page */
+                    body * {
+                        visibility: hidden !important;
                     }
-                    /* Reset container and body padding */
-                    body, html {
-                        background: white !important;
-                        color: black !important;
-                        margin: 0 !important;
-                        padding: 0 !important;
+                    /* Show ONLY the invoice sheet and its children */
+                    #printable-invoice-area, #printable-invoice-area * {
+                        visibility: visible !important;
                     }
-                    main, .app-content, .sidebar-inset {
-                        padding: 0 !important;
-                        margin: 0 !important;
-                        background: transparent !important;
-                        border: none !important;
-                        box-shadow: none !important;
-                    }
-                    /* Set page margins */
-                    @page {
-                        size: A4;
-                        margin: 15mm;
-                    }
-                    /* Print sheet overrides */
-                    .print-sheet {
+                    /* Un-wrap layout and position print sheet at top-left */
+                    #printable-invoice-area {
+                        position: absolute !important;
+                        left: 0 !important;
+                        top: 0 !important;
                         width: 100% !important;
                         max-width: 100% !important;
                         margin: 0 !important;
@@ -85,7 +84,18 @@ export default function BookingInvoice({ booking }: Props) {
                         box-shadow: none !important;
                         background: transparent !important;
                     }
-                    /* Ensure table borders are printed crisp */
+                    /* Ensure background colors and borders are printed crisp */
+                    body, html {
+                        background: white !important;
+                        color: black !important;
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
+                    /* Set page margins */
+                    @page {
+                        size: A4;
+                        margin: 15mm;
+                    }
                     table {
                         border-collapse: collapse !important;
                     }
@@ -111,8 +121,8 @@ export default function BookingInvoice({ booking }: Props) {
                     </Button>
                 </div>
 
-                {/* Invoice Sheet */}
-                <div className="print-sheet bg-card text-card-foreground border border-border rounded-2xl shadow-lg p-6 sm:p-10 space-y-8">
+                {/* Invoice Sheet container with specific ID for printing */}
+                <div id="printable-invoice-area" className="bg-card text-card-foreground border border-border rounded-2xl shadow-lg p-6 sm:p-10 space-y-8">
                     {/* Header: Logo and Invoice details */}
                     <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6 border-b border-border pb-8">
                         <div className="space-y-4">
@@ -137,7 +147,8 @@ export default function BookingInvoice({ booking }: Props) {
                                 <p><span className="text-muted-foreground">Invoice No:</span> <span className="font-mono font-bold text-primary">{invoiceNo}</span></p>
                                 <p><span className="text-muted-foreground">Date:</span> <span className="font-medium">{invoiceDate}</span></p>
                                 <p><span className="text-muted-foreground">Transport:</span> <span className="font-bold uppercase text-primary">{booking.method} Cargo</span></p>
-                                <p><span className="text-muted-foreground">Status:</span> <span className="inline-flex ml-1">
+                                <p><span className="text-muted-foreground">Shipment Status:</span> <span className="font-bold text-primary">{STATUS_LABELS[booking.status] || booking.status}</span></p>
+                                <p><span className="text-muted-foreground">Payment Status:</span> <span className="inline-flex ml-1">
                                     {booking.payment_status === 'paid' ? (
                                         <Badge className="bg-emerald-600 hover:bg-emerald-700 text-white gap-1 py-0.5 px-2">
                                             <CheckCircle2 className="h-3 w-3" /> Paid
@@ -236,19 +247,13 @@ export default function BookingInvoice({ booking }: Props) {
                         </table>
                     </div>
 
-                    {/* Summary and Terms */}
+                    {/* Summary and Notes */}
                     <div className="flex flex-col md:flex-row justify-between items-start gap-8 pt-4">
-                        <div className="max-w-md text-xs text-muted-foreground space-y-2">
-                            <p className="font-bold text-foreground">Terms & Conditions:</p>
-                            <p className="leading-relaxed">
-                                1. Shipping charge is calculated based on category-specific pricing per KG and actual weight.
-                            </p>
-                            <p className="leading-relaxed">
-                                2. Customers must pay full shipping and clearance charges before taking delivery.
-                            </p>
+                        <div className="max-w-md text-xs text-muted-foreground space-y-2 flex-1">
                             {booking.note && (
-                                <div className="bg-orange-50 dark:bg-orange-950/20 text-orange-700 dark:text-orange-400 p-3 rounded-lg border border-orange-200/50 mt-2">
-                                    <span className="font-bold">Booking Note:</span> "{booking.note}"
+                                <div className="bg-orange-50 dark:bg-orange-950/20 text-orange-700 dark:text-orange-400 p-4 rounded-lg border border-orange-200/50">
+                                    <span className="font-bold text-sm block mb-1">Booking Note:</span>
+                                    <p className="text-sm italic">"{booking.note}"</p>
                                 </div>
                             )}
                         </div>
