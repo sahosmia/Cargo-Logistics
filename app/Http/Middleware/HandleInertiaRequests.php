@@ -47,7 +47,7 @@ class HandleInertiaRequests extends Middleware
                 'app_name' => settings('app_name', config('app.name')),
                 'logo' => settings('site_logo') && Storage::disk('public')->exists(settings('site_logo'))
                     ? Storage::disk('public')->url(settings('site_logo'))
-                    : asset('logo.svg'),
+                    : asset('images/techpickly-transparent-logo.png'),
 
             ],
             'auth' => [

@@ -41,7 +41,7 @@ function createBookingForUser($user)
 }
 
 test('creating a customer user automatically generates a unique incremental customer code', function () {
-    // Assert customer user gets CVS-1001
+    // Assert customer user gets TP-1001
     $user1 = User::create([
         'name' => 'Alice',
         'email' => 'alice@example.com',
@@ -49,9 +49,9 @@ test('creating a customer user automatically generates a unique incremental cust
         'role' => UserRole::Customer,
     ]);
 
-    expect($user1->customer_code)->toBe('CVS-1001');
+    expect($user1->customer_code)->toBe('TP-1001');
 
-    // Assert second customer user gets CVS-1002
+    // Assert second customer user gets TP-1002
     $user2 = User::create([
         'name' => 'Bob',
         'email' => 'bob@example.com',
@@ -59,7 +59,7 @@ test('creating a customer user automatically generates a unique incremental cust
         'role' => UserRole::Customer,
     ]);
 
-    expect($user2->customer_code)->toBe('CVS-1002');
+    expect($user2->customer_code)->toBe('TP-1002');
 });
 
 test('non-customer user does not get customer code', function () {
@@ -93,7 +93,7 @@ test('customer user creation respects manually provided customer code', function
         'role' => UserRole::Customer,
     ]);
 
-    expect($user2->customer_code)->toBe('CVS-1001');
+    expect($user2->customer_code)->toBe('TP-1001');
 });
 
 test('creating a booking for a customer user automatically generates a unique shipping mark with current date', function () {
@@ -109,17 +109,17 @@ test('creating a booking for a customer user automatically generates a unique sh
     // First booking
     $booking1 = createBookingForUser($user);
 
-    expect($booking1->shipping_mark)->toBe("CVS-1001-{$dateStr}");
+    expect($booking1->shipping_mark)->toBe("TP-1001-{$dateStr}");
 
     // Second booking on same day for same customer should append serial suffix
     $booking2 = createBookingForUser($user);
 
-    expect($booking2->shipping_mark)->toBe("CVS-1001-{$dateStr}-1");
+    expect($booking2->shipping_mark)->toBe("TP-1001-{$dateStr}-1");
 
     // Third booking on same day for same customer
     $booking3 = createBookingForUser($user);
 
-    expect($booking3->shipping_mark)->toBe("CVS-1001-{$dateStr}-2");
+    expect($booking3->shipping_mark)->toBe("TP-1001-{$dateStr}-2");
 });
 
 test('creating a booking for a non-customer user does not generate a shipping mark', function () {
@@ -157,8 +157,8 @@ test('creating a booking generates customer code for old customer user without c
 
     // The observer should generate user's code on the fly and update user
     $user->refresh();
-    expect($user->customer_code)->toBe('CVS-1001');
-    expect($booking->shipping_mark)->toBe("CVS-1001-{$dateStr}");
+    expect($user->customer_code)->toBe('TP-1001');
+    expect($booking->shipping_mark)->toBe("TP-1001-{$dateStr}");
 });
 
 test('customer can view and update their customer_code via profile', function () {
@@ -169,7 +169,7 @@ test('customer can view and update their customer_code via profile', function ()
         'role' => UserRole::Customer,
     ]);
 
-    expect($user->customer_code)->toBe('CVS-1001');
+    expect($user->customer_code)->toBe('TP-1001');
 
     // Act as customer and update customer_code
     $response = $this->actingAs($user, 'customer')
@@ -198,15 +198,15 @@ test('customer code update must be unique', function () {
         'role' => UserRole::Customer,
     ]);
 
-    // Bob tries to set Alice's customer_code (CVS-1001) - should fail
+    // Bob tries to set Alice's customer_code (TP-1001) - should fail
     $response = $this->actingAs($user2, 'customer')
         ->patch(route('profile.update'), [
             'name' => 'Bob Updated',
-            'customer_code' => 'CVS-1001',
+            'customer_code' => 'TP-1001',
         ]);
 
     $response->assertSessionHasErrors(['customer_code']);
-    expect($user2->fresh()->customer_code)->toBe('CVS-1002'); // unchanged
+    expect($user2->fresh()->customer_code)->toBe('TP-1002'); // unchanged
 });
 
 test('booking form renders the customer code', function () {
@@ -217,12 +217,12 @@ test('booking form renders the customer code', function () {
         'role' => UserRole::Customer,
     ]);
 
-    // Access the booking form and assert it contains CVS-1001
+    // Access the booking form and assert it contains TP-1001
     $response = $this->actingAs($user, 'customer')
         ->get(route('customer.booking'));
 
     $response->assertOk();
-    $response->assertSee('CVS-1001');
+    $response->assertSee('TP-1001');
 });
 
 test('bookings can be searched by shipping_mark', function () {
@@ -238,12 +238,12 @@ test('bookings can be searched by shipping_mark', function () {
     $booking1 = createBookingForUser($user);
     $booking2 = createBookingForUser($user);
 
-    expect($booking1->shipping_mark)->toBe("CVS-1001-{$dateStr}");
-    expect($booking2->shipping_mark)->toBe("CVS-1001-{$dateStr}-1");
+    expect($booking1->shipping_mark)->toBe("TP-1001-{$dateStr}");
+    expect($booking2->shipping_mark)->toBe("TP-1001-{$dateStr}-1");
 
     // Search for booking 2
     $response = $this->actingAs($user, 'customer')
-        ->get(route('bookings.index', ['search' => "CVS-1001-{$dateStr}-1"]));
+        ->get(route('bookings.index', ['search' => "TP-1001-{$dateStr}-1"]));
 
     $response->assertOk();
     // It should render the Inertia page with bookings data.

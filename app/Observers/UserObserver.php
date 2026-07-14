@@ -16,7 +16,7 @@ class UserObserver
 
         if ($isCustomer && empty($user->customer_code)) {
             $latestUser = User::whereNotNull('customer_code')
-                ->where('customer_code', 'LIKE', 'CVS-%')
+                ->where('customer_code', 'LIKE', 'TP-%')
                 ->orderByRaw('CAST(SUBSTRING(customer_code, 5) AS UNSIGNED) DESC')
                 ->first();
 
@@ -26,7 +26,7 @@ class UserObserver
             }
 
             do {
-                $code = 'CVS-'.$nextNum;
+                $code = 'TP-'.$nextNum;
                 $exists = User::where('customer_code', $code)->exists();
                 if ($exists) {
                     $nextNum++;

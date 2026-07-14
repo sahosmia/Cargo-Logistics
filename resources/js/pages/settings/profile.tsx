@@ -102,7 +102,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         value={data.customer_code}
                                         onChange={(e) => setData('customer_code', e.target.value)}
                                         required
-                                        placeholder="Customer Code (e.g. CVS-1001)"
+                                        placeholder="Customer Code (e.g. TP-1001)"
                                     />
 
                                     <InputError className="mt-2" message={errors.customer_code} />

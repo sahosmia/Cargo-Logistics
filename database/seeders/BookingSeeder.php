@@ -20,7 +20,7 @@ class BookingSeeder extends Seeder
             [
                 'name' => 'Sample Customer',
                 'role' => 'customer',
-                'customer_code' => 'CVS-1001',
+                'customer_code' => 'TP-1001',
             ]
         );
 
@@ -48,7 +48,7 @@ class BookingSeeder extends Seeder
                 'address' => 'House 42, Road 11, Banani, Dhaka',
                 'note' => 'Handle with care. Fragile bottle.',
                 'status' => 'pending',
-                'shipping_mark' => "CVS-1001-{$dateStr}",
+                'shipping_mark' => "TP-1001-{$dateStr}",
             ],
             [
                 'item_name' => 'Cotton Printed T-shirts',
@@ -64,7 +64,7 @@ class BookingSeeder extends Seeder
                 'address' => 'Sector 4, Uttara, Dhaka',
                 'note' => 'Keep in dry storage.',
                 'status' => 'received_in_china',
-                'shipping_mark' => "CVS-1001-{$dateStr}-1",
+                'shipping_mark' => "TP-1001-{$dateStr}-1",
             ],
             [
                 'item_name' => 'Wired Gaming Keyboard',
@@ -80,7 +80,7 @@ class BookingSeeder extends Seeder
                 'address' => 'GEC Circle, Chittagong',
                 'note' => null,
                 'status' => 'delivered',
-                'shipping_mark' => "CVS-1001-{$dateStr}-2",
+                'shipping_mark' => "TP-1001-{$dateStr}-2",
             ],
         ];
 

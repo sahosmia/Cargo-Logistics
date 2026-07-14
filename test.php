@@ -36,7 +36,7 @@ Done :
 
 => Category mulitple price add air and ship wise. and apply in booking form if we change any method ship to air or air to ship it will auto price update method wise.
 
-=> shipping mark add, It will auto genarate on initial stage and can edit it in profile. it formte is CVS-1002-260712 (auto genareted or editable code => CVS-1002, year-month-date => 260712). Full uniqe
+=> shipping mark add, It will auto genarate on initial stage and can edit it in profile. it formte is TP-1002-260712 (auto genareted or editable code => TP-1002, year-month-date => 260712). Full uniqe
 
 => make Dummy data to test
 => make 3 page and dynamic: Privacy, refund, terms and conditions but have to add editor input filed
@@ -47,9 +47,9 @@ Work Due:
 * Color Code add Read and black as like logo color.
 * Any category will be diffrent like an category can exit for air method and another category can exit for sea, or any category can both.
 * Status Pipe line need to clear
-* Invoice design, 
+* Invoice design,
 * Invoice apply on booking
-* Home, about, contact page, terms and conditions, return and refund, privacy policy, 404 not found page design. 
+* Home, about, contact page, terms and conditions, return and refund, privacy policy, 404 not found page design.
 * Home, about, contact page, terms and conditions, return and refund, privacy policy, 404 not found page make daynamic
 * Dashboard design change and
 * Analisis skybuy and skyship
@@ -58,5 +58,5 @@ Work Due:
 * Apply OTP getway
 
 
-kaj almost 60% done. akon je kaj gulo ache  ai gulo time lagbe karon design e time aktu besi lage, ata hoi to 5 days er moto lagbe depend on correction and change. 
+kaj almost 60% done. akon je kaj gulo ache  ai gulo time lagbe karon design e time aktu besi lage, ata hoi to 5 days er moto lagbe depend on correction and change.
 

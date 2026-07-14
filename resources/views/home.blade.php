@@ -18,7 +18,7 @@
                 Fastest & Reliable Shipment at Your Door.
             </h1>
             <p class="mt-4 text-base text-gray-200 md:text-lg">
-                SkyShip offers seamless door-to-door shipping services, ensuring efficient and reliable cargo transport from China to Bangladesh.
+                TechPickly offers seamless door-to-door shipping services, ensuring efficient and reliable cargo transport from China to Bangladesh.
             </p>
 
             <div class="mt-10">
