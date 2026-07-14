@@ -1,33 +1,47 @@
 @extends('layouts.frontend')
 
-@section('title', 'Home - Best Product Service')
-@section('meta_description', 'This is the SEO optimized home page description.')
+@section('title', 'Create Cargo Booking - SkyShip Premium Logistics')
+@section('meta_description', 'Book your air or ocean shipping from China to Bangladesh. Secure weight-based pricing and door doorstep custom clearances.')
 
 @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
     <style>
         .ts-control {
-            border-radius: 0.5rem !important;
-            padding: 0.5rem 0.75rem !important;
+            border-radius: 0.75rem !important;
+            padding: 0.65rem 0.85rem !important;
             font-size: 0.875rem !important;
             line-height: 1.25rem !important;
-            border-color: #e5e7eb !important;
+            border-color: #cbd5e1 !important;
+            background-color: #f8fafc !important;
+            color: #1e293b !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
         }
         .ts-wrapper.focus .ts-control {
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
-            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 3px rgba(38, 34, 98, 0.15) !important;
+            border-color: #262262 !important;
+            background-color: #ffffff !important;
+        }
+        .ts-dropdown {
+            border-radius: 0.75rem !important;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            border-color: #f1f5f9 !important;
+            margin-top: 4px !important;
         }
     </style>
 @endpush
 
 @section('content')
-<form action="{{ route('customer.booking.store') }}" method="POST" class="bg-gray-50 py-5">
+<form action="{{ route('customer.booking.store') }}" method="POST" class="bg-slate-50 py-10 relative overflow-hidden min-h-screen">
+    {{-- Background grid line patterns representing global air & sea shipping lanes --}}
+    <div class="absolute inset-0 z-0 opacity-40 bg-[radial-gradient(#dbdaf0_1px,transparent_1px)] [background-size:24px_24px]"></div>
+
     @csrf
-    <div class="container mx-auto px-4 max-w-7xl">
+    <div class="container relative z-10 mx-auto px-4 max-w-6xl">
 
         @if(session('success'))
-            <div class="mb-6 p-4 rounded-lg bg-green-50 border border-green-200 flex items-center gap-3 animate-fade-in">
-                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+            <div class="mb-8 max-w-4xl mx-auto p-4 rounded-xl bg-green-50 border border-green-200 flex items-center gap-3.5 shadow-sm animate-fade-in">
+                <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 shadow-inner">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
@@ -38,27 +52,30 @@
             </div>
         @endif
 
-        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 mb-6 flex items-center gap-2">
-            <span
-                class="flex h-6 w-6 items-center justify-center rounded-full border-2 border-gray-700 text-gray-700 font-bold text-xs">
+        {{-- Page Header / Navigation Bar --}}
+        <div class="bg-white px-6 py-4 rounded-2xl shadow-sm border border-slate-200/80 mb-8 flex items-center gap-3">
+            <a href="{{ url('/') }}" class="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-600 hover:bg-red-50 hover:text-[#ED1C24] transition-all font-bold text-sm cursor-pointer shadow-sm">
                 &larr;
-            </span>
-            <h1 class="text-lg font-bold text-gray-800">Create Booking</h1>
+            </a>
+            <h1 class="text-xl font-extrabold text-[#262262] tracking-tight">Create Cargo Booking</h1>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 
+            {{-- Forms Section --}}
             <div class="lg:col-span-2 space-y-6">
 
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                    <h2 class="text-sm font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">Booking Info</h2>
+                {{-- Card 1: Booking Logistics Information --}}
+                <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-[#262262] border-b border-slate-100 pb-3 mb-5">Booking Info</h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
-                                    class="text-red-500 mr-0.5">*</span>Method</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+                                <span class="text-red-500 mr-0.5">*</span>Shipping Method
+                            </label>
                             <select name="method"
-                                class="w-full text-sm bg-gray-50 border @error('method') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                class="w-full text-sm bg-slate-50 border @error('method') border-red-500 @else border-slate-200 @enderror rounded-xl px-4 py-3 text-slate-800 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#262262] focus:border-[#262262] transition-colors font-medium">
                                 <option value="" {{ !old('method', request('method')) ? 'selected' : '' }}>Select Method</option>
                                 <option value="Air" {{ strtolower(old('method', request('method'))) == 'air' ? 'selected' : '' }}>Air</option>
                                 <option value="Sea" {{ strtolower(old('method', request('method'))) == 'sea' ? 'selected' : '' }}>Sea</option>
@@ -67,12 +84,12 @@
                                 <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1.5">Shipping Mark</label>
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Generated Shipping Mark</label>
                             <div class="relative">
-                                <input type="text" value="{{ auth()->user()?->customer_code ? auth()->user()->customer_code . '-' . date('ymd') : 'SS19399' }}" readonly
-                                    class="w-full text-sm bg-gray-50 border border-gray-200 rounded-lg pl-3 pr-10 py-2 text-gray-700 font-medium focus:outline-none">
-                                <span class="absolute inset-y-0 right-3 flex items-center text-green-500">
+                                <input type="text" value="{{ auth()->user()?->customer_code ? auth()->user()->customer_code . '-' . date('ymd') : 'SS' . rand(10000, 99999) }}" readonly
+                                    class="w-full text-sm bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-10 py-3 text-slate-800 font-bold tracking-wider select-none focus:outline-none">
+                                <span class="absolute inset-y-0 right-3.5 flex items-center text-green-500">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -83,13 +100,14 @@
                         </div>
                     </div>
 
-                    <div class="mb-2 space-y-3">
-                        <label class="block text-xs font-semibold text-gray-600 mb-0.5"><span
-                                class="text-red-500 mr-0.5">*</span>Tracking</label>
+                    <div class="mb-2 space-y-3.5">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-0.5">
+                            <span class="text-red-500 mr-0.5">*</span>Tracking / Barcode IDs
+                        </label>
 
                         <div>
-                            <input type="text" name="tracking[]" placeholder="Tracking" value="{{ old('tracking.0') }}"
-                                class="w-full text-sm bg-white border @error('tracking.0') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                            <input type="text" name="tracking[]" placeholder="Enter package tracking ID (e.g. SF18399422)" value="{{ old('tracking.0') }}"
+                                class="w-full text-sm bg-slate-50 border @error('tracking.0') border-red-500 @else border-slate-200 @enderror rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#262262] focus:border-[#262262] transition-colors">
                             @error('tracking.0')
                                 <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
                             @enderror
@@ -101,9 +119,9 @@
                                     @if($index > 0)
                                         <div class="flex items-center gap-2 animate-fade-in">
                                             <div class="flex-1">
-                                                <input type="text" name="tracking[]" placeholder="Tracking" value="{{ $value }}" class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                                <input type="text" name="tracking[]" placeholder="Tracking" value="{{ $value }}" class="w-full text-sm bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#262262] focus:border-[#262262] transition-colors">
                                             </div>
-                                            <button type="button" class="remove-tracking-btn flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:bg-red-50 hover:text-red-500 hover:border-red-100 transition-colors">
+                                            <button type="button" class="remove-tracking-btn flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:bg-red-50 hover:text-[#ED1C24] hover:border-red-100 transition-colors cursor-pointer shrink-0">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.34 6.6m-2.57 0L11.34 9m4.86-2.51L16.5 6a2.25 2.25 0 0 0-2.25-2.25h-4.5A2.25 2.25 0 0 0 7.5 6l.16 1.49M20.25 7.5c-.71 1.96-2.14 3.75-4.25 4.95M3.75 7.5c.71 1.96 2.14 3.75 4.25 4.95M12 12v6" />
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h12M9 3h6" />
@@ -117,29 +135,32 @@
                     </div>
 
                     <button type="button" id="add-tracking-btn"
-                        class="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-gray-700 hover:text-blue-600 transition-colors">
-                        <span class="text-sm">+</span> Add More Tracking
+                        class="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-[#262262] hover:text-[#ED1C24] transition-colors cursor-pointer">
+                        <span class="text-sm font-black">+</span> Add More Tracking ID
                     </button>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h2 class="text-sm font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">Item Details</h2>
+                {{-- Card 2: Cargo Item Specifications --}}
+                <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-[#262262] border-b border-slate-100 pb-3 mb-5">Item Details</h2>
 
-                    <div class="mb-4">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
-                                class="text-red-500 mr-0.5">*</span>Item Name</label>
-                        <input type="text" name="item_name" placeholder="Item Name" value="{{ old('item_name') }}"
-                            class="w-full text-sm bg-white border @error('item_name') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                    <div class="mb-5 space-y-1.5">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+                            <span class="text-red-500 mr-0.5">*</span>Item Name
+                        </label>
+                        <input type="text" name="item_name" placeholder="e.g. Smart Watch, Cosmetic Creams, Cotton Shirts" value="{{ old('item_name') }}"
+                            class="w-full text-sm bg-slate-50 border @error('item_name') border-red-500 @else border-slate-200 @enderror rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#262262] focus:border-[#262262] transition-colors">
                         @error('item_name')
                             <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="mb-4">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
-                                class="text-red-500 mr-0.5">*</span>Category</label>
+                    <div class="mb-5 space-y-1.5">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+                            <span class="text-red-500 mr-0.5">*</span>Product Category
+                        </label>
                         <select id="category-select" name="category_id" placeholder="Search By category Name" autocomplete="off"
-                            class="w-full text-sm bg-white border @error('category_id') border-red-500 @else border-gray-200 @enderror rounded-lg  text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                            class="w-full text-sm bg-white border @error('category_id') border-red-500 @else border-slate-200 @enderror rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none">
                             @if(old('category_id') && isset($oldCategory))
                                 <option value="{{ old('category_id') }}"
                                         data-sea-price-start="{{ $oldCategory->sea_price_start }}"
@@ -155,57 +176,58 @@
                         @enderror
                     </div>
 
-                    <div class="mb-4">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
-                                class="text-red-500 mr-0.5">*</span>Total Carton</label>
-                        <input type="number" name="total_carton" placeholder="Carton" value="{{ old('total_carton') }}"
-                            class="w-full text-sm bg-white border @error('total_carton') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                    <div class="mb-5 space-y-1.5">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+                            <span class="text-red-500 mr-0.5">*</span>Total Carton Pieces
+                        </label>
+                        <input type="number" name="total_carton" placeholder="e.g. 5" value="{{ old('total_carton') }}"
+                            class="w-full text-sm bg-slate-50 border @error('total_carton') border-red-500 @else border-slate-200 @enderror rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#262262] focus:border-[#262262] transition-colors">
                         @error('total_carton')
                             <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
-                                    class="text-red-500 mr-0.5">*</span>Total Quantity</label>
-                            <input type="number" name="total_quantity" placeholder="Quantity" value="{{ old('total_quantity') }}"
-                                class="w-full text-sm bg-white border @error('total_quantity') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+                                <span class="text-red-500 mr-0.5">*</span>Total Quantity (Pieces)
+                            </label>
+                            <input type="number" name="total_quantity" placeholder="e.g. 150" value="{{ old('total_quantity') }}"
+                                class="w-full text-sm bg-slate-50 border @error('total_quantity') border-red-500 @else border-slate-200 @enderror rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#262262] focus:border-[#262262] transition-colors">
                             @error('total_quantity')
                                 <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
-                                    class="text-red-500 mr-0.5">*</span>Total Weight</label>
-                            <input type="number" step="0.1" name="total_weight" placeholder="Weight" value="{{ old('total_weight') }}"
-                                class="w-full text-sm bg-white border @error('total_weight') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+                                <span class="text-red-500 mr-0.5">*</span>Total Actual Weight (KG)
+                            </label>
+                            <input type="number" step="0.1" name="total_weight" placeholder="e.g. 12.5" value="{{ old('total_weight') }}"
+                                class="w-full text-sm bg-slate-50 border @error('total_weight') border-red-500 @else border-slate-200 @enderror rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#262262] focus:border-[#262262] transition-colors">
                             @error('total_weight')
                                 <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="flex items-start gap-2 mt-4">
+                    <div class="flex items-start gap-2.5 mt-5">
                         <input type="checkbox" name="sensitive_goods" id="sensitive-goods" value="1" {{ old('sensitive_goods') ? 'checked' : '' }}
-                            class="mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                        <label for="sensitive-goods" class="text-xs font-medium text-gray-600 select-none">This product is a battery, liquid, or cosmetic type.</label>
+                            class="mt-0.5 h-4 w-4 rounded border-slate-300 text-[#262262] focus:ring-[#262262]">
+                        <label for="sensitive-goods" class="text-xs font-bold text-slate-600 select-none cursor-pointer">This parcel contains sensitive items (e.g. Battery, Liquids, Powders, or Cosmetics).</label>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h2 class="text-sm font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">Delivery Information
-                    </h2>
+                {{-- Card 3: Doorstep Delivery Settings --}}
+                <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-[#262262] border-b border-slate-100 pb-3 mb-5">Delivery Information</h2>
 
-
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
-                                    class="text-red-500 mr-0.5">*</span>Delivery Method</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+                                <span class="text-red-500 mr-0.5">*</span>Delivery Method
+                            </label>
                             <select name="delivery_method"
-                                class="w-full text-sm bg-white border @error('delivery_method') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                class="w-full text-sm bg-slate-50 border @error('delivery_method') border-red-500 @else border-slate-200 @enderror rounded-xl px-4 py-3 text-slate-800 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#262262] focus:border-[#262262] transition-colors">
                                 <option value="">Select Delivery Method</option>
                                 <option value="Home Delivery" {{ old('delivery_method') == 'Home Delivery' ? 'selected' : '' }}>Home Delivery</option>
                                 <option value="Office Pickup" {{ old('delivery_method') == 'Office Pickup' ? 'selected' : '' }}>Office Pickup</option>
@@ -214,11 +236,12 @@
                                 <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1.5"><span
-                                    class="text-red-500 mr-0.5">*</span>District</label>
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+                                <span class="text-red-500 mr-0.5">*</span>Destination District
+                            </label>
                             <select id="district-select" name="district_id" placeholder="Select District" autocomplete="off"
-                                class="w-full text-sm bg-white border @error('district_id') border-red-500 @else border-gray-200 @enderror rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                                class="w-full text-sm bg-white border @error('district_id') border-red-500 @else border-slate-200 @enderror rounded-xl text-slate-800 focus:outline-none">
                                 @if(old('district_id'))
                                     <option value="{{ old('district_id') }}" selected>{{ old('district_name') }}</option>
                                 @endif
@@ -228,73 +251,72 @@
                                 <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-
                     </div>
 
-
-
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1.5">Address <span
-                                class="text-red-500 mr-0.5">*</span></label>
-                        <textarea name="address" rows="3" placeholder="Address"
-                            class="w-full text-sm bg-white border @error('address') border-red-500 @else border-gray-200 @enderror rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none">{{ old('address') }}</textarea>
+                    <div class="space-y-1.5 mb-5">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+                            Full Delivery Address <span class="text-red-500 mr-0.5">*</span>
+                        </label>
+                        <textarea name="address" rows="3" placeholder="Enter complete delivery street, house, and contact details"
+                            class="w-full text-sm bg-slate-50 border @error('address') border-red-500 @else border-slate-200 @enderror rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#262262] focus:border-[#262262] transition-colors resize-none">{{ old('address') }}</textarea>
                         @error('address')
                             <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1.5">Note</label>
-                        <textarea name="note" rows="3" placeholder="Note"
-                            class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none">{{ old('note') }}</textarea>
+                    <div class="space-y-1.5">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Operational Remarks / Note</label>
+                        <textarea name="note" rows="3" placeholder="Enter any instruction or shipping preference for our logistics managers..."
+                            class="w-full text-sm bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#262262] focus:border-[#262262] transition-colors resize-none">{{ old('note') }}</textarea>
                     </div>
                 </div>
 
             </div>
 
-            <div class="space-y-4 lg:sticky lg:top-24">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h2 class="text-sm font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">Summary</h2>
+            {{-- Summary Sidebar Section --}}
+            <div class="space-y-5 lg:sticky lg:top-24">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-200/80">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-[#262262] border-b border-slate-100 pb-3 mb-5">Summary Billing</h2>
 
-                    <div class="space-y-3 text-xs font-medium text-gray-600 mb-6">
-                        <div class="flex justify-between">
-                            <span>Weight</span>
-                            <span class="font-bold text-gray-800"><span id="summary-weight">0</span> Kg</span>
+                    <div class="space-y-4 text-sm font-bold text-slate-600 mb-6">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-slate-400 uppercase tracking-wider">Total Weight</span>
+                            <span class="font-extrabold text-slate-800"><span id="summary-weight">0</span> KG</span>
                         </div>
-                        <div class="flex justify-between">
-                            <span>Rate</span>
-                            <span class="font-bold text-gray-800"><span id="summary-rate">0</span> Tk</span>
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-slate-400 uppercase tracking-wider">Tariff Rate (KG)</span>
+                            <span class="font-extrabold text-slate-800"><span id="summary-rate">0</span></span>
                         </div>
-                        <div
-                            class="flex justify-between text-sm font-bold text-gray-800 pt-2 border-t border-dashed border-gray-100">
-                            <span>Total Shipping Charge</span>
-                            <span><span id="summary-total">0</span> Tk</span>
+                        <div class="flex justify-between items-center text-base font-black text-[#262262] pt-4 border-t border-dashed border-slate-100">
+                            <span>Shipping Charge</span>
+                            <span class="text-[#ED1C24]"><span id="summary-total">0</span></span>
                         </div>
                     </div>
 
-                    <div class="bg-blue-50/60 border border-blue-100 rounded-xl p-4 text-center mb-4">
-                        <h3 class="text-xs font-bold text-blue-900 tracking-wider mb-1">WAREHOUSE ADDRESS</h3>
-                        <p class="text-xs font-medium text-gray-700 leading-relaxed mb-1">{{ settings('address') }}</p>
-                        <p class="text-xs font-bold text-blue-700">{{ settings('phone') }}</p>
+                    {{-- Warehouse Info Card --}}
+                    <div class="bg-blue-50 border border-blue-100/60 rounded-xl p-4 text-center mb-4">
+                        <h3 class="text-xs font-extrabold text-[#262262] tracking-widest mb-1.5 uppercase">China Collection Warehouse</h3>
+                        <p class="text-xs font-bold text-slate-600 leading-relaxed mb-1.5">{{ settings('address') }}</p>
+                        <p class="text-xs font-extrabold text-blue-700">{{ settings('phone') }}</p>
                     </div>
 
-                    <div class="bg-red-50/60 border border-red-100 rounded-xl p-4 text-center mb-4">
-                        <h3 class="text-xs font-bold text-red-900 mb-1">Instructions</h3>
-                        <p class="text-[11px] font-medium text-red-700 leading-relaxed">Please send the package to our warehouse address within 7 days of booking.</p>
+                    {{-- Instruction Card --}}
+                    <div class="bg-red-50/60 border border-red-100/60 rounded-xl p-4 text-center mb-5">
+                        <h3 class="text-xs font-extrabold text-red-900 mb-1.5 uppercase">Mandatory Rule</h3>
+                        <p class="text-[11px] font-bold text-red-700 leading-relaxed">Ensure your packages reach our China warehouse collection center within 7 days of placing this booking.</p>
                     </div>
 
-                    <div class="flex items-start gap-2 mb-4">
-                        <input type="checkbox" id="terms"
-                            class="mt-0.5 h-3.5 w-3.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                        <label for="terms" class="text-[11px] text-gray-500 leading-tight select-none">
-                            I have read and agreed to the <a href="#" class="text-blue-600 hover:underline">Terms &
-                                Conditions</a> and <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>.
+                    <div class="flex items-start gap-2.5 mb-5">
+                        <input type="checkbox" id="terms" required
+                            class="mt-0.5 h-4 w-4 rounded border-slate-300 text-[#262262] focus:ring-[#262262]">
+                        <label for="terms" class="text-xs font-semibold text-slate-500 leading-tight select-none cursor-pointer">
+                            I agree to the <a href="{{ route('terms.conditions') }}" class="text-[#262262] font-bold hover:underline">Terms & Conditions</a> and <a href="{{ route('privacy.policy') }}" class="text-[#262262] font-bold hover:underline">Privacy Policy</a>.
                         </label>
                     </div>
 
                     <button type="submit"
-                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm py-2.5 rounded-lg transition-colors duration-200 shadow-lg shadow-blue-600/10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                        Place Booking
+                        class="w-full bg-[#ED1C24] hover:bg-[#D01E2A] text-white font-extrabold text-sm py-3.5 rounded-xl transition-all shadow-md shadow-red-600/10 hover:shadow-lg focus:outline-none cursor-pointer">
+                        Place Booking Manifest
                     </button>
                 </div>
             </div>
@@ -411,7 +433,7 @@
 
                 return '<div class="py-1 px-2">' +
                             '<span class="font-medium">' + escape(item.name) + '</span>' +
-                            '<span class="text-xs text-gray-500 ml-2">(' + priceText + ')</span>' +
+                            '<span class="text-xs text-slate-500 ml-2">(' + priceText + ')</span>' +
                         '</div>';
             },
             item: function(item, escape) {
@@ -486,9 +508,9 @@
         // Input and remove button structure
         fieldRow.innerHTML = `
             <div class="flex-1">
-                <input type="text" name="tracking[]" placeholder="Tracking" class="w-full text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                <input type="text" name="tracking[]" placeholder="Tracking" class="w-full text-sm bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#262262] focus:border-[#262262] transition-colors">
             </div>
-            <button type="button" class="remove-tracking-btn flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:bg-red-50 hover:text-red-500 hover:border-red-100 transition-colors">
+            <button type="button" class="remove-tracking-btn flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:bg-red-50 hover:text-[#ED1C24] hover:border-red-100 transition-colors cursor-pointer shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.34 6.6m-2.57 0L11.34 9m4.86-2.51L16.5 6a2.25 2.25 0 0 0-2.25-2.25h-4.5A2.25 2.25 0 0 0 7.5 6l.16 1.49M20.25 7.5c-.71 1.96-2.14 3.75-4.25 4.95M3.75 7.5c.71 1.96 2.14 3.75 4.25 4.95M12 12v6" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h12M9 3h6" />
