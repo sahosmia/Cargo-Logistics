@@ -90,11 +90,11 @@ export default function CustomerLogin() {
                 <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-red-400/10 blur-3xl animate-pulse" />
 
                 <div className="relative z-10">
-                    <Link href={route('home')} className="inline-flex items-center gap-2">
+                    <a href={route('home')} className="inline-flex items-center gap-2">
                         <div className="bg-white p-2.5 rounded-xl border border-white/10 shadow-sm">
                             <img src={logoUrl} alt={appName} className="h-10 w-auto object-contain" />
                         </div>
-                    </Link>
+                    </a>
                 </div>
 
                 {/* Animated logistics content */}
@@ -162,9 +162,9 @@ export default function CustomerLogin() {
                 <div className="w-full max-w-md space-y-8 relative z-10">
                     {/* Header for mobile view logo */}
                     <div className="flex flex-col items-center text-center lg:items-start lg:text-left space-y-4">
-                        <Link href={route('home')} className="lg:hidden flex items-center justify-center p-2 bg-slate-100 rounded-xl border border-slate-200">
+                        <a href={route('home')} className="lg:hidden flex items-center justify-center p-2 bg-slate-100 rounded-xl border border-slate-200">
                             <img src={logoUrl} alt={appName} className="h-12 w-auto object-contain" />
-                        </Link>
+                        </a>
 
                         <div className="space-y-2">
                             <h3 className="text-3xl font-extrabold tracking-tight text-[#262262]">
@@ -292,14 +292,14 @@ export default function CustomerLogin() {
 
                     {/* Back to Home Navigation & Mutual Links */}
                     <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4 pt-4 border-t border-slate-100">
-                        <Link href={route('home')} className="hover:text-slate-600 transition-colors flex items-center gap-1">
+                        <a href={route('home')} className="hover:text-slate-600 transition-colors flex items-center gap-1">
                             <Anchor className="h-3 w-3 text-[#ED1C24]" />
                             <span>Return to Home</span>
-                        </Link>
+                        </a>
                         <div className="flex items-center gap-3">
                             <Link href={route('login')} className="hover:text-slate-600 transition-colors font-medium text-[#262262]">Admin Portal</Link>
                             <span className="text-slate-200">•</span>
-                            <Link href={route('contact')} className="hover:text-slate-600 transition-colors">Support Center</Link>
+                            <a href={route('contact')} className="hover:text-slate-600 transition-colors">Support Center</a>
                         </div>
                     </div>
                 </div>
