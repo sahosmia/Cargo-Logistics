@@ -63,44 +63,52 @@ export default function BookingInvoice({ booking }: Props) {
             {/* Local Stylesheet to enforce print behavior cleanly */}
             <style dangerouslySetInnerHTML={{ __html: `
                 @media print {
-                    /* Hide EVERYTHING on the page */
-                    body * {
-                        visibility: hidden !important;
+                    /* Hide layout wrappers, sidebars, buttons, headers completely */
+                    aside, nav, header, footer, button, .print\\:hidden, [role="navigation"], [data-sidebar="sidebar"], .app-header {
+                        display: none !important;
                     }
-                    /* Show ONLY the invoice sheet and its children */
-                    #printable-invoice-area, #printable-invoice-area * {
-                        visibility: visible !important;
-                    }
-                    /* Un-wrap layout and position print sheet at top-left */
-                    #printable-invoice-area {
-                        position: absolute !important;
-                        left: 0 !important;
-                        top: 0 !important;
+                    /* Reset all parents layout properties to standard full-width blocks */
+                    body, html, main, .app-content, .sidebar-inset, .app-shell, .sidebar-provider, .flex, .grid, .flex-1, .h-full, .w-full {
+                        display: block !important;
                         width: 100% !important;
                         max-width: 100% !important;
+                        height: auto !important;
+                        min-height: 0 !important;
                         margin: 0 !important;
                         padding: 0 !important;
                         border: none !important;
                         box-shadow: none !important;
                         background: transparent !important;
+                        overflow: visible !important;
                     }
-                    /* Ensure background colors and borders are printed crisp */
-                    body, html {
+                    /* Ensure the printable area takes up exactly full page and prints properly */
+                    #printable-invoice-area {
+                        display: block !important;
+                        width: 100% !important;
+                        max-width: 100% !important;
+                        margin: 0 !important;
+                        padding: 10mm !important;
+                        border: none !important;
+                        box-shadow: none !important;
                         background: white !important;
                         color: black !important;
-                        -webkit-print-color-adjust: exact !important;
-                        print-color-adjust: exact !important;
                     }
-                    /* Set page margins */
+                    /* Page and printing adjustments */
                     @page {
                         size: A4;
-                        margin: 15mm;
+                        margin: 10mm;
                     }
                     table {
                         border-collapse: collapse !important;
+                        width: 100% !important;
                     }
                     th, td {
-                        border-color: #e2e8f0 !important;
+                        border-color: #cbd5e1 !important;
+                    }
+                    /* Force color rendering on print */
+                    * {
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
                     }
                 }
             `}} />
