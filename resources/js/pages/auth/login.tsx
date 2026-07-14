@@ -3,7 +3,6 @@ import { LoaderCircle, Plane, Ship, ShieldCheck, Compass, Anchor, Mail, KeyRound
 import { FormEventHandler } from 'react';
 
 import InputError from '@/components/input-error';
-import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -134,7 +133,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                 Secure Portal Access
                             </h3>
                             <p className="text-slate-500 text-sm">
-                                Enter your registered email and credential keys to manage the shipping portal.
+                                Enter your registered email and credentials to manage the shipping portal.
                             </p>
                         </div>
                     </div>
@@ -166,16 +165,9 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             </div>
 
                             <div className="space-y-2">
-                                <div className="flex items-center justify-between">
-                                    <Label htmlFor="password" className="text-sm font-semibold text-slate-700">
-                                        Password Key
-                                    </Label>
-                                    {canResetPassword && (
-                                        <TextLink href={route('password.request')} className="text-xs text-[#ED1C24] hover:text-[#D01E2A] hover:underline animate-none" tabIndex={5}>
-                                            Reset Credentials?
-                                        </TextLink>
-                                    )}
-                                </div>
+                                <Label htmlFor="password" className="text-sm font-semibold text-slate-700">
+                                    Password Key
+                                </Label>
                                 <div className="relative flex items-center">
                                     <div className="absolute left-3.5 text-slate-400">
                                         <KeyRound className="h-4 w-4" />
