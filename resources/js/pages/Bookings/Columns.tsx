@@ -1,7 +1,7 @@
 import type { Column } from '@/types';
 import BookingStatusDropdown from '@/components/bookings/BookingStatusDropdown';
 import { Link } from '@inertiajs/react';
-import { Eye } from 'lucide-react';
+import { Eye, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export const columns: Column<any>[] = [
@@ -41,12 +41,20 @@ export const columns: Column<any>[] = [
     {
         header: 'Actions',
         accessor: (item) => (
-            <Button variant="outline" size="sm" asChild className="gap-2">
-                <Link href={route('bookings.show', item.id)}>
-                    <Eye className="h-4 w-4" />
-                    <span>View</span>
-                </Link>
-            </Button>
+            <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" asChild className="gap-2">
+                    <Link href={route('bookings.show', item.id)}>
+                        <Eye className="h-4 w-4" />
+                        <span>View</span>
+                    </Link>
+                </Button>
+                <Button variant="outline" size="sm" asChild className="gap-2 text-primary hover:text-primary">
+                    <Link href={route('bookings.invoice', item.id)}>
+                        <FileText className="h-4 w-4" />
+                        <span>Invoice</span>
+                    </Link>
+                </Button>
+            </div>
         ),
     },
     {

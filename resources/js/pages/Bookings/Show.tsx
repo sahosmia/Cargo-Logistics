@@ -4,7 +4,7 @@ import { Booking, BookingHistory } from '@/types/cargo';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Package, Truck, User, MapPin, ClipboardList, Info, Clock } from 'lucide-react';
+import { ArrowLeft, Package, Truck, User, MapPin, ClipboardList, Info, Clock, FileText } from 'lucide-react';
 import BookingStatusDropdown from '@/components/bookings/BookingStatusDropdown';
 
 interface Props {
@@ -68,13 +68,22 @@ export default function BookingShow({ booking }: Props) {
                         </div>
                     </div>
 
-                    {/* Status dropdown if admin/staff */}
-                    {!isCustomer && (
-                        <div className="flex items-center gap-2 bg-muted/50 p-2 rounded-lg border border-border">
-                            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Update Status:</span>
-                            <BookingStatusDropdown booking={booking} />
-                        </div>
-                    )}
+                    <div className="flex flex-wrap items-center gap-3">
+                        <Button variant="outline" size="sm" asChild className="gap-2 text-primary hover:text-primary h-9">
+                            <Link href={route('bookings.invoice', booking.id)}>
+                                <FileText className="h-4 w-4" />
+                                <span>View/Print Invoice</span>
+                            </Link>
+                        </Button>
+
+                        {/* Status dropdown if admin/staff */}
+                        {!isCustomer && (
+                            <div className="flex items-center gap-2 bg-muted/50 p-2 rounded-lg border border-border">
+                                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Update Status:</span>
+                                <BookingStatusDropdown booking={booking} />
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

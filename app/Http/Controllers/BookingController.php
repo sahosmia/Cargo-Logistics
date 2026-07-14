@@ -58,6 +58,17 @@ class BookingController extends Controller
         ]);
     }
 
+    public function invoice(Booking $booking)
+    {
+        Gate::authorize('view', $booking);
+
+        $booking->load(['category', 'district', 'user']);
+
+        return Inertia::render('Bookings/Invoice', [
+            'booking' => $booking,
+        ]);
+    }
+
     public function getCategories(Request $request)
     {
         $query = $request->get('q');

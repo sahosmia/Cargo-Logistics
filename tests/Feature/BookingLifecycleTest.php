@@ -168,4 +168,37 @@ class BookingLifecycleTest extends TestCase
             'status' => 'pending',
         ]);
     }
+
+    public function test_customer_can_view_own_booking_invoice()
+    {
+        $user = User::factory()->create();
+        $booking = $this->createBookingForUser($user);
+
+        $this->actingAs($user)
+            ->get(route('bookings.invoice', $booking))
+            ->assertOk();
+    }
+
+    public function test_customer_cannot_view_others_booking_invoice()
+    {
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+        $booking = $this->createBookingForUser($user1);
+
+        $this->actingAs($user2)
+            ->get(route('bookings.invoice', $booking))
+            ->assertStatus(403);
+    }
+
+    public function test_admin_with_permission_can_view_any_booking_invoice()
+    {
+        $admin = User::factory()->create();
+        $admin->assignRole('Super Admin');
+        $user = User::factory()->create();
+        $booking = $this->createBookingForUser($user);
+
+        $this->actingAs($admin)
+            ->get(route('bookings.invoice', $booking))
+            ->assertOk();
+    }
 }

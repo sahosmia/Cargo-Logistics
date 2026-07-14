@@ -17,6 +17,7 @@ Route::middleware(['auth:web,customer'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('/dashboard/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::get('/dashboard/bookings/{booking}/invoice', [BookingController::class, 'invoice'])->name('bookings.invoice');
     Route::patch('/dashboard/bookings/{booking}/status', [BookingController::class, 'updateStatus'])->name('bookings.update-status');
 });
 
@@ -31,7 +32,6 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy.policy');
 Route::get('/return-refund', [FrontendController::class, 'returnRefund'])->name('return.refund');
 Route::get('/terms-conditions', [FrontendController::class, 'termsConditions'])->name('terms.conditions');
-
 
 Route::get('/api/search-categories', [BookingController::class, 'getCategories'])->name('api.search-categories');
 Route::get('/api/search-districts', [BookingController::class, 'getDistricts'])->name('api.search-districts');
