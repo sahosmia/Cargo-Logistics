@@ -1,5 +1,5 @@
-import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
+import { Head, useForm, usePage, Link } from '@inertiajs/react';
+import { LoaderCircle, Plane, Ship, ShieldCheck, Compass, Anchor, Mail, KeyRound, Globe, Users } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
 import InputError from '@/components/input-error';
@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/auth-layout';
 
 interface LoginForm {
     email: string;
@@ -22,6 +21,11 @@ interface LoginProps {
 }
 
 export default function Login({ status, canResetPassword }: LoginProps) {
+    const { props } = usePage<{ settings?: { app_name?: string; logo?: string } }>();
+    const { settings } = props;
+    const appName = settings?.app_name || 'Techpickly';
+    const logoUrl = settings?.logo || '/images/techpickly-transparent-logo.png';
+
     const { data, setData, post, processing, errors, reset } = useForm<LoginForm>({
         email: '',
         password: '',
@@ -36,69 +40,209 @@ export default function Login({ status, canResetPassword }: LoginProps) {
     };
 
     return (
-        <AuthLayout title="Log in to your account" description="Enter your email and password below to log in">
-            <Head title="Log in" />
+        <div className="min-h-screen bg-neutral-900 grid lg:grid-cols-12 overflow-hidden text-neutral-100">
+            <Head title="Admin Log in" />
 
-            <form className="flex flex-col gap-6" onSubmit={submit}>
-                <div className="grid gap-6">
-                    <div className="grid gap-2">
-                        <Label htmlFor="email">Email address</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            required
-                            autoFocus
-                            tabIndex={1}
-                            autoComplete="email"
-                            value={data.email}
-                            onChange={(e) => setData('email', e.target.value)}
-                            placeholder="email@example.com"
-                        />
-                        <InputError message={errors.email} />
-                    </div>
+            {/* Left Side: Modern Eye-Catching Operations Control Panel Sidebar */}
+            <div className="hidden lg:flex lg:col-span-5 relative flex-col justify-between p-10 overflow-hidden bg-[#171443]">
+                {/* Background decorative patterns / ocean & air elements */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#262262]/80 via-[#171443] to-black opacity-90 z-0" />
 
-                    <div className="grid gap-2">
-                        <div className="flex items-center">
-                            <Label htmlFor="password">Password</Label>
-                            {canResetPassword && (
-                                <TextLink href={route('password.request')} className="ml-auto text-sm" tabIndex={5}>
-                                    Forgot password?
-                                </TextLink>
-                            )}
+                {/* Dynamic particles representing status, air routes, and sea tracks */}
+                <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-red-500/10 blur-3xl animate-pulse" />
+                <div className="absolute bottom-1/3 left-1/4 w-80 h-80 rounded-full bg-blue-500/10 blur-3xl animate-pulse" />
+
+                <div className="relative z-10">
+                    <Link href={route('home')} className="inline-flex items-center gap-2">
+                        <div className="bg-white/10 p-2.5 rounded-xl backdrop-blur-md border border-white/20">
+                            <img src={logoUrl} alt={appName} className="h-10 w-auto object-contain" />
                         </div>
-                        <Input
-                            id="password"
-                            type="password"
-                            required
-                            tabIndex={2}
-                            autoComplete="current-password"
-                            value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
-                            placeholder="Password"
-                        />
-                        <InputError message={errors.password} />
-                    </div>
-
-                    <div className="flex items-center space-x-3">
-                        <Checkbox id="remember" name="remember" tabIndex={3} />
-                        <Label htmlFor="remember">Remember me</Label>
-                    </div>
-
-                    <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
-                        {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                        Log in
-                    </Button>
+                    </Link>
                 </div>
 
-                <div className="text-muted-foreground text-center text-sm">
-                    Don't have an account?{' '}
-                    <TextLink href={route('register')} tabIndex={5}>
-                        Sign up
-                    </TextLink>
-                </div>
-            </form>
+                {/* Logistics Control Room Content */}
+                <div className="relative z-10 my-auto space-y-8">
+                    <div className="space-y-4">
+                        <span className="px-3 py-1 text-xs font-semibold tracking-wider text-[#ED1C24] uppercase bg-red-500/10 rounded-full border border-red-500/20 inline-block">
+                            Operations Control Panel
+                        </span>
+                        <h2 className="text-4xl font-extrabold tracking-tight leading-tight">
+                            Global Air & Sea Cargo Management
+                        </h2>
+                        <p className="text-neutral-300 text-base max-w-md">
+                            Welcome to the admin hub. Manage cargo tracking, linear status life cycles, warehouse updates, and shipping pricing strategies.
+                        </p>
+                    </div>
 
-            {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
-        </AuthLayout>
+                    <div className="grid gap-6 border-t border-white/10 pt-8">
+                        <div className="flex items-start gap-4">
+                            <div className="p-3 bg-[#ED1C24]/10 text-[#ED1C24] rounded-xl border border-red-500/20">
+                                <Globe className="h-6 w-6" />
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-neutral-100">Global Hub Routing</h4>
+                                <p className="text-sm text-neutral-400">Manage connections across international borders from China warehouses directly to Bangladesh.</p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start gap-4">
+                            <div className="p-3 bg-blue-500/10 text-blue-400 rounded-xl border border-blue-500/20">
+                                <Ship className="h-6 w-6" />
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-neutral-100">Vessel & Flight Schedulers</h4>
+                                <p className="text-sm text-neutral-400">Control active shipments, manifest creation, and multi-piece cargo status assignments.</p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start gap-4">
+                            <div className="p-3 bg-green-500/10 text-green-400 rounded-xl border border-green-500/20">
+                                <Users className="h-6 w-6" />
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-neutral-100">Role-Based Gateways</h4>
+                                <p className="text-sm text-neutral-400">Granular Spatie permissions for Super Admins, China Warehouse Managers, and BD Managers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between text-xs text-neutral-400 border-t border-white/10 pt-6">
+                    <div className="flex items-center gap-1.5">
+                        <Compass className="h-4 w-4 text-[#ED1C24]" />
+                        <span>Operations Command Center</span>
+                    </div>
+                    <span>© {new Date().getFullYear()} {appName}</span>
+                </div>
+            </div>
+
+            {/* Right Side: Elegant Admin Login Card */}
+            <div className="lg:col-span-7 flex flex-col justify-center items-center p-6 sm:p-12 md:p-20 bg-neutral-950 relative">
+                {/* Logistics elements background decoration for mobile views */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
+
+                <div className="w-full max-w-md space-y-8 relative z-10">
+                    {/* Header for mobile view logo */}
+                    <div className="flex flex-col items-center text-center lg:items-start lg:text-left space-y-4">
+                        <Link href={route('home')} className="lg:hidden flex items-center justify-center p-2 bg-white/5 rounded-xl border border-white/10">
+                            <img src={logoUrl} alt={appName} className="h-12 w-auto object-contain" />
+                        </Link>
+
+                        <div className="space-y-2">
+                            <h3 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-neutral-50 via-neutral-100 to-neutral-400 bg-clip-text text-transparent">
+                                Secure Portal Access
+                            </h3>
+                            <p className="text-neutral-400 text-sm">
+                                Enter your registered email and credential keys to manage the shipping portal.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="bg-neutral-900/60 border border-neutral-800/80 rounded-2xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl space-y-6">
+                        <form className="space-y-5" onSubmit={submit}>
+                            <div className="space-y-2">
+                                <Label htmlFor="email" className="text-sm font-semibold text-neutral-300">
+                                    Operator Email
+                                </Label>
+                                <div className="relative flex items-center">
+                                    <div className="absolute left-3.5 text-neutral-400">
+                                        <Mail className="h-4 w-4" />
+                                    </div>
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        required
+                                        autoFocus
+                                        tabIndex={1}
+                                        autoComplete="email"
+                                        value={data.email}
+                                        onChange={(e) => setData('email', e.target.value)}
+                                        placeholder="email@example.com"
+                                        className="pl-11 bg-neutral-950/80 border-neutral-800 text-neutral-100 placeholder-neutral-500 focus:border-[#262262] focus:ring-1 focus:ring-[#262262] rounded-xl h-11"
+                                    />
+                                </div>
+                                <InputError message={errors.email} className="text-red-500 text-xs mt-1" />
+                            </div>
+
+                            <div className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <Label htmlFor="password" className="text-sm font-semibold text-neutral-300">
+                                        Password Key
+                                    </Label>
+                                    {canResetPassword && (
+                                        <TextLink href={route('password.request')} className="text-xs text-[#ED1C24] hover:text-[#D01E2A] hover:underline" tabIndex={5}>
+                                            Reset Credentials?
+                                        </TextLink>
+                                    )}
+                                </div>
+                                <div className="relative flex items-center">
+                                    <div className="absolute left-3.5 text-neutral-400">
+                                        <KeyRound className="h-4 w-4" />
+                                    </div>
+                                    <Input
+                                        id="password"
+                                        type="password"
+                                        required
+                                        tabIndex={2}
+                                        autoComplete="current-password"
+                                        value={data.password}
+                                        onChange={(e) => setData('password', e.target.value)}
+                                        placeholder="Enter secure password"
+                                        className="pl-11 bg-neutral-950/80 border-neutral-800 text-neutral-100 placeholder-neutral-500 focus:border-[#262262] focus:ring-1 focus:ring-[#262262] rounded-xl h-11"
+                                    />
+                                </div>
+                                <InputError message={errors.password} className="text-red-500 text-xs mt-1" />
+                            </div>
+
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-3">
+                                    <Checkbox
+                                        id="remember"
+                                        name="remember"
+                                        tabIndex={3}
+                                        checked={data.remember}
+                                        onCheckedChange={(checked) => setData('remember', checked === true)}
+                                        className="border-neutral-700 bg-neutral-950 text-[#ED1C24] focus:ring-[#ED1C24] focus:ring-offset-neutral-950"
+                                    />
+                                    <Label htmlFor="remember" className="text-xs text-neutral-400 cursor-pointer">
+                                        Remember current session
+                                    </Label>
+                                </div>
+                            </div>
+
+                            <Button
+                                type="submit"
+                                className="w-full bg-[#ED1C24] hover:bg-[#D01E2A] text-white font-bold h-11 rounded-xl shadow-lg shadow-red-600/20 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
+                                tabIndex={4}
+                                disabled={processing}
+                            >
+                                {processing ? (
+                                    <LoaderCircle className="h-5 w-5 animate-spin" />
+                                ) : (
+                                    <Compass className="h-4 w-4" />
+                                )}
+                                Enter Control Hub
+                            </Button>
+                        </form>
+                    </div>
+
+                    {/* Back to Home Navigation & Quick Links */}
+                    <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 gap-4 pt-4 border-t border-neutral-900">
+                        <Link href={route('home')} className="hover:text-neutral-300 transition-colors flex items-center gap-1">
+                            <Anchor className="h-3 w-3 text-[#ED1C24]" />
+                            <span>Return to Home</span>
+                        </Link>
+                        <div className="flex items-center gap-3">
+                            <Link href={route('register')} className="hover:text-neutral-300 transition-colors">Sign up as Client</Link>
+                            <span className="text-neutral-800">•</span>
+                            <Link href={route('customer.login')} className="hover:text-neutral-300 transition-colors">Client Portal</Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {status && <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-green-500 bg-neutral-900/90 border border-neutral-800 px-4 py-2 rounded-xl z-20 shadow-2xl">{status}</div>}
+        </div>
     );
 }
