@@ -3,9 +3,12 @@
 namespace App\Observers;
 
 use App\Enums\UserRole;
+use App\Mail\BookingStatusChangedMail;
 use App\Models\Booking;
 use App\Models\BookingHistory;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class BookingObserver
 {
@@ -51,6 +54,15 @@ class BookingObserver
                 'changed_by' => auth()->id(),
                 'comment' => filled(request('comment')) ? trim(request('comment')) : null,
             ]);
+
+            $user = $booking->user;
+            if ($user && ! empty($user->email)) {
+                try {
+                    Mail::to($user->email)->send(new BookingStatusChangedMail($booking));
+                } catch (\Exception $e) {
+                    Log::error('Failed to send booking status changed email: '.$e->getMessage());
+                }
+            }
         }
     }
 
@@ -74,12 +86,12 @@ class BookingObserver
     {
         $latestUser = User::whereNotNull('customer_code')
             ->where('customer_code', 'LIKE', 'TP-%')
-            ->orderByRaw('CAST(SUBSTRING(customer_code, 5) AS UNSIGNED) DESC')
+            ->orderByRaw('CAST(SUBSTRING(customer_code, 4) AS UNSIGNED) DESC')
             ->first();
 
         $nextNum = 1001;
         if ($latestUser) {
-            $nextNum = ((int) substr($latestUser->customer_code, 4)) + 1;
+            $nextNum = ((int) substr($latestUser->customer_code, 3)) + 1;
         }
 
         do {
