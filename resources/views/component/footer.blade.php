@@ -27,12 +27,12 @@
                 <ul class="space-y-2.5 text-sm">
                     <li>
                         <a href="{{ url('/') }}" class="text-slate-300 hover:text-[#ED1C24] transition-colors flex items-center gap-1.5 font-medium">
-                            <span class="text-slate-500">›</span> Home Dashboard
+                            <span class="text-slate-500">›</span> Home
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('about') }}" class="text-slate-300 hover:text-[#ED1C24] transition-colors flex items-center gap-1.5 font-medium">
-                            <span class="text-slate-500">›</span> About Our Services
+                            <span class="text-slate-500">›</span> About Us
                         </a>
                     </li>
                     <li>
