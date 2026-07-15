@@ -43,13 +43,21 @@ class CustomerLoginController extends Controller
         // Rate limiting for requesting OTP
         $this->ensureOTPRequestIsNotRateLimited($request);
 
-        $user = User::firstOrCreate(
-            ['phone_number' => $phone],
-            [
+        $user = User::where('phone_number', $phone)->first();
+        if (! $user) {
+            $user = User::create([
+                'phone_number' => $phone,
                 'name' => 'Customer '.substr($phone, -4),
                 'role' => UserRole::Customer,
-            ]
-        );
+                'email' => ! empty($validated['email']) ? $validated['email'] : null,
+            ]);
+        } else {
+            if (! empty($validated['email']) && empty($user->email)) {
+                $user->update([
+                    'email' => $validated['email'],
+                ]);
+            }
+        }
 
         $otp = $generateOTPAction->execute();
         $sendOTPAction->execute($phone, $otp);

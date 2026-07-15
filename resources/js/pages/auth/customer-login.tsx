@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 
 interface CustomerLoginForm {
     phone_number: string;
+    email: string;
     otp: string;
     remember: boolean;
 }
@@ -25,6 +26,7 @@ export default function CustomerLogin() {
 
     const { data, setData, post, processing, errors, reset, clearErrors } = useForm<CustomerLoginForm>({
         phone_number: '',
+        email: '',
         otp: '',
         remember: false,
     });
@@ -202,6 +204,26 @@ export default function CustomerLogin() {
                                         />
                                     </div>
                                     <InputError message={errors.phone_number} className="text-red-500 text-xs mt-1" />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="email" className="text-sm font-semibold text-slate-700">
+                                        Email Address <span className="text-xs text-slate-400 font-normal">(Optional)</span>
+                                    </Label>
+                                    <div className="relative flex items-center">
+                                        <div className="absolute left-3.5 text-slate-400 font-bold">
+                                            @
+                                        </div>
+                                        <Input
+                                            id="email"
+                                            type="email"
+                                            value={data.email}
+                                            onChange={(e) => setData('email', e.target.value)}
+                                            placeholder="e.g. customer@example.com"
+                                            className="pl-11 bg-slate-50 border-slate-200 text-slate-800 placeholder-slate-400 focus:border-[#262262] focus:ring-1 focus:ring-[#262262] rounded-xl h-11"
+                                        />
+                                    </div>
+                                    <InputError message={errors.email} className="text-red-500 text-xs mt-1" />
                                 </div>
 
                                 <Button

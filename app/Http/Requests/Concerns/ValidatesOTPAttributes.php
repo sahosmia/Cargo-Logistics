@@ -11,6 +11,7 @@ trait ValidatesOTPAttributes
     {
         return [
             'phone_number' => ['required', 'string', 'regex:/^[0-9]+$/', 'min:10'],
+            'email' => ['nullable', 'string', 'email', 'max:255'],
         ];
     }
 

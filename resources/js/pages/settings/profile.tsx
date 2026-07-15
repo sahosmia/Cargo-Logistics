@@ -42,7 +42,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                 <div className="space-y-6">
                     <HeadingSmall
                         title="Profile information"
-                        description={auth.guard === 'customer' ? 'Update your name' : 'Update your name and email address'}
+                        description={auth.guard === 'customer' ? 'Update your name and optional email address' : 'Update your name and email address'}
                     />
 
                     <form onSubmit={submit} className="space-y-6">
@@ -62,24 +62,24 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             <InputError className="mt-2" message={errors.name} />
                         </div>
 
-                        {auth.guard !== 'customer' ? (
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                        <div className="grid gap-2">
+                            <Label htmlFor="email">Email address</Label>
 
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    className="mt-1 block w-full"
-                                    value={data.email}
-                                    onChange={(e) => setData('email', e.target.value)}
-                                    required
-                                    autoComplete="username"
-                                    placeholder="Email address"
-                                />
+                            <Input
+                                id="email"
+                                type="email"
+                                className="mt-1 block w-full"
+                                value={data.email || ''}
+                                onChange={(e) => setData('email', e.target.value)}
+                                required={auth.guard !== 'customer'}
+                                autoComplete="username"
+                                placeholder="Email address"
+                            />
 
-                                <InputError className="mt-2" message={errors.email} />
-                            </div>
-                        ) : (
+                            <InputError className="mt-2" message={errors.email} />
+                        </div>
+
+                        {auth.guard === 'customer' && (
                             <>
                                 <div className="grid gap-2">
                                     <Label htmlFor="phone_number">Phone Number</Label>
