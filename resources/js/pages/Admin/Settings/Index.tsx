@@ -39,6 +39,13 @@ export default function Index({ settings }: Props) {
         terms_conditions: (settings.terms_conditions as string) || '',
 
         paginated_quantity: (settings.paginated_quantity as string) || '10',
+        mail_host: (settings.mail_host as string) || '',
+        mail_port: (settings.mail_port as string) || '',
+        mail_username: (settings.mail_username as string) || '',
+        mail_password: (settings.mail_password as string) || '',
+        mail_encryption: (settings.mail_encryption as string) || '',
+        mail_from_address: (settings.mail_from_address as string) || '',
+        mail_from_name: (settings.mail_from_name as string) || '',
     });
 
     const [previews, setPreviews] = useState({
@@ -364,6 +371,94 @@ export default function Index({ settings }: Props) {
 
 
 
+
+                    {/* SMTP Email Settings */}
+                    <Card>
+                        <CardHeader>
+                            <div className="flex items-center gap-2">
+                                <Mail className="h-5 w-5 text-muted-foreground" />
+                                <CardTitle>SMTP Email Settings</CardTitle>
+                            </div>
+                            <CardDescription>
+                                Set up the outgoing mail server details for system emails (e.g. status updates, notifications).
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="grid gap-6 md:grid-cols-2">
+                                <div className="space-y-2">
+                                    <FormLabel>SMTP Host</FormLabel>
+                                    <Input
+                                        value={data.mail_host}
+                                        onChange={(e) => setData('mail_host', e.target.value)}
+                                        placeholder="e.g. smtp.mailgun.org or mail.yourdomain.com"
+                                    />
+                                    <InputError message={errors.mail_host} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>SMTP Port</FormLabel>
+                                    <Input
+                                        value={data.mail_port}
+                                        onChange={(e) => setData('mail_port', e.target.value)}
+                                        placeholder="e.g. 587 or 465"
+                                    />
+                                    <InputError message={errors.mail_port} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>SMTP Username</FormLabel>
+                                    <Input
+                                        value={data.mail_username}
+                                        onChange={(e) => setData('mail_username', e.target.value)}
+                                        placeholder="e.g. postmaster@yourdomain.com"
+                                    />
+                                    <InputError message={errors.mail_username} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>SMTP Password</FormLabel>
+                                    <Input
+                                        type="password"
+                                        value={data.mail_password}
+                                        onChange={(e) => setData('mail_password', e.target.value)}
+                                        placeholder="SMTP Account Password"
+                                    />
+                                    <InputError message={errors.mail_password} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>Encryption Protocol</FormLabel>
+                                    <Input
+                                        value={data.mail_encryption}
+                                        onChange={(e) => setData('mail_encryption', e.target.value)}
+                                        placeholder="e.g. tls or ssl"
+                                    />
+                                    <InputError message={errors.mail_encryption} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>Sender From Name</FormLabel>
+                                    <Input
+                                        value={data.mail_from_name}
+                                        onChange={(e) => setData('mail_from_name', e.target.value)}
+                                        placeholder="e.g. SkyShip Support"
+                                    />
+                                    <InputError message={errors.mail_from_name} />
+                                </div>
+
+                                <div className="space-y-2 md:col-span-2">
+                                    <FormLabel>Sender From Address</FormLabel>
+                                    <Input
+                                        type="email"
+                                        value={data.mail_from_address}
+                                        onChange={(e) => setData('mail_from_address', e.target.value)}
+                                        placeholder="e.g. noreply@yourdomain.com"
+                                    />
+                                    <InputError message={errors.mail_from_address} />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
 
                     {/* Legal & Policy Pages */}
                     <Card>

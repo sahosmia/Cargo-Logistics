@@ -399,5 +399,12 @@ export interface SettingsForm {
     privacy_policy?: string;
     return_refund?: string;
     terms_conditions?: string;
+    mail_host?: string;
+    mail_port?: string | number;
+    mail_username?: string;
+    mail_password?: string;
+    mail_encryption?: string;
+    mail_from_address?: string;
+    mail_from_name?: string;
 
 }

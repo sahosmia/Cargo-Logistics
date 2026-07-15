@@ -24,6 +24,13 @@ trait ValidatesSettingsAttributes
             'privacy_policy' => ['nullable', 'string'],
             'return_refund' => ['nullable', 'string'],
             'terms_conditions' => ['nullable', 'string'],
+            'mail_host' => ['nullable', 'string', 'max:255'],
+            'mail_port' => ['nullable', 'integer'],
+            'mail_username' => ['nullable', 'string', 'max:255'],
+            'mail_password' => ['nullable', 'string', 'max:255'],
+            'mail_encryption' => ['nullable', 'string', 'max:50'],
+            'mail_from_address' => ['nullable', 'email', 'max:255'],
+            'mail_from_name' => ['nullable', 'string', 'max:255'],
         ];
     }
 
