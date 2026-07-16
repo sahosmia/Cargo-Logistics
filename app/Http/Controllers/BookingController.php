@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Bookings\UpdateBookingStatusAction;
+use App\Actions\Bookings\UpdateBookingAction;
+use App\Actions\Bookings\DeleteBookingAction;
 use App\Enums\UserRole;
 use App\Http\Requests\BookingStoreRequest;
+use App\Http\Requests\BookingUpdateRequest;
 use App\Http\Requests\UpdateBookingStatusRequest;
 use App\Models\Booking;
 use App\Models\Category;
@@ -165,6 +168,58 @@ class BookingController extends Controller
         });
 
         return redirect()->route('bookings.index')->with('success', 'Booking placed successfully!');
+    }
+
+    /**
+     * Show the form for editing the specified booking.
+     */
+    public function edit(Booking $booking): InertiaResponse
+    {
+        Gate::authorize('update', $booking);
+
+        $booking->load(['category', 'district']);
+        $categories = Category::all(['id', 'name']);
+        $districts = District::all(['id', 'name']);
+
+        return Inertia::render('Bookings/Edit', [
+            'booking' => $booking,
+            'categories' => $categories,
+            'districts' => $districts,
+        ]);
+    }
+
+    /**
+     * Update the specified booking in storage.
+     */
+    public function update(
+        BookingUpdateRequest $request,
+        Booking $booking,
+        UpdateBookingAction $action
+    ): RedirectResponse {
+        Gate::authorize('update', $booking);
+
+        $validated = $request->validated();
+        $validated['sensitive_goods'] = $request->boolean('sensitive_goods');
+
+        DB::transaction(function () use ($validated, $booking, $action) {
+            $action->execute($booking, $validated);
+        });
+
+        return redirect()->route('bookings.index')->with('success', 'Booking updated successfully!');
+    }
+
+    /**
+     * Remove the specified booking from storage.
+     */
+    public function destroy(Booking $booking, DeleteBookingAction $action): RedirectResponse
+    {
+        Gate::authorize('delete', $booking);
+
+        DB::transaction(function () use ($booking, $action) {
+            $action->execute($booking);
+        });
+
+        return redirect()->route('bookings.index')->with('success', 'Booking deleted successfully!');
     }
 
     /**

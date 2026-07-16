@@ -1,8 +1,9 @@
 import type { Column } from '@/types';
 import BookingStatusDropdown from '@/components/bookings/BookingStatusDropdown';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { Eye, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { TableRowActions } from '@/components/table/TableRowActions';
 
 export const columns: Column<any>[] = [
     {
@@ -40,22 +41,47 @@ export const columns: Column<any>[] = [
     },
     {
         header: 'Actions',
-        accessor: (item) => (
-            <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" asChild className="gap-2">
-                    <Link href={route('bookings.show', item.id)}>
-                        <Eye className="h-4 w-4" />
-                        <span>View</span>
-                    </Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild className="gap-2 text-primary hover:text-primary">
-                    <Link href={route('bookings.invoice', item.id)}>
-                        <FileText className="h-4 w-4" />
-                        <span>Invoice</span>
-                    </Link>
-                </Button>
-            </div>
-        ),
+        accessor: (item) => {
+            const { auth } = usePage<any>().props;
+            const isCustomer = auth?.guard === 'customer';
+
+            // Admins can edit if they have 'edit bookings' permission
+            // Customers can edit if the booking is still pending
+            const canEdit = isCustomer
+                ? (item.status === 'pending')
+                : auth?.user?.permissions?.includes('edit bookings');
+
+            // Admins can delete if they have 'delete bookings' permission
+            // Customers cannot delete
+            const canDelete = !isCustomer && auth?.user?.permissions?.includes('delete bookings');
+
+            return (
+                <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" asChild className="gap-2">
+                        <Link href={route('bookings.show', item.id)}>
+                            <Eye className="h-4 w-4" />
+                            <span>View</span>
+                        </Link>
+                    </Button>
+                    <Button variant="outline" size="sm" asChild className="gap-2 text-primary hover:text-primary">
+                        <Link href={route('bookings.invoice', item.id)}>
+                            <FileText className="h-4 w-4" />
+                            <span>Invoice</span>
+                        </Link>
+                    </Button>
+                    {(canEdit || canDelete) && (
+                        <TableRowActions
+                            item={{ id: item.id, name: item.shipping_mark || `#${item.id}` }}
+                            resource="bookings"
+                            label="Booking"
+                            hideView={true}
+                            hideEdit={!canEdit}
+                            hideDelete={!canDelete}
+                        />
+                    )}
+                </div>
+            );
+        },
     },
     {
         header: 'Date',
