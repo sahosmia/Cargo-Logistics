@@ -32,7 +32,7 @@ class SettingsController extends Controller
 
         // $this->service->updateSettings($validated);
 
-        $imageFields = ['site_logo', 'favicon', 'hero_banner'];
+        $imageFields = ['site_logo', 'favicon', 'hero_banner', 'sidebar_logo'];
 
         foreach ($validated as $key => $value) {
             if (in_array($key, $imageFields)) {

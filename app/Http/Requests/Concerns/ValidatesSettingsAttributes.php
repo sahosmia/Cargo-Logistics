@@ -11,6 +11,7 @@ trait ValidatesSettingsAttributes
     {
         return [
             'site_logo' => ['nullable', 'image', 'max:2048'],
+            'sidebar_logo' => ['nullable', 'image', 'max:2048'],
             'favicon' => ['nullable', 'image', 'max:1024'],
             'hero_banner' => ['nullable', 'image', 'max:5120'],
             'app_name' => ['required', 'string', 'max:255'],

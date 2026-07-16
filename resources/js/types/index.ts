@@ -376,6 +376,7 @@ export interface SettingType {
 
 export interface SettingsForm {
     site_logo: File | string | null;
+    sidebar_logo: File | string | null;
     logo: File | string | null;
     secondary_logo: File | string | null;
     favicon: File | string | null;

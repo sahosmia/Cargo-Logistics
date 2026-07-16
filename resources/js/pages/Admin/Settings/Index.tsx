@@ -25,6 +25,7 @@ const PAGINATION_OPTIONS = ['5', '10', '20', '50', '100'];
 export default function Index({ settings }: Props) {
     const { data, setData, post, processing, errors } = useForm<SettingsForm>({
         site_logo: null,
+        sidebar_logo: null,
         favicon: null,
         hero_banner: null,
         app_name: (settings.app_name as string) || '',
@@ -50,6 +51,7 @@ export default function Index({ settings }: Props) {
 
     const [previews, setPreviews] = useState({
         site_logo: settings.site_logo ? `/storage/${settings.site_logo}` : null,
+        sidebar_logo: settings.sidebar_logo ? `/storage/${settings.sidebar_logo}` : null,
         favicon: settings.favicon ? `/storage/${settings.favicon}` : null,
         hero_banner: settings.hero_banner ? `/storage/${settings.hero_banner}` : null,
     });
@@ -102,7 +104,7 @@ export default function Index({ settings }: Props) {
 
                             </div>
 
-                            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
                                 {/* site Logo */}
                                 <div className="space-y-2">
                                     <FormLabel>Site Logo</FormLabel>
@@ -124,6 +126,30 @@ export default function Index({ settings }: Props) {
                                             onChange={(e) => handleFileChange('site_logo', e)}
                                         />
                                         <InputError message={errors.site_logo} />
+                                    </div>
+                                </div>
+
+                                {/* Sidebar Top Logo */}
+                                <div className="space-y-2">
+                                    <FormLabel>Sidebar Top Logo</FormLabel>
+                                    <div className="flex flex-col gap-4">
+                                        <div className="relative h-32 w-full overflow-hidden rounded-lg border bg-muted flex items-center justify-center">
+                                            {previews.sidebar_logo ? (
+                                                <img
+                                                    src={previews.sidebar_logo}
+                                                    alt="Sidebar logo preview"
+                                                    className="max-h-full max-w-full object-contain"
+                                                />
+                                            ) : (
+                                                <ImageIcon className="h-10 w-10 text-muted-foreground" />
+                                            )}
+                                        </div>
+                                        <Input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => handleFileChange('sidebar_logo', e)}
+                                        />
+                                        <InputError message={errors.sidebar_logo} />
                                     </div>
                                 </div>
 
