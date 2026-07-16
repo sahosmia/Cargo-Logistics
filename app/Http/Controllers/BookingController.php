@@ -10,17 +10,28 @@ use App\Models\Booking;
 use App\Models\Category;
 use App\Models\District;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 
 class BookingController extends Controller
 {
-    public function create()
+    /**
+     * Show the booking creation form.
+     */
+    public function create(): View
     {
         return view('booking.form');
     }
 
-    public function index(Request $request)
+    /**
+     * Display a listing of bookings.
+     */
+    public function index(Request $request): InertiaResponse
     {
         $user = auth()->user() ?: auth('customer')->user();
         $query = Booking::query();
@@ -47,7 +58,10 @@ class BookingController extends Controller
         ]);
     }
 
-    public function show(Booking $booking)
+    /**
+     * Display the specified booking.
+     */
+    public function show(Booking $booking): InertiaResponse
     {
         Gate::authorize('view', $booking);
 
@@ -58,8 +72,10 @@ class BookingController extends Controller
         ]);
     }
 
-
-    public function invoice(Booking $booking)
+    /**
+     * Display the invoice for the booking.
+     */
+    public function invoice(Booking $booking): InertiaResponse
     {
         Gate::authorize('view', $booking);
 
@@ -70,7 +86,10 @@ class BookingController extends Controller
         ]);
     }
 
-    public function getCategories(Request $request)
+    /**
+     * Get a list of filtered shipping categories.
+     */
+    public function getCategories(Request $request): JsonResponse
     {
         $query = $request->get('q');
         $method = $request->get('method');
@@ -102,7 +121,10 @@ class BookingController extends Controller
         return response()->json($categories);
     }
 
-    public function getDistricts(Request $request)
+    /**
+     * Get a list of districts based on search criteria.
+     */
+    public function getDistricts(Request $request): JsonResponse
     {
         $query = $request->get('q');
 
@@ -112,46 +134,63 @@ class BookingController extends Controller
         return response()->json($districts);
     }
 
-    public function store(BookingStoreRequest $request)
+    /**
+     * Store a newly created booking in storage.
+     */
+    public function store(BookingStoreRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+        $user = auth()->user() ?: auth('customer')->user();
 
-        Booking::create([
-            'user_id' => auth()->id(),
-            'item_name' => $validated['item_name'],
-            'category_id' => $validated['category_id'],
-            'method' => $validated['method'],
-            'tracking' => $validated['tracking'],
-            'total_carton' => $validated['total_carton'],
-            'total_quantity' => $validated['total_quantity'],
-            'total_weight' => $validated['total_weight'],
-            'sensitive_goods' => $request->boolean('sensitive_goods'),
-            'delivery_method' => $validated['delivery_method'],
-            'district_id' => $validated['district_id'],
-            'address' => $validated['address'],
-            'note' => $validated['note'] ?? null,
-        ]);
+        if (!$user) {
+            abort(401, 'Unauthorized');
+        }
 
-        return back()->with('success', 'Booking placed successfully!');
+        DB::transaction(function () use ($validated, $user, $request) {
+            Booking::create([
+                'user_id' => $user->id,
+                'item_name' => $validated['item_name'],
+                'category_id' => $validated['category_id'],
+                'method' => $validated['method'],
+                'tracking' => $validated['tracking'],
+                'total_carton' => $validated['total_carton'],
+                'total_quantity' => $validated['total_quantity'],
+                'total_weight' => $validated['total_weight'],
+                'sensitive_goods' => $request->boolean('sensitive_goods'),
+                'delivery_method' => $validated['delivery_method'],
+                'district_id' => $validated['district_id'],
+                'address' => $validated['address'],
+                'note' => $validated['note'] ?? null,
+            ]);
+        });
+
+        return redirect()->route('bookings.index')->with('success', 'Booking placed successfully!');
     }
 
-    public function updateStatus(UpdateBookingStatusRequest $request, Booking $booking, UpdateBookingStatusAction $updateBookingStatusAction)
-    {
+    /**
+     * Update the status and specifications of a booking.
+     */
+    public function updateStatus(
+        UpdateBookingStatusRequest $request,
+        Booking $booking,
+        UpdateBookingStatusAction $updateBookingStatusAction
+    ): RedirectResponse {
         $validated = $request->validated();
 
-        // Logic to trigger payment completion
         if (isset($validated['status']) && $validated['status'] === 'delivered') {
             $validated['payment_status'] = 'paid';
         }
 
-        $booking->update(array_filter([
-            'total_weight' => $validated['total_weight'] ?? null,
-            'unit_price' => $validated['unit_price'] ?? null,
-            'total_price' => $validated['total_price'] ?? null,
-            'payment_status' => $validated['payment_status'] ?? null,
-        ], fn ($value) => ! is_null($value)));
+        DB::transaction(function () use ($validated, $booking, $updateBookingStatusAction) {
+            $booking->update(array_filter([
+                'total_weight' => $validated['total_weight'] ?? null,
+                'unit_price' => $validated['unit_price'] ?? null,
+                'total_price' => $validated['total_price'] ?? null,
+                'payment_status' => $validated['payment_status'] ?? null,
+            ], fn ($value) => ! is_null($value)));
 
-        $updateBookingStatusAction->execute($booking, $validated['status'], $validated['comment'] ?? null);
+            $updateBookingStatusAction->execute($booking, $validated['status'], $validated['comment'] ?? null);
+        });
 
         return back()->with('success', 'Booking status updated successfully!');
     }
