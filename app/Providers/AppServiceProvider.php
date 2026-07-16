@@ -32,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         try {
             if (Schema::hasTable('settings')) {
                 config([
+                    'mail.default' => settings('mail_mailer') ?: config('mail.default'),
                     'mail.mailers.smtp.host' => settings('mail_host') ?: config('mail.mailers.smtp.host'),
                     'mail.mailers.smtp.port' => settings('mail_port') ?: config('mail.mailers.smtp.port'),
                     'mail.mailers.smtp.username' => settings('mail_username') ?: config('mail.mailers.smtp.username'),

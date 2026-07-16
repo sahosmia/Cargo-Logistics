@@ -40,6 +40,7 @@ export default function Index({ settings }: Props) {
         terms_conditions: (settings.terms_conditions as string) || '',
 
         paginated_quantity: (settings.paginated_quantity as string) || '10',
+        mail_mailer: (settings.mail_mailer as string) || 'smtp',
         mail_host: (settings.mail_host as string) || '',
         mail_port: (settings.mail_port as string) || '',
         mail_username: (settings.mail_username as string) || '',
@@ -411,6 +412,27 @@ export default function Index({ settings }: Props) {
                         </CardHeader>
                         <CardContent className="space-y-6">
                             <div className="grid gap-6 md:grid-cols-2">
+                                <div className="space-y-2 md:col-span-2">
+                                    <FormLabel>Mail Mailer (Driver)</FormLabel>
+                                    <Select
+                                        value={data.mail_mailer || 'smtp'}
+                                        onValueChange={(value) => setData('mail_mailer', value)}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select mail mailer" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="smtp">SMTP (Recommended for production)</SelectItem>
+                                            <SelectItem value="log">Log (Saves emails to storage/logs/laravel.log)</SelectItem>
+                                            <SelectItem value="sendmail">Sendmail</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <p className="text-xs text-muted-foreground">
+                                        Choose 'Log' driver to test emails locally, and 'SMTP' for live outgoing mail.
+                                    </p>
+                                    <InputError message={errors.mail_mailer} />
+                                </div>
+
                                 <div className="space-y-2">
                                     <FormLabel>SMTP Host</FormLabel>
                                     <Input

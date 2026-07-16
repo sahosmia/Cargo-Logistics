@@ -25,6 +25,7 @@ trait ValidatesSettingsAttributes
             'privacy_policy' => ['nullable', 'string'],
             'return_refund' => ['nullable', 'string'],
             'terms_conditions' => ['nullable', 'string'],
+            'mail_mailer' => ['nullable', 'string', 'max:50'],
             'mail_host' => ['nullable', 'string', 'max:255'],
             'mail_port' => ['nullable', 'integer'],
             'mail_username' => ['nullable', 'string', 'max:255'],

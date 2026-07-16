@@ -400,6 +400,7 @@ export interface SettingsForm {
     privacy_policy?: string;
     return_refund?: string;
     terms_conditions?: string;
+    mail_mailer?: string;
     mail_host?: string;
     mail_port?: string | number;
     mail_username?: string;
