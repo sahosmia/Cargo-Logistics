@@ -244,38 +244,10 @@ class BookingLifecycleTest extends TestCase
         $this->assertNull($booking->fresh());
     }
 
-    public function test_customer_can_edit_own_pending_booking()
+    public function test_customer_cannot_edit_own_pending_booking()
     {
         $user = User::factory()->create(['role' => \App\Enums\UserRole::Customer]);
         $booking = $this->createBookingForUser($user);
-
-        $this->actingAs($user)
-            ->get(route('bookings.edit', $booking))
-            ->assertOk();
-
-        $this->actingAs($user)
-            ->put(route('bookings.update', $booking), [
-                'method' => 'air',
-                'tracking' => ['123'],
-                'item_name' => 'Customer Updated',
-                'category_id' => $booking->category_id,
-                'total_carton' => 1,
-                'total_quantity' => 1,
-                'total_weight' => 1.0,
-                'delivery_method' => 'courier',
-                'district_id' => $booking->district_id,
-                'address' => 'Dhaka',
-            ])
-            ->assertRedirect(route('bookings.index'));
-
-        $this->assertEquals('Customer Updated', $booking->fresh()->item_name);
-    }
-
-    public function test_customer_cannot_edit_own_non_pending_booking()
-    {
-        $user = User::factory()->create(['role' => \App\Enums\UserRole::Customer]);
-        $booking = $this->createBookingForUser($user);
-        $booking->update(['status' => 'received_in_china']);
 
         $this->actingAs($user)
             ->get(route('bookings.edit', $booking))
@@ -285,7 +257,7 @@ class BookingLifecycleTest extends TestCase
             ->put(route('bookings.update', $booking), [
                 'method' => 'air',
                 'tracking' => ['123'],
-                'item_name' => 'Customer Attempt',
+                'item_name' => 'Customer Updated',
                 'category_id' => $booking->category_id,
                 'total_carton' => 1,
                 'total_quantity' => 1,

@@ -45,14 +45,8 @@ export const columns: Column<any>[] = [
             const { auth } = usePage<any>().props;
             const isCustomer = auth?.guard === 'customer';
 
-            // Admins can edit if they have 'edit bookings' permission
-            // Customers can edit if the booking is still pending
-            const canEdit = isCustomer
-                ? (item.status === 'pending')
-                : auth?.user?.permissions?.includes('edit bookings');
-
-            // Admins can delete if they have 'delete bookings' permission
-            // Customers cannot delete
+            // Only admin role users with permission get edit and delete options
+            const canEdit = !isCustomer && auth?.user?.permissions?.includes('edit bookings');
             const canDelete = !isCustomer && auth?.user?.permissions?.includes('delete bookings');
 
             return (

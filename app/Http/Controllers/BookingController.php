@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Bookings\UpdateBookingStatusAction;
 use App\Actions\Bookings\UpdateBookingAction;
 use App\Actions\Bookings\DeleteBookingAction;
+use App\Actions\Bookings\StoreBookingAction;
 use App\Enums\UserRole;
 use App\Http\Requests\BookingStoreRequest;
 use App\Http\Requests\BookingUpdateRequest;
@@ -140,7 +141,7 @@ class BookingController extends Controller
     /**
      * Store a newly created booking in storage.
      */
-    public function store(BookingStoreRequest $request): RedirectResponse
+    public function store(BookingStoreRequest $request, StoreBookingAction $storeBookingAction): RedirectResponse
     {
         $validated = $request->validated();
         $user = auth()->user() ?: auth('customer')->user();
@@ -149,8 +150,8 @@ class BookingController extends Controller
             abort(401, 'Unauthorized');
         }
 
-        DB::transaction(function () use ($validated, $user, $request) {
-            Booking::create([
+        DB::transaction(function () use ($validated, $user, $request, $storeBookingAction) {
+            $storeBookingAction->execute([
                 'user_id' => $user->id,
                 'item_name' => $validated['item_name'],
                 'category_id' => $validated['category_id'],

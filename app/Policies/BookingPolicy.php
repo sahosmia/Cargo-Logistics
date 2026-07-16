@@ -44,7 +44,7 @@ class BookingPolicy
     public function update(Authenticatable $user, Booking $booking): bool
     {
         if ($user->role === UserRole::Customer || $user->role === 'customer') {
-            return $user->getAuthIdentifier() === $booking->user_id && $booking->status === 'pending';
+            return false;
         }
 
         return method_exists($user, 'hasPermissionTo') && $user->hasPermissionTo('edit bookings');
