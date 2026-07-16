@@ -33,6 +33,10 @@ trait ValidatesSettingsAttributes
             'mail_encryption' => ['nullable', 'string', 'max:50'],
             'mail_from_address' => ['nullable', 'email', 'max:255'],
             'mail_from_name' => ['nullable', 'string', 'max:255'],
+            'sms_enabled' => ['nullable', 'string', 'max:10'],
+            'sms_api_url' => ['nullable', 'string', 'max:255'],
+            'sms_api_key' => ['nullable', 'string', 'max:255'],
+            'sms_sender_id' => ['nullable', 'string', 'max:50'],
         ];
     }
 

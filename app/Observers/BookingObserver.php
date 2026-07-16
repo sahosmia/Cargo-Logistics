@@ -3,12 +3,12 @@
 namespace App\Observers;
 
 use App\Enums\UserRole;
-use App\Mail\BookingStatusChangedMail;
 use App\Models\Booking;
 use App\Models\BookingHistory;
 use App\Models\User;
+use App\Notifications\BookingCreatedNotification;
+use App\Notifications\BookingStatusChangedNotification;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class BookingObserver
 {
@@ -56,12 +56,11 @@ class BookingObserver
             ]);
 
             $user = $booking->user;
-            if ($user && ! empty($user->email)) {
+            if ($user) {
                 try {
-                    Log::info("problem");
-                    Mail::to($user->email)->send(new BookingStatusChangedMail($booking));
+                    $user->notify(new BookingStatusChangedNotification($booking));
                 } catch (\Exception $e) {
-                    Log::error('Failed to send booking status changed email: '.$e->getMessage());
+                    Log::error('Failed to send booking status changed notification: '.$e->getMessage());
                 }
             }
         }
@@ -78,6 +77,15 @@ class BookingObserver
             'changed_by' => auth()->id(),
             'comment' => 'Booking created',
         ]);
+
+        $user = $booking->user;
+        if ($user) {
+            try {
+                $user->notify(new BookingCreatedNotification($booking));
+            } catch (\Exception $e) {
+                Log::error('Failed to send booking created notification: '.$e->getMessage());
+            }
+        }
     }
 
     /**
