@@ -296,7 +296,7 @@
                     {{-- Warehouse Info Card --}}
                     <div class="bg-blue-50 border border-blue-100/60 rounded-xl p-4 text-center mb-4">
                         <h3 class="text-xs font-extrabold text-[#262262] tracking-widest mb-1.5 uppercase">China Collection Warehouse</h3>
-                        <p class="text-xs font-bold text-slate-600 leading-relaxed mb-1.5">{{ settings('address') }}</p>
+                        <p class="text-xs font-bold text-slate-600 leading-relaxed mb-1.5">{{ settings('china_warehouse_address') ?: 'Guangzhou City, Guangdong Province, China' }}</p>
                         <p class="text-xs font-extrabold text-blue-700">{{ settings('phone') }}</p>
                     </div>
 

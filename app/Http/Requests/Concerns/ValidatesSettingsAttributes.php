@@ -37,6 +37,7 @@ trait ValidatesSettingsAttributes
             'sms_api_url' => ['nullable', 'string', 'max:255'],
             'sms_api_key' => ['nullable', 'string', 'max:255'],
             'sms_sender_id' => ['nullable', 'string', 'max:50'],
+            'china_warehouse_address' => ['nullable', 'string'],
         ];
     }
 

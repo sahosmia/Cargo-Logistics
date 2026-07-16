@@ -52,6 +52,7 @@ export default function Index({ settings }: Props) {
         sms_api_url: (settings.sms_api_url as string) || '',
         sms_api_key: (settings.sms_api_key as string) || '',
         sms_sender_id: (settings.sms_sender_id as string) || '',
+        china_warehouse_address: (settings.china_warehouse_address as string) || '',
     });
 
     const [previews, setPreviews] = useState({
@@ -329,6 +330,22 @@ export default function Index({ settings }: Props) {
                                     rows={2}
                                 />
                                 <InputError message={errors.address} />
+                            </div>
+
+                            <div className="space-y-2">
+                                <FormLabel>
+                                    <div className="flex items-center gap-1">
+                                        <MapPin className="h-3 w-3" />
+                                        China Warehouse Address
+                                    </div>
+                                </FormLabel>
+                                <Textarea
+                                    value={data.china_warehouse_address}
+                                    onChange={(e) => setData('china_warehouse_address', e.target.value)}
+                                    placeholder="Enter full China warehouse collection address"
+                                    rows={2}
+                                />
+                                <InputError message={errors.china_warehouse_address} />
                             </div>
 
 

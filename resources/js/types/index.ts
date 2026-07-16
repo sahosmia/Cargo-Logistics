@@ -412,5 +412,6 @@ export interface SettingsForm {
     sms_api_url?: string;
     sms_api_key?: string;
     sms_sender_id?: string;
+    china_warehouse_address?: string;
 
 }
