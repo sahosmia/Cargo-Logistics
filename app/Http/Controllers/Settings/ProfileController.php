@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Settings;
 
-use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\DeleteProfileRequest;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
@@ -33,10 +32,6 @@ class ProfileController extends Controller
     {
         $user = $request->user('customer') ?: $request->user();
         $validated = $request->validated();
-
-        if ($user && ($user->role === UserRole::Customer || Auth::guard('customer')->check())) {
-            unset($validated['email']);
-        }
 
         $user->fill($validated);
 

@@ -60,3 +60,6 @@ Work Due:
 
 kaj almost 60% done. akon je kaj gulo ache  ai gulo time lagbe karon design e time aktu besi lage, ata hoi to 5 days er moto lagbe depend on correction and change.
 
+
+
+=> otp code center design

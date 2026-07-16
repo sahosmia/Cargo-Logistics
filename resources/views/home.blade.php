@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 
 @section('title', 'Home - Express Air & Ocean Shipping')
-@section('meta_description', 'SkyShip offers fastest and reliable doorstep cargo transport services from China to Bangladesh.')
+@section('meta_description', 'TechPickly offers fastest and reliable doorstep cargo transport services from China to Bangladesh.')
 
 @section('content')
 
@@ -294,7 +294,7 @@
     </div>
 </section>
 
-{{-- Section: Why Choose SkyShip Logistics --}}
+{{-- Section: Why Choose TechPickly Logistics --}}
 <section class="py-20 bg-slate-50 relative overflow-hidden">
     <div class="absolute inset-0 z-0 opacity-40 bg-[radial-gradient(#dbdaf0_1px,transparent_1px)] [background-size:24px_24px]"></div>
 
@@ -304,7 +304,7 @@
                 Our Competitive Advantage
             </span>
             <h2 class="text-3xl sm:text-4xl font-extrabold text-[#262262] tracking-tight mb-4">
-                Why Thousands Trust SkyShip Logistics
+                Why Thousands Trust TechPickly Logistics
             </h2>
             <p class="text-slate-500 text-sm sm:text-base leading-relaxed">
                 Discover the direct logistics advantages that separate us from typical clearing agents and cargo handlers.

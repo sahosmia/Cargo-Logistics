@@ -376,6 +376,7 @@ export interface SettingType {
 
 export interface SettingsForm {
     site_logo: File | string | null;
+    sidebar_logo : File | string | null;
     logo: File | string | null;
     secondary_logo: File | string | null;
     favicon: File | string | null;
@@ -399,5 +400,13 @@ export interface SettingsForm {
     privacy_policy?: string;
     return_refund?: string;
     terms_conditions?: string;
+    // mail_mailer?: string;
+    mail_host?: string;
+    mail_port?: string | number;
+    mail_username?: string;
+    mail_password?: string;
+    mail_encryption?: string;
+    mail_from_address?: string;
+    mail_from_name?: string;
 
 }

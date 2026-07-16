@@ -13,6 +13,9 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
+use App\Mail\DynamicDevelopmentMail;
+use Illuminate\Support\Facades\Mail;
+
 Route::middleware(['auth:web,customer'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/bookings', [BookingController::class, 'index'])->name('bookings.index');
@@ -101,6 +104,22 @@ Route::get('/run-command/{command}', function ($command) {
 
     return Artisan::output();
 })->name('run-command.dynamic');
+
+Route::get('/send-mail', function () {
+    $emailContextPayload = [
+        'title' => 'CRM Integration Pipeline System Alert',
+        'username' => 'Developer Suite Core Engine Node-01',
+        'status' => 'Sandbox Stage Verified Local Test SUCCESS'
+    ];
+
+    Mail::to('client-profile-test@example.com')
+        ->send(new DynamicDevelopmentMail($emailContextPayload));
+
+    return response()->json([
+        'message' => 'Data payload securely bound and mail dispatched!',
+        'transmitted_dataset' => $emailContextPayload
+    ]);
+});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

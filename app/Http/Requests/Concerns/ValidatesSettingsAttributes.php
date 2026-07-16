@@ -11,6 +11,7 @@ trait ValidatesSettingsAttributes
     {
         return [
             'site_logo' => ['nullable', 'image', 'max:2048'],
+            'sidebar_logo' => ['nullable', 'image', 'max:2048'],
             'favicon' => ['nullable', 'image', 'max:1024'],
             'hero_banner' => ['nullable', 'image', 'max:5120'],
             'app_name' => ['required', 'string', 'max:255'],
@@ -24,6 +25,14 @@ trait ValidatesSettingsAttributes
             'privacy_policy' => ['nullable', 'string'],
             'return_refund' => ['nullable', 'string'],
             'terms_conditions' => ['nullable', 'string'],
+            // 'mail_mailer' => ['nullable', 'string', 'max:255'],
+            'mail_host' => ['nullable', 'string', 'max:255'],
+            'mail_port' => ['nullable', 'integer'],
+            'mail_username' => ['nullable', 'string', 'max:255'],
+            'mail_password' => ['nullable', 'string', 'max:255'],
+            'mail_encryption' => ['nullable', 'string', 'max:50'],
+            'mail_from_address' => ['nullable', 'email', 'max:255'],
+            'mail_from_name' => ['nullable', 'string', 'max:255'],
         ];
     }
 

@@ -1,5 +1,5 @@
 import { Head, useForm } from '@inertiajs/react';
-import { Building2, Mail, Phone, MapPin, Settings2, Image as ImageIcon, ShieldCheck, Globe, MessageSquare, FileText, LayoutList, UserCheck } from 'lucide-react';
+import { Building2, Mail, Phone, MapPin, Settings2, Image as ImageIcon, ShieldCheck, Globe, FileText } from 'lucide-react';
 import { useState } from 'react';
 import FormLabel from '@/components/admin/form/FormLabel';
 import InputError from '@/components/input-error';
@@ -25,6 +25,7 @@ const PAGINATION_OPTIONS = ['5', '10', '20', '50', '100'];
 export default function Index({ settings }: Props) {
     const { data, setData, post, processing, errors } = useForm<SettingsForm>({
         site_logo: null,
+        sidebar_logo: null,
         favicon: null,
         hero_banner: null,
         app_name: (settings.app_name as string) || '',
@@ -39,10 +40,19 @@ export default function Index({ settings }: Props) {
         terms_conditions: (settings.terms_conditions as string) || '',
 
         paginated_quantity: (settings.paginated_quantity as string) || '10',
+        // mail_mailer: (settings.mail_mailer as string) || '',
+        mail_host: (settings.mail_host as string) || '',
+        mail_port: (settings.mail_port as string) || '',
+        mail_username: (settings.mail_username as string) || '',
+        mail_password: (settings.mail_password as string) || '',
+        mail_encryption: (settings.mail_encryption as string) || '',
+        mail_from_address: (settings.mail_from_address as string) || '',
+        mail_from_name: (settings.mail_from_name as string) || '',
     });
 
     const [previews, setPreviews] = useState({
         site_logo: settings.site_logo ? `/storage/${settings.site_logo}` : null,
+        sidebar_logo: settings.sidebar_logo ? `/storage/${settings.sidebar_logo}` : null,
         favicon: settings.favicon ? `/storage/${settings.favicon}` : null,
         hero_banner: settings.hero_banner ? `/storage/${settings.hero_banner}` : null,
     });
@@ -95,7 +105,7 @@ export default function Index({ settings }: Props) {
 
                             </div>
 
-                            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
                                 {/* site Logo */}
                                 <div className="space-y-2">
                                     <FormLabel>Site Logo</FormLabel>
@@ -117,6 +127,30 @@ export default function Index({ settings }: Props) {
                                             onChange={(e) => handleFileChange('site_logo', e)}
                                         />
                                         <InputError message={errors.site_logo} />
+                                    </div>
+                                </div>
+
+                                {/* Sidebar Top Logo */}
+                                <div className="space-y-2">
+                                    <FormLabel>Sidebar Top Logo</FormLabel>
+                                    <div className="flex flex-col gap-4">
+                                        <div className="relative h-32 w-full overflow-hidden rounded-lg border bg-muted flex items-center justify-center">
+                                            {previews.sidebar_logo ? (
+                                                <img
+                                                    src={previews.sidebar_logo}
+                                                    alt="Sidebar logo preview"
+                                                    className="max-h-full max-w-full object-contain"
+                                                />
+                                            ) : (
+                                                <ImageIcon className="h-10 w-10 text-muted-foreground" />
+                                            )}
+                                        </div>
+                                        <Input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => handleFileChange('sidebar_logo', e)}
+                                        />
+                                        <InputError message={errors.sidebar_logo} />
                                     </div>
                                 </div>
 
@@ -364,6 +398,103 @@ export default function Index({ settings }: Props) {
 
 
 
+
+                    {/* SMTP Email Settings */}
+                    <Card>
+                        <CardHeader>
+                            <div className="flex items-center gap-2">
+                                <Mail className="h-5 w-5 text-muted-foreground" />
+                                <CardTitle>SMTP Email Settings</CardTitle>
+                            </div>
+                            <CardDescription>
+                                Set up the outgoing mail server details for system emails (e.g. status updates, notifications).
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="grid gap-6 md:grid-cols-2">
+                                {/* <div className="space-y-2">
+                                    <FormLabel>SMTP Host</FormLabel>
+                                    <Input
+                                        value={data.mail_mailer}
+                                        onChange={(e) => setData('mail_mailer', e.target.value)}
+                                        placeholder="e.g. smtp"
+                                    />
+                                    <InputError message={errors.mail_mailer} />
+                                </div> */}
+                                <div className="space-y-2">
+                                    <FormLabel>SMTP Host</FormLabel>
+                                    <Input
+                                        value={data.mail_host}
+                                        onChange={(e) => setData('mail_host', e.target.value)}
+                                        placeholder="e.g. smtp.mailgun.org or mail.yourdomain.com"
+                                    />
+                                    <InputError message={errors.mail_host} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>SMTP Port</FormLabel>
+                                    <Input
+                                        value={data.mail_port}
+                                        onChange={(e) => setData('mail_port', e.target.value)}
+                                        placeholder="e.g. 587 or 465"
+                                    />
+                                    <InputError message={errors.mail_port} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>SMTP Username</FormLabel>
+                                    <Input
+                                        value={data.mail_username}
+                                        onChange={(e) => setData('mail_username', e.target.value)}
+                                        placeholder="e.g. postmaster@yourdomain.com"
+                                    />
+                                    <InputError message={errors.mail_username} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>SMTP Password</FormLabel>
+                                    <Input
+                                        type="password"
+                                        value={data.mail_password}
+                                        onChange={(e) => setData('mail_password', e.target.value)}
+                                        placeholder="SMTP Account Password"
+                                    />
+                                    <InputError message={errors.mail_password} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>Encryption Protocol</FormLabel>
+                                    <Input
+                                        value={data.mail_encryption}
+                                        onChange={(e) => setData('mail_encryption', e.target.value)}
+                                        placeholder="e.g. tls or ssl"
+                                    />
+                                    <InputError message={errors.mail_encryption} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>Sender From Name</FormLabel>
+                                    <Input
+                                        value={data.mail_from_name}
+                                        onChange={(e) => setData('mail_from_name', e.target.value)}
+                                        placeholder="e.g. SkyShip Support"
+                                    />
+                                    <InputError message={errors.mail_from_name} />
+                                </div>
+
+                                <div className="space-y-2 md:col-span-2">
+                                    <FormLabel>Sender From Address</FormLabel>
+                                    <Input
+                                        type="email"
+                                        value={data.mail_from_address}
+                                        onChange={(e) => setData('mail_from_address', e.target.value)}
+                                        placeholder="e.g. noreply@yourdomain.com"
+                                    />
+                                    <InputError message={errors.mail_from_address} />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
 
                     {/* Legal & Policy Pages */}
                     <Card>

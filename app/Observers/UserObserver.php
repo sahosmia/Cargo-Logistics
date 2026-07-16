@@ -17,12 +17,12 @@ class UserObserver
         if ($isCustomer && empty($user->customer_code)) {
             $latestUser = User::whereNotNull('customer_code')
                 ->where('customer_code', 'LIKE', 'TP-%')
-                ->orderByRaw('CAST(SUBSTRING(customer_code, 5) AS UNSIGNED) DESC')
+                ->orderByRaw('CAST(SUBSTRING(customer_code, 4) AS UNSIGNED) DESC')
                 ->first();
 
             $nextNum = 1001;
             if ($latestUser) {
-                $nextNum = ((int) substr($latestUser->customer_code, 4)) + 1;
+                $nextNum = ((int) substr($latestUser->customer_code, 3)) + 1;
             }
 
             do {

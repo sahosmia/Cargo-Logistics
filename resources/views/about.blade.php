@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 
 @section('title', 'About Us - Premium Logistics & Cargo Services')
-@section('meta_description', 'Learn more about SkyShip logistics services, China to Bangladesh Express cargo routing, and our core values.')
+@section('meta_description', 'Learn more about TechPickly logistics services, China to Bangladesh Express cargo routing, and our core values.')
 
 @section('content')
 <div class="relative bg-slate-50 min-h-screen py-16 overflow-hidden">

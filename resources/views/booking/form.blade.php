@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'Create Cargo Booking - SkyShip Premium Logistics')
+@section('title', 'Create Cargo Booking - TechPickly Premium Logistics')
 @section('meta_description', 'Book your air or ocean shipping from China to Bangladesh. Secure weight-based pricing and door doorstep custom clearances.')
 
 @push('styles')

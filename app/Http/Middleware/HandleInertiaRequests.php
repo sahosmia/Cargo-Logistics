@@ -48,7 +48,9 @@ class HandleInertiaRequests extends Middleware
                 'logo' => settings('site_logo') && Storage::disk('public')->exists(settings('site_logo'))
                     ? Storage::disk('public')->url(settings('site_logo'))
                     : asset('images/techpickly-transparent-logo.png'),
-
+                'sidebar_logo' => settings('sidebar_logo') && Storage::disk('public')->exists(settings('sidebar_logo'))
+                    ? Storage::disk('public')->url(settings('sidebar_logo'))
+                    : null,
             ],
             'auth' => [
                 'user' => ($user = $request->user('customer') ?: $request->user()) ? array_merge($user->toArray(), [
