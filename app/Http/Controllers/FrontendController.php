@@ -10,7 +10,7 @@ class FrontendController extends Controller
     {
         $banner = settings('hero_banner');
         $heroBannerUrl = ($banner && Storage::disk('public')->exists($banner))
-            ? Storage::disk('public')->url($banner)
+            ? asset('storage/' . $banner)
             : asset('images/banner-default.jpg');
 
         return view('home', compact('heroBannerUrl'));

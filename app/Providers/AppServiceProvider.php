@@ -55,12 +55,12 @@ class AppServiceProvider extends ServiceProvider
 
                     $dbLogo = settings('site_logo');
                     if ($dbLogo && Storage::disk('public')->exists($dbLogo)) {
-                        $logoUrl = Storage::disk('public')->url($dbLogo);
+                        $logoUrl = asset('storage/' . $dbLogo);
                     }
 
                     $dbFavicon = settings('favicon');
                     if ($dbFavicon && Storage::disk('public')->exists($dbFavicon)) {
-                        $faviconUrl = Storage::disk('public')->url($dbFavicon);
+                        $faviconUrl = asset('storage/' . $dbFavicon);
                     }
                 }
             } catch (\Exception $e) {
