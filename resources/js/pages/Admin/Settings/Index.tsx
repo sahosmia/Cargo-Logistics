@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
+import CKEditor from '@/components/CKEditor';
 import type { SettingsForm, SettingType } from '@/types';
 
 interface Props {
@@ -597,33 +598,30 @@ export default function Index({ settings }: Props) {
                         <CardContent className="space-y-6">
                             <div className="space-y-2">
                                 <FormLabel>Privacy Policy</FormLabel>
-                                <Textarea
+                                <CKEditor
                                     value={data.privacy_policy}
-                                    onChange={(e) => setData('privacy_policy', e.target.value)}
+                                    onChange={(val) => setData('privacy_policy', val)}
                                     placeholder="Enter Privacy Policy content..."
-                                    rows={6}
                                 />
                                 <InputError message={errors.privacy_policy} />
                             </div>
 
                             <div className="space-y-2">
                                 <FormLabel>Return & Refund Policy</FormLabel>
-                                <Textarea
+                                <CKEditor
                                     value={data.return_refund}
-                                    onChange={(e) => setData('return_refund', e.target.value)}
+                                    onChange={(val) => setData('return_refund', val)}
                                     placeholder="Enter Return & Refund Policy content..."
-                                    rows={6}
                                 />
                                 <InputError message={errors.return_refund} />
                             </div>
 
                             <div className="space-y-2">
                                 <FormLabel>Terms & Conditions</FormLabel>
-                                <Textarea
+                                <CKEditor
                                     value={data.terms_conditions}
-                                    onChange={(e) => setData('terms_conditions', e.target.value)}
+                                    onChange={(val) => setData('terms_conditions', val)}
                                     placeholder="Enter Terms & Conditions content..."
-                                    rows={6}
                                 />
                                 <InputError message={errors.terms_conditions} />
                             </div>

@@ -170,3 +170,35 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* CKEditor 5 Styling Overrides */
+.ck-editor__editable_inline {
+    min-height: 250px;
+    background-color: var(--background) !important;
+    color: var(--foreground) !important;
+    border-color: var(--border) !important;
+}
+
+.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+    border-color: var(--border) !important;
+}
+
+.ck.ck-toolbar {
+    background-color: var(--muted) !important;
+    border-color: var(--border) !important;
+}
+
+.ck.ck-button {
+    color: var(--foreground) !important;
+    cursor: pointer !important;
+}
+
+.ck.ck-button:hover, .ck.ck-button.ck-on {
+    background-color: var(--accent) !important;
+    color: var(--accent-foreground) !important;
+}
+
+.ck.ck-dropdown__panel {
+    background-color: var(--background) !important;
+    border-color: var(--border) !important;
+}

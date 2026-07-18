@@ -26,8 +26,8 @@
                 </div>
             </div>
 
-            <div class="text-slate-600 leading-relaxed text-left text-sm sm:text-base whitespace-pre-line space-y-6">
-                {!! nl2br(e($content)) !!}
+            <div class="text-slate-600 leading-relaxed text-left text-sm sm:text-base prose max-w-none space-y-6">
+                {!! $content !!}
             </div>
         </div>
     </div>
