@@ -54,12 +54,12 @@ class AppServiceProvider extends ServiceProvider
                 if (Schema::hasTable('settings')) {
 
                     $dbLogo = settings('site_logo');
-                    if ($dbLogo && Storage::disk('public')->exists($dbLogo)) {
+                    if (!empty($dbLogo)) {
                         $logoUrl = asset('storage/' . $dbLogo);
                     }
 
                     $dbFavicon = settings('favicon');
-                    if ($dbFavicon && Storage::disk('public')->exists($dbFavicon)) {
+                    if (!empty($dbFavicon)) {
                         $faviconUrl = asset('storage/' . $dbFavicon);
                     }
                 }
