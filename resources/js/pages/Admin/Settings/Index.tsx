@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
-import CKEditor from '@/components/CKEditor';
+import QuillEditor from '@/components/QuillEditor';
 import type { SettingsForm, SettingType } from '@/types';
 
 interface Props {
@@ -598,7 +598,7 @@ export default function Index({ settings }: Props) {
                         <CardContent className="space-y-6">
                             <div className="space-y-2">
                                 <FormLabel>Privacy Policy</FormLabel>
-                                <CKEditor
+                                <QuillEditor
                                     value={data.privacy_policy}
                                     onChange={(val) => setData('privacy_policy', val)}
                                     placeholder="Enter Privacy Policy content..."
@@ -608,7 +608,7 @@ export default function Index({ settings }: Props) {
 
                             <div className="space-y-2">
                                 <FormLabel>Return & Refund Policy</FormLabel>
-                                <CKEditor
+                                <QuillEditor
                                     value={data.return_refund}
                                     onChange={(val) => setData('return_refund', val)}
                                     placeholder="Enter Return & Refund Policy content..."
@@ -618,7 +618,7 @@ export default function Index({ settings }: Props) {
 
                             <div className="space-y-2">
                                 <FormLabel>Terms & Conditions</FormLabel>
-                                <CKEditor
+                                <QuillEditor
                                     value={data.terms_conditions}
                                     onChange={(val) => setData('terms_conditions', val)}
                                     placeholder="Enter Terms & Conditions content..."
