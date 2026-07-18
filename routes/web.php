@@ -22,6 +22,9 @@ Route::middleware(['auth:web,customer'])->group(function () {
     Route::get('/dashboard/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
     Route::get('/dashboard/bookings/{booking}/invoice', [BookingController::class, 'invoice'])->name('bookings.invoice');
     Route::patch('/dashboard/bookings/{booking}/status', [BookingController::class, 'updateStatus'])->name('bookings.update-status');
+    Route::get('/dashboard/bookings/{booking}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
+    Route::put('/dashboard/bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
+    Route::delete('/dashboard/bookings/{booking}', [BookingController::class, 'destroy'])->name('bookings.destroy');
 });
 
 // =============================  Fronted Pert ===============================

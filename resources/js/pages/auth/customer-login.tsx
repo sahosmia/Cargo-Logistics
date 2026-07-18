@@ -267,7 +267,7 @@ export default function CustomerLogin() {
                                             onChange={(e) => setData('otp', e.target.value)}
                                             placeholder="Enter 6-digit code"
                                             maxLength={6}
-                                            className="pl-11 bg-slate-50 border-slate-200 text-slate-800 placeholder-slate-400 focus:border-[#262262] focus:ring-1 focus:ring-[#262262] rounded-xl h-11 font-mono tracking-widest text-center text-lg"
+                                            className="pl-11 bg-slate-50 border-slate-200 text-slate-800 placeholder-slate-400 focus:border-[#262262] focus:ring-1 focus:ring-[#262262] rounded-xl h-11 font-mono tracking-widest text-lg"
                                         />
                                     </div>
                                     <InputError message={errors.otp} className="text-red-500 text-xs mt-1" />

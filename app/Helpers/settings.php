@@ -33,6 +33,8 @@ if (! function_exists('settings')) {
             return (int) $value;
         }
 
+        
+
         return $value;
     }
 }

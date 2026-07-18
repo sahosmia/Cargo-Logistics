@@ -408,5 +408,10 @@ export interface SettingsForm {
     mail_encryption?: string;
     mail_from_address?: string;
     mail_from_name?: string;
+    sms_enabled?: string;
+    sms_api_url?: string;
+    sms_api_key?: string;
+    sms_sender_id?: string;
+    china_warehouse_address?: string;
 
 }

@@ -8,7 +8,8 @@ import {
     MapPin,
     Plus,
     Package,
-    Mail
+    Mail,
+    Globe
 } from 'lucide-react';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -34,6 +35,12 @@ export function AppSidebar() {
 
     const mainNavItems: NavItem[] = [
         { title: 'Dashboard', href: route('dashboard'), icon: LayoutDashboard },
+        {
+            title: 'Visit Website',
+            href: route('home'),
+            icon: Globe,
+            isExternalOrBlade: true,
+        },
         {
             title: 'New Booking',
             href: route('customer.booking'),

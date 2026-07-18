@@ -201,4 +201,83 @@ class BookingLifecycleTest extends TestCase
             ->get(route('bookings.invoice', $booking))
             ->assertOk();
     }
+
+    public function test_admin_with_permission_can_edit_booking()
+    {
+        $admin = User::factory()->create();
+        $admin->assignRole('Super Admin');
+        $booking = $this->createBooking();
+
+        $this->actingAs($admin)
+            ->get(route('bookings.edit', $booking))
+            ->assertOk();
+
+        $this->actingAs($admin)
+            ->put(route('bookings.update', $booking), [
+                'method' => 'sea',
+                'tracking' => ['999'],
+                'item_name' => 'Updated Item',
+                'category_id' => $booking->category_id,
+                'total_carton' => 5,
+                'total_quantity' => 10,
+                'total_weight' => 20.0,
+                'delivery_method' => 'office_pickup',
+                'district_id' => $booking->district_id,
+                'address' => 'Updated Address',
+            ])
+            ->assertRedirect(route('bookings.index'));
+
+        $this->assertEquals('Updated Item', $booking->fresh()->item_name);
+        $this->assertEquals('sea', $booking->fresh()->method);
+    }
+
+    public function test_admin_with_permission_can_delete_booking()
+    {
+        $admin = User::factory()->create();
+        $admin->assignRole('Super Admin');
+        $booking = $this->createBooking();
+
+        $this->actingAs($admin)
+            ->delete(route('bookings.destroy', $booking))
+            ->assertRedirect(route('bookings.index'));
+
+        $this->assertNull($booking->fresh());
+    }
+
+    public function test_customer_cannot_edit_own_pending_booking()
+    {
+        $user = User::factory()->create(['role' => \App\Enums\UserRole::Customer]);
+        $booking = $this->createBookingForUser($user);
+
+        $this->actingAs($user)
+            ->get(route('bookings.edit', $booking))
+            ->assertStatus(403);
+
+        $this->actingAs($user)
+            ->put(route('bookings.update', $booking), [
+                'method' => 'air',
+                'tracking' => ['123'],
+                'item_name' => 'Customer Updated',
+                'category_id' => $booking->category_id,
+                'total_carton' => 1,
+                'total_quantity' => 1,
+                'total_weight' => 1.0,
+                'delivery_method' => 'courier',
+                'district_id' => $booking->district_id,
+                'address' => 'Dhaka',
+            ])
+            ->assertStatus(403);
+    }
+
+    public function test_customer_cannot_delete_own_booking()
+    {
+        $user = User::factory()->create(['role' => \App\Enums\UserRole::Customer]);
+        $booking = $this->createBookingForUser($user);
+
+        $this->actingAs($user)
+            ->delete(route('bookings.destroy', $booking))
+            ->assertStatus(403);
+
+        $this->assertNotNull($booking->fresh());
+    }
 }

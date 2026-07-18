@@ -46,10 +46,10 @@ class HandleInertiaRequests extends Middleware
             'settings' => [
                 'app_name' => settings('app_name', config('app.name')),
                 'logo' => settings('site_logo') && Storage::disk('public')->exists(settings('site_logo'))
-                    ? Storage::disk('public')->url(settings('site_logo'))
+                    ? asset('storage/' . settings('site_logo'))
                     : asset('images/techpickly-transparent-logo.png'),
                 'sidebar_logo' => settings('sidebar_logo') && Storage::disk('public')->exists(settings('sidebar_logo'))
-                    ? Storage::disk('public')->url(settings('sidebar_logo'))
+                    ? asset('storage/' . settings('sidebar_logo'))
                     : null,
             ],
             'auth' => [

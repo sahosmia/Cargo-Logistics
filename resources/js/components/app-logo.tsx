@@ -6,7 +6,7 @@ export default function AppLogo() {
     const { settings } = usePage<SharedData>().props;
     const appName = (settings?.app_name as string) || 'Techpickly';
     const logoUrl = (settings?.sidebar_logo || settings?.logo) as string;
-
+console.log(settings);
     return (
         <>
             <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground overflow-hidden dark:bg-white">

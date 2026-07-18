@@ -48,6 +48,11 @@ export default function Index({ settings }: Props) {
         mail_encryption: (settings.mail_encryption as string) || '',
         mail_from_address: (settings.mail_from_address as string) || '',
         mail_from_name: (settings.mail_from_name as string) || '',
+        sms_enabled: (settings.sms_enabled as string) || '0',
+        sms_api_url: (settings.sms_api_url as string) || '',
+        sms_api_key: (settings.sms_api_key as string) || '',
+        sms_sender_id: (settings.sms_sender_id as string) || '',
+        china_warehouse_address: (settings.china_warehouse_address as string) || '',
     });
 
     const [previews, setPreviews] = useState({
@@ -327,6 +332,22 @@ export default function Index({ settings }: Props) {
                                 <InputError message={errors.address} />
                             </div>
 
+                            <div className="space-y-2">
+                                <FormLabel>
+                                    <div className="flex items-center gap-1">
+                                        <MapPin className="h-3 w-3" />
+                                        China Warehouse Address
+                                    </div>
+                                </FormLabel>
+                                <Textarea
+                                    value={data.china_warehouse_address}
+                                    onChange={(e) => setData('china_warehouse_address', e.target.value)}
+                                    placeholder="Enter full China warehouse collection address"
+                                    rows={2}
+                                />
+                                <InputError message={errors.china_warehouse_address} />
+                            </div>
+
 
 
                              {/* <div className="grid gap-6 md:grid-cols-3"> */}
@@ -491,6 +512,72 @@ export default function Index({ settings }: Props) {
                                         placeholder="e.g. noreply@yourdomain.com"
                                     />
                                     <InputError message={errors.mail_from_address} />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* SMS Gateway Settings */}
+                    <Card>
+                        <CardHeader>
+                            <div className="flex items-center gap-2">
+                                <Phone className="h-5 w-5 text-muted-foreground" />
+                                <CardTitle>SMS Gateway Settings</CardTitle>
+                            </div>
+                            <CardDescription>
+                                Set up dynamic SMS notifications using various gateways. Use placeholders like {"{TO}"} and {"{MESSAGE}"} inside the URL if needed, or leave standard parameters for auto-detection of popular providers (e.g., Greenweb, BulksmsBD, MimSMS).
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="grid gap-6 md:grid-cols-2">
+                                <div className="space-y-2">
+                                    <FormLabel>Enable SMS Notifications</FormLabel>
+                                    <Select
+                                        value={String(data.sms_enabled)}
+                                        onValueChange={(value) => setData('sms_enabled', value)}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select Status" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="1">Enabled</SelectItem>
+                                            <SelectItem value="0">Disabled</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <InputError message={errors.sms_enabled} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <FormLabel>SMS Sender ID / Masking</FormLabel>
+                                    <Input
+                                        value={data.sms_sender_id ?? ''}
+                                        onChange={(e) => setData('sms_sender_id', e.target.value)}
+                                        placeholder="e.g. BRAND_NAME"
+                                    />
+                                    <InputError message={errors.sms_sender_id} />
+                                </div>
+
+                                <div className="space-y-2 md:col-span-2">
+                                    <FormLabel>SMS Gateway API URL</FormLabel>
+                                    <Input
+                                        value={data.sms_api_url ?? ''}
+                                        onChange={(e) => setData('sms_api_url', e.target.value)}
+                                        placeholder="e.g. http://bulksmsbd.net/api/smsapi or http://example.com/api?token={API_KEY}&to={TO}&message={MESSAGE}"
+                                    />
+                                    <p className="text-xs text-muted-foreground">
+                                        For generic gateways, you can include placeholders: {"{API_KEY}"}, {"{TO}"}, {"{MESSAGE}"}, and {"{SENDER_ID}"}.
+                                    </p>
+                                    <InputError message={errors.sms_api_url} />
+                                </div>
+
+                                <div className="space-y-2 md:col-span-2">
+                                    <FormLabel>SMS API Key / Token</FormLabel>
+                                    <Input
+                                        value={data.sms_api_key ?? ''}
+                                        onChange={(e) => setData('sms_api_key', e.target.value)}
+                                        placeholder="Enter SMS Gateway API Key/Token"
+                                    />
+                                    <InputError message={errors.sms_api_key} />
                                 </div>
                             </div>
                         </CardContent>

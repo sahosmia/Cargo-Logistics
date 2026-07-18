@@ -6,24 +6,24 @@
 @section('content')
 
 {{-- Hero Section --}}
-<section class="relative bg-neutral-900 py-24 md:py-32 overflow-hidden">
+<section class="relative bg-neutral-900 py-16  overflow-hidden">
     <div class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transform animate-hero-zoom"
          style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.2)), url('{{ $heroBannerUrl }}');">
     </div>
 
-    <div class="container relative z-10 mx-auto px-6 max-w-6xl">
+    <div class="container relative z-10 mx-auto max-w-6xl">
         <div class="max-w-3xl text-white">
             <span class="px-3.5 py-1.5 text-xs font-extrabold tracking-widest text-white uppercase bg-[#ED1C24] rounded-lg inline-block mb-4 border border-red-500/20">
                 China to Bangladesh Premium Cargo Carrier
             </span>
-            <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl leading-tight">
+            <h1 class="text-4xl font-extrabold tracking-tight sm:text-3xl md:text-4xl leading-tight">
                 Fastest & Reliable Shipment at Your Door.
             </h1>
-            <p class="mt-4 text-base text-gray-200 md:text-lg max-w-xl leading-relaxed">
+            <p class="mt-4 text-base text-gray-200  max-w-lg leading-relaxed">
                 Seamless door-to-door cargo transport from China to Bangladesh. Experience rapid custom clearing and express transit times today.
             </p>
 
-            <div class="mt-10">
+            <div class="mt-8">
                 <div class="flex gap-2 mb-3">
                     <button id="btn-air" onclick="setShippingMethod('air')" class="px-6 py-2.5 text-sm font-extrabold rounded-t-xl transition-all duration-200 bg-[#ED1C24] text-white shadow-sm border-b-2 border-[#ED1C24] cursor-pointer">
                         Air Shipping
@@ -63,11 +63,11 @@
 
 {{-- Info Banner Section styled in premium brand-navy --}}
 <section class="bg-[#262262] py-8 border-b border-slate-100/10">
-    <div class="container mx-auto px-6 max-w-6xl">
+    <div class="container mx-auto  max-w-6xl">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {{-- Call Center --}}
             <div class="flex items-center gap-4 text-white">
-                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center border border-white/10 shadow-inner text-[#ED1C24]">
+                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center border border-white/10 shadow-inner text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.387a12.035 12.035 0 0 1-7.108-7.108c-.155-.441.012-.928.387-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
                     </svg>
@@ -124,7 +124,7 @@
 <section class="py-20 bg-slate-50 relative overflow-hidden">
     <div class="absolute inset-0 z-0 opacity-40 bg-[radial-gradient(#dbdaf0_1px,transparent_1px)] [background-size:24px_24px]"></div>
 
-    <div class="container relative z-10 mx-auto px-6 max-w-6xl">
+    <div class="container relative z-10 mx-auto  max-w-6xl">
         <div class="text-center max-w-2xl mx-auto mb-16">
             <span class="px-3.5 py-1.5 text-xs font-bold tracking-widest text-[#ED1C24] uppercase bg-red-500/10 rounded-full border border-red-500/20 inline-block mb-4">
                 Our Fleet Capabilities
@@ -225,7 +225,7 @@
 
 {{-- Section: How It Works (Easy 4-Step Process) --}}
 <section class="py-20 bg-white">
-    <div class="container mx-auto px-6 max-w-6xl">
+    <div class="container mx-auto  max-w-6xl">
         <div class="text-center max-w-2xl mx-auto mb-16">
             <span class="px-3.5 py-1.5 text-xs font-bold tracking-widest text-[#ED1C24] uppercase bg-red-500/10 rounded-full border border-red-500/20 inline-block mb-4">
                 Operational Framework
@@ -298,7 +298,7 @@
 <section class="py-20 bg-slate-50 relative overflow-hidden">
     <div class="absolute inset-0 z-0 opacity-40 bg-[radial-gradient(#dbdaf0_1px,transparent_1px)] [background-size:24px_24px]"></div>
 
-    <div class="container relative z-10 mx-auto px-6 max-w-6xl">
+    <div class="container relative z-10 mx-auto  max-w-6xl">
         <div class="text-center max-w-2xl mx-auto mb-16">
             <span class="px-3.5 py-1.5 text-xs font-bold tracking-widest text-[#ED1C24] uppercase bg-red-500/10 rounded-full border border-red-500/20 inline-block mb-4">
                 Our Competitive Advantage

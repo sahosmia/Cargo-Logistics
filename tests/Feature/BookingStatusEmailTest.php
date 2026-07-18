@@ -1,13 +1,14 @@
 <?php
 
 use App\Enums\UserRole;
-use App\Mail\BookingStatusChangedMail;
 use App\Models\Booking;
 use App\Models\Category;
 use App\Models\District;
 use App\Models\User;
+use App\Notifications\BookingCreatedNotification;
+use App\Notifications\BookingStatusChangedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 uses(RefreshDatabase::class);
 
@@ -41,8 +42,8 @@ function createTestBooking($user)
     ]);
 }
 
-test('changing booking status triggers booking status changed email to customer', function () {
-    Mail::fake();
+test('changing booking status triggers booking status changed notification to customer', function () {
+    Notification::fake();
 
     $user = User::create([
         'name' => 'John Doe',
@@ -53,39 +54,48 @@ test('changing booking status triggers booking status changed email to customer'
 
     $booking = createTestBooking($user);
 
-    // Initial creation doesn't trigger "updated" status changes
-    Mail::assertNotSent(BookingStatusChangedMail::class);
+    // Initial creation triggers created notification
+    Notification::assertSentTo(
+        $user,
+        BookingCreatedNotification::class,
+        function ($notification) use ($booking) {
+            return $notification->booking->id === $booking->id;
+        }
+    );
 
     // Act: update status
     $booking->update([
         'status' => 'received_in_china',
     ]);
 
-    // Assert: Email was sent
-    Mail::assertSent(BookingStatusChangedMail::class, function ($mail) use ($user, $booking) {
-        return $mail->hasTo($user->email) &&
-               $mail->booking->id === $booking->id &&
-               $mail->booking->status === 'received_in_china';
-    });
+    // Assert: status changed Notification was sent
+    Notification::assertSentTo(
+        $user,
+        BookingStatusChangedNotification::class,
+        function ($notification) use ($booking) {
+            return $notification->booking->id === $booking->id &&
+                   $notification->booking->status === 'received_in_china';
+        }
+    );
 });
 
-test('booking status change does not attempt email sending if user has no email', function () {
-    Mail::fake();
+test('booking created notification triggers on booking creation', function () {
+    Notification::fake();
 
     $user = User::create([
-        'name' => 'Phone Only User',
-        'email' => null, // phone-only customer
+        'name' => 'John Doe',
+        'email' => 'john@example.com',
         'password' => bcrypt('password'),
         'role' => UserRole::Customer,
     ]);
 
     $booking = createTestBooking($user);
 
-    // Act: update status
-    $booking->update([
-        'status' => 'received_in_china',
-    ]);
-
-    // Assert: No emails were sent
-    Mail::assertNothingSent();
+    Notification::assertSentTo(
+        $user,
+        BookingCreatedNotification::class,
+        function ($notification) use ($booking) {
+            return $notification->booking->id === $booking->id;
+        }
+    );
 });
