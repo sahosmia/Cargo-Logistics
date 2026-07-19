@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\User;
 use App\Observers\BookingObserver;
 use App\Observers\UserObserver;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;

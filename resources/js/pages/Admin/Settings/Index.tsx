@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
+import QuillEditor from '@/components/QuillEditor';
 import type { SettingsForm, SettingType } from '@/types';
 
 interface Props {
@@ -300,20 +301,7 @@ export default function Index({ settings }: Props) {
                                     <InputError message={errors.office_hours} />
                                 </div>
 
-                                {/* <div className="space-y-2">
-                                    <FormLabel>
-                                        <div className="flex items-center gap-1">
-                                            <MessageSquare className="h-3 w-3" />
-                                            Support WhatsApp (Mobile number)
-                                        </div>
-                                    </FormLabel>
-                                    <Input
-                                        value={data.support_whatsapp}
-                                        onChange={(e) => setData('support_whatsapp', e.target.value)}
-                                        placeholder="01911-561554"
-                                    />
-                                    <InputError message={errors.support_whatsapp} />
-                                </div> */}
+                             
                             </div>
 
                             <div className="space-y-2">
@@ -347,73 +335,6 @@ export default function Index({ settings }: Props) {
                                 />
                                 <InputError message={errors.china_warehouse_address} />
                             </div>
-
-
-
-                             {/* <div className="grid gap-6 md:grid-cols-3"> */}
-                                {/* Office 1 */}
-                                {/* <div className="space-y-3 border-r pr-4">
-                                    <div className="space-y-1">
-                                        <FormLabel>Office 1 Name</FormLabel>
-                                        <Input
-                                            value={data.office_name_1}
-                                            onChange={(e) => setData('office_name_1', e.target.value)}
-                                            placeholder="Elephant Road Branch"
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <FormLabel>Office 1 Address</FormLabel>
-                                        <Textarea
-                                            value={data.office_address_1}
-                                            onChange={(e) => setData('office_address_1', e.target.value)}
-                                            placeholder="Address line..."
-                                            rows={3}
-                                        />
-                                    </div>
-                                </div> */}
-
-                                {/* Office 2 */}
-                                {/* <div className="space-y-3 border-r px-4">
-                                    <div className="space-y-1">
-                                        <FormLabel>Office 2 Name</FormLabel>
-                                        <Input
-                                            value={data.office_name_2}
-                                            onChange={(e) => setData('office_name_2', e.target.value)}
-                                            placeholder="Corporate Office"
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <FormLabel>Office 2 Address</FormLabel>
-                                        <Textarea
-                                            value={data.office_address_2}
-                                            onChange={(e) => setData('office_address_2', e.target.value)}
-                                            placeholder="Address line..."
-                                            rows={3}
-                                        />
-                                    </div>
-                                </div> */}
-
-                                {/* Office 3 */}
-                                {/* <div className="space-y-3 pl-4">
-                                    <div className="space-y-1">
-                                        <FormLabel>Office 3 Name</FormLabel>
-                                        <Input
-                                            value={data.office_name_3}
-                                            onChange={(e) => setData('office_name_3', e.target.value)}
-                                            placeholder="Service Centre"
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <FormLabel>Office 3 Address</FormLabel>
-                                        <Textarea
-                                            value={data.office_address_3}
-                                            onChange={(e) => setData('office_address_3', e.target.value)}
-                                            placeholder="Address line..."
-                                            rows={3}
-                                        />
-                                    </div>
-                                </div> */}
-                            {/* </div> */}
                         </CardContent>
                     </Card>
 
@@ -597,33 +518,30 @@ export default function Index({ settings }: Props) {
                         <CardContent className="space-y-6">
                             <div className="space-y-2">
                                 <FormLabel>Privacy Policy</FormLabel>
-                                <Textarea
+                                <QuillEditor
                                     value={data.privacy_policy}
-                                    onChange={(e) => setData('privacy_policy', e.target.value)}
+                                    onChange={(val) => setData('privacy_policy', val)}
                                     placeholder="Enter Privacy Policy content..."
-                                    rows={6}
                                 />
                                 <InputError message={errors.privacy_policy} />
                             </div>
 
                             <div className="space-y-2">
                                 <FormLabel>Return & Refund Policy</FormLabel>
-                                <Textarea
+                                <QuillEditor
                                     value={data.return_refund}
-                                    onChange={(e) => setData('return_refund', e.target.value)}
+                                    onChange={(val) => setData('return_refund', val)}
                                     placeholder="Enter Return & Refund Policy content..."
-                                    rows={6}
                                 />
                                 <InputError message={errors.return_refund} />
                             </div>
 
                             <div className="space-y-2">
                                 <FormLabel>Terms & Conditions</FormLabel>
-                                <Textarea
+                                <QuillEditor
                                     value={data.terms_conditions}
-                                    onChange={(e) => setData('terms_conditions', e.target.value)}
+                                    onChange={(val) => setData('terms_conditions', val)}
                                     placeholder="Enter Terms & Conditions content..."
-                                    rows={6}
                                 />
                                 <InputError message={errors.terms_conditions} />
                             </div>

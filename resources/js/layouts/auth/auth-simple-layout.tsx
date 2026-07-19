@@ -14,7 +14,6 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
     const appName = (settings?.app_name as string) || 'Techpickly';
     const logoUrl = (settings?.logo as string) || '/images/techpickly-transparent-logo.png';
 
-    console.log(logoUrl);
 
     return (
         <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
