@@ -1,0 +1,63 @@
+
+   WARN  Unable to respect the `PHP_CLI_SERVER_WORKERS` environment variable without the `--no-reload` flag. Only creating a single server.
+
+   INFO  Server running on [http://127.0.0.1:8000].
+
+  Press Ctrl+C to stop the server
+
+  2026-07-19 06:38:39 /login ..................................... ~ 500.60ms
+  2026-07-19 06:38:40 /build/assets/app-D8a7mic_.css ............... ~ 0.04ms
+  2026-07-19 06:38:40 /build/assets/app-Cjw4sjPg.js ................ ~ 0.03ms
+  2026-07-19 06:38:40 /build/assets/login-C1BgxWMa.js .............. ~ 0.03ms
+  2026-07-19 06:38:40 /build/assets/input-error-DN23JEUX.js ........ ~ 0.09ms
+  2026-07-19 06:38:40 /build/assets/button-DK9JMYnu.js ............. ~ 0.18ms
+  2026-07-19 06:38:40 /build/assets/checkbox-BNGJqVug.js ........... ~ 0.31ms
+  2026-07-19 06:38:40 /build/assets/input-B60tVs41.js .............. ~ 0.46ms
+  2026-07-19 06:38:40 /build/assets/label-Bw_8M3Xn.js .............. ~ 0.62ms
+  2026-07-19 06:38:40 /build/assets/mail-e2aquTvl.js ............... ~ 0.75ms
+  2026-07-19 06:38:40 /_debugbar/assets ............................ ~ 0.06ms
+  2026-07-19 06:38:40 /build/assets/ship-DwPHnkLs.js ............... ~ 0.49ms
+  2026-07-19 06:38:40 /build/assets/loader-circle-CKd66wNI.js ...... ~ 0.68ms
+  2026-07-19 06:38:40 /build/assets/index-DH0kxB7W.js .............. ~ 0.76ms
+  2026-07-19 06:38:40 /build/assets/index-iaHfb5nP.js .............. ~ 0.89ms
+  2026-07-19 06:38:40 /build/assets/index-Baai3m_i.js .............. ~ 1.04ms
+  2026-07-19 06:38:40 /build/assets/index-wtg16vcy.js .............. ~ 0.04ms
+  2026-07-19 06:38:40 /_debugbar/assets ............................ ~ 0.17ms
+  2026-07-19 06:38:40 /build/assets/app-D8a7mic_.css ............... ~ 0.11ms
+  2026-07-19 06:38:41 /images/techpickly-transparent-logo.png ...... ~ 0.11ms
+  2026-07-19 06:39:37 /login ....................................... ~ 0.19ms
+  2026-07-19 06:39:37 /build/assets/app-D8a7mic_.css ............... ~ 0.13ms
+  2026-07-19 06:39:37 /build/assets/app-Cjw4sjPg.js ................ ~ 0.27ms
+  2026-07-19 06:39:37 /build/assets/login-C1BgxWMa.js .............. ~ 0.44ms
+  2026-07-19 06:39:37 /build/assets/input-error-DN23JEUX.js ........ ~ 0.62ms
+  2026-07-19 06:39:37 /build/assets/button-DK9JMYnu.js ............. ~ 0.72ms
+  2026-07-19 06:39:37 /build/assets/checkbox-BNGJqVug.js ........... ~ 0.84ms
+  2026-07-19 06:39:37 /_debugbar/assets ............................ ~ 0.60ms
+  2026-07-19 06:39:37 /build/assets/input-B60tVs41.js .............. ~ 0.28ms
+  2026-07-19 06:39:37 /build/assets/label-Bw_8M3Xn.js .............. ~ 0.20ms
+  2026-07-19 06:39:37 /build/assets/mail-e2aquTvl.js ............... ~ 0.37ms
+  2026-07-19 06:39:37 /build/assets/ship-DwPHnkLs.js ............... ~ 0.51ms
+  2026-07-19 06:39:37 /build/assets/loader-circle-CKd66wNI.js ...... ~ 0.64ms
+  2026-07-19 06:39:37 /_debugbar/assets ............................ ~ 0.03ms
+  2026-07-19 06:39:37 /build/assets/index-DH0kxB7W.js .............. ~ 0.28ms
+  2026-07-19 06:39:37 /build/assets/index-iaHfb5nP.js .............. ~ 0.41ms
+  2026-07-19 06:39:37 /build/assets/index-Baai3m_i.js .............. ~ 0.79ms
+  2026-07-19 06:39:37 /build/assets/index-wtg16vcy.js .............. ~ 1.18ms
+  2026-07-19 06:39:37 /build/assets/app-D8a7mic_.css ............... ~ 0.12ms
+  2026-07-19 06:39:37 /images/techpickly-transparent-logo.png ...... ~ 0.11ms
+  2026-07-19 06:39:39 /login ....................................... ~ 0.10ms
+  2026-07-19 06:39:39 /dashboard ................................. ~ 500.60ms
+  2026-07-19 06:39:40 /_debugbar/open .............................. ~ 0.03ms
+  2026-07-19 06:39:40 /_debugbar/open .............................. ~ 0.04ms
+  2026-07-19 06:39:40 /build/assets/dashboard-Bo7HZ1u5.js .......... ~ 0.48ms
+  2026-07-19 06:39:40 /build/assets/badge-DH9MIkAm.js .............. ~ 0.21ms
+  2026-07-19 06:39:40 /build/assets/app-layout-DEzIYgE8.js ......... ~ 0.33ms
+  2026-07-19 06:39:40 /build/assets/index-Dk-roM_0.js .............. ~ 0.42ms
+  2026-07-19 06:39:40 /build/assets/index-kLOgh5jp.js .............. ~ 0.60ms
+  2026-07-19 06:39:40 /build/assets/Combination-BNMYU3vh.js ........ ~ 0.08ms
+  2026-07-19 06:39:40 /build/assets/index-BeYY2eco.js .............. ~ 0.19ms
+  2026-07-19 06:39:40 /build/assets/index-DUE1FwB-.js .............. ~ 0.32ms
+  2026-07-19 06:39:40 /build/assets/dropdown-menu-D1Us_Kus.js ...... ~ 0.50ms
+  2026-07-19 06:39:40 /build/assets/shield-check-DpkaAlTN.js ....... ~ 0.58ms
+  2026-07-19 06:39:40 /build/assets/truck-Bq6d-s4p.js .............. ~ 0.67ms
+  2026-07-19 06:39:40 /build/assets/circle-check-D7VtGPo5.js ....... ~ 0.03ms

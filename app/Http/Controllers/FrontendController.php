@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Storage;
-
 class FrontendController extends Controller
 {
     public function home()
     {
         $banner = settings('hero_banner');
-        $heroBannerUrl = ($banner && Storage::disk('public')->exists($banner))
-            ? asset('storage/' . $banner)
+        $heroBannerUrl = ! empty($banner)
+            ? asset('storage/'.$banner)
             : asset('images/banner-default.jpg');
 
         return view('home', compact('heroBannerUrl'));
@@ -21,8 +19,7 @@ class FrontendController extends Controller
         return view('about');
     }
 
-
-     public function privacyPolicy()
+    public function privacyPolicy()
     {
         $content = settings('privacy_policy', 'Our Privacy Policy content goes here.');
 
