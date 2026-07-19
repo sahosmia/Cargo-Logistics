@@ -4,8 +4,13 @@ import AppLogoIcon from './app-logo-icon';
 
 export default function AppLogo() {
     const { settings } = usePage<SharedData>().props;
-    const appName = (settings?.app_name as string) || 'Techpickly';
-    const logoUrl = (settings?.sidebar_logo || settings?.logo) as string;
+    const rawSettings = settings as any;
+    const appName = (rawSettings?.app_name as string) || 'Techpickly';
+    let logoUrl = (rawSettings?.sidebar_logo || rawSettings?.logo || rawSettings?.site_logo) as string;
+
+    if (logoUrl && !logoUrl.startsWith('http://') && !logoUrl.startsWith('https://') && !logoUrl.startsWith('/') && !logoUrl.startsWith('data:')) {
+        logoUrl = `/storage/${logoUrl}`;
+    }
 
     return (
         <>
