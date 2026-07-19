@@ -8,7 +8,6 @@ use App\Observers\BookingObserver;
 use App\Observers\UserObserver;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -55,13 +54,13 @@ class AppServiceProvider extends ServiceProvider
                 if (Schema::hasTable('settings')) {
 
                     $dbLogo = settings('site_logo');
-                    if ($dbLogo && Storage::disk('public')->exists($dbLogo)) {
-                        $logoUrl = asset('storage/' . $dbLogo);
+                    if (! empty($dbLogo)) {
+                        $logoUrl = asset('storage/'.$dbLogo);
                     }
 
                     $dbFavicon = settings('favicon');
-                    if ($dbFavicon && Storage::disk('public')->exists($dbFavicon)) {
-                        $faviconUrl = asset('storage/' . $dbFavicon);
+                    if (! empty($dbFavicon)) {
+                        $faviconUrl = asset('storage/'.$dbFavicon);
                     }
                 }
             } catch (\Exception $e) {

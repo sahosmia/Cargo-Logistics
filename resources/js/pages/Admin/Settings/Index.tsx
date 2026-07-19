@@ -1,4 +1,4 @@
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { Building2, Mail, Phone, MapPin, Settings2, Image as ImageIcon, ShieldCheck, Globe, FileText } from 'lucide-react';
 import { useState } from 'react';
 import FormLabel from '@/components/admin/form/FormLabel';
@@ -13,7 +13,7 @@ import QuillEditor from '@/components/QuillEditor';
 import type { SettingsForm, SettingType } from '@/types';
 
 interface Props {
-    settings: SettingType;
+    formSettings: SettingType;
 }
 
 const BREADCRUMBS = [
@@ -23,44 +23,48 @@ const BREADCRUMBS = [
 
 const PAGINATION_OPTIONS = ['5', '10', '20', '50', '100'];
 
-export default function Index({ settings }: Props) {
+export default function Index({ formSettings }: Props) {
+
+    const page = usePage();
+
+console.log(page.props.formSettings);
     const { data, setData, post, processing, errors } = useForm<SettingsForm>({
         site_logo: null,
         sidebar_logo: null,
         favicon: null,
         hero_banner: null,
-        app_name: (settings.app_name as string) || '',
-        email: (settings.email as string) || '',
-        phone: (settings.phone as string) || '',
-        address: (settings.address as string) || '',
-        website_url: (settings.website_url as string) || '',
-        warehouses: (settings.warehouses as string) || '',
-        office_hours: (settings.office_hours as string) || '',
-        privacy_policy: (settings.privacy_policy as string) || '',
-        return_refund: (settings.return_refund as string) || '',
-        terms_conditions: (settings.terms_conditions as string) || '',
+        app_name: (formSettings.app_name as string) || '',
+        email: (formSettings.email as string) || '',
+        phone: (formSettings.phone as string) || '',
+        address: (formSettings.address as string) || '',
+        website_url: (formSettings.website_url as string) || '',
+        warehouses: (formSettings.warehouses as string) || '',
+        office_hours: (formSettings.office_hours as string) || '',
+        privacy_policy: (formSettings.privacy_policy as string) || '',
+        return_refund: (formSettings.return_refund as string) || '',
+        terms_conditions: (formSettings.terms_conditions as string) || '',
 
-        paginated_quantity: (settings.paginated_quantity as string) || '10',
+        paginated_quantity: (formSettings.paginated_quantity as string) || '10',
         // mail_mailer: (settings.mail_mailer as string) || '',
-        mail_host: (settings.mail_host as string) || '',
-        mail_port: (settings.mail_port as string) || '',
-        mail_username: (settings.mail_username as string) || '',
-        mail_password: (settings.mail_password as string) || '',
-        mail_encryption: (settings.mail_encryption as string) || '',
-        mail_from_address: (settings.mail_from_address as string) || '',
-        mail_from_name: (settings.mail_from_name as string) || '',
-        sms_enabled: (settings.sms_enabled as string) || '0',
-        sms_api_url: (settings.sms_api_url as string) || '',
-        sms_api_key: (settings.sms_api_key as string) || '',
-        sms_sender_id: (settings.sms_sender_id as string) || '',
-        china_warehouse_address: (settings.china_warehouse_address as string) || '',
+        mail_host: (formSettings.mail_host as string) || '',
+        mail_port: (formSettings.mail_port as string) || '',
+        mail_username: (formSettings.mail_username as string) || '',
+        mail_password: (formSettings.mail_password as string) || '',
+        mail_encryption: (formSettings.mail_encryption as string) || '',
+        mail_from_address: (formSettings.mail_from_address as string) || '',
+        mail_from_name: (formSettings.mail_from_name as string) || '',
+        sms_enabled: (formSettings.sms_enabled as string) || '0',
+        sms_api_url: (formSettings.sms_api_url as string) || '',
+        sms_api_key: (formSettings.sms_api_key as string) || '',
+        sms_sender_id: (formSettings.sms_sender_id as string) || '',
+        china_warehouse_address: (formSettings.china_warehouse_address as string) || '',
     });
 
     const [previews, setPreviews] = useState({
-        site_logo: settings.site_logo ? `/storage/${settings.site_logo}` : null,
-        sidebar_logo: settings.sidebar_logo ? `/storage/${settings.sidebar_logo}` : null,
-        favicon: settings.favicon ? `/storage/${settings.favicon}` : null,
-        hero_banner: settings.hero_banner ? `/storage/${settings.hero_banner}` : null,
+        site_logo: formSettings.site_logo ? `/storage/${formSettings.site_logo}` : null,
+        sidebar_logo: formSettings.sidebar_logo ? `/storage/${formSettings.sidebar_logo}` : null,
+        favicon: formSettings.favicon ? `/storage/${formSettings.favicon}` : null,
+        hero_banner: formSettings.hero_banner ? `/storage/${formSettings.hero_banner}` : null,
     });
 
     const handleFileChange = (key: keyof SettingsForm, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -301,7 +305,7 @@ export default function Index({ settings }: Props) {
                                     <InputError message={errors.office_hours} />
                                 </div>
 
-                             
+
                             </div>
 
                             <div className="space-y-2">

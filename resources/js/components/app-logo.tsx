@@ -5,14 +5,7 @@ import AppLogoIcon from './app-logo-icon';
 export default function AppLogo() {
     const { settings } = usePage<SharedData>().props;
     const appName = (settings?.app_name as string) || 'Techpickly';
-    // const logoUrl = (settings?.sidebar_logo || settings?.logo) as string;
-
-                const logoUrl =  settings?.sidebar_logo ? `/storage/${settings?.sidebar_logo}` : null;
-
-
-
-
-
+    const logoUrl = (settings?.sidebar_logo || settings?.logo) as string;
     return (
         <>
             <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground overflow-hidden dark:bg-white">
@@ -24,7 +17,7 @@ export default function AppLogo() {
             </div>
             <div className="ml-1 grid flex-1 text-left text-sm">
                 <span className="mb-0.5 truncate leading-tight font-semibold">
-                    {appName} Da
+                    {appName}
                 </span>
             </div>
         </>

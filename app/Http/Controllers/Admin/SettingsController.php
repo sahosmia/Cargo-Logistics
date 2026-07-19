@@ -19,7 +19,7 @@ class SettingsController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Settings/Index', [
-            'settings' => Settings::pluck('value', 'key')->toArray(),
+            'formSettings' => Settings::pluck('value', 'key')->toArray(),
         ]);
     }
 

@@ -20,7 +20,7 @@
    @include('component.nav')
 
     <!-- Main Content Dynamic Area -->
-    <main class="container mx-auto">
+    <main class="mx-auto">
         @yield('content')
     </main>
 

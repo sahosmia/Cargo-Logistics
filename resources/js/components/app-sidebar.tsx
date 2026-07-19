@@ -31,7 +31,6 @@ export function AppSidebar() {
     const { auth } = usePage().props;
     const userRole = auth.user.role;
 
-alert("appsidebar");
 
     const mainNavItems: NavItem[] = [
         { title: 'Dashboard', href: route('dashboard'), icon: LayoutDashboard },

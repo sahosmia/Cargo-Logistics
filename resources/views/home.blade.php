@@ -11,7 +11,7 @@
          style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.2)), url('{{ $heroBannerUrl }}');">
     </div>
 
-    <div class="container relative z-10 mx-auto max-w-6xl">
+    <div class="container relative z-10 mx-auto w-6xl max-w-full">
         <div class="max-w-3xl text-white">
             <span class="px-3.5 py-1.5 text-xs font-extrabold tracking-widest text-white uppercase bg-[#ED1C24] rounded-lg inline-block mb-4 border border-red-500/20">
                 China to Bangladesh Premium Cargo Carrier
